@@ -2,6 +2,26 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "src/assets/fonts/Bebas Neue Bold.ttf",
+      "sha1": "a2d8f7db6af5eac2cada57b6f24720be9fbad4bb"
+    },
+    {
+      "path": "src/assets/fonts/Bebas Neue Book.ttf",
+      "sha1": "16e3e2bb49af8162faaa4603396e3c3efa575415"
+    },
+    {
+      "path": "src/assets/fonts/Bebas Neue Light.ttf",
+      "sha1": "5d5201ff7e5600d327ed74c202502866d9280917"
+    },
+    {
+      "path": "src/assets/fonts/Bebas Neue Regular.ttf",
+      "sha1": "8b3aaeb978f3cb5f575860774b50c332338563c1"
+    },
+    {
+      "path": "src/assets/fonts/Bebas Neue Thin.ttf",
+      "sha1": "66a236e880865cf0ac24d6ec85c3489a36719cca"
+    },
+    {
       "path": "src/assets/fonts/Roboto Condensed Bold Italic.ttf",
       "sha1": "2195d05ea6a9338a69929445e4ddf0a9650dfc12"
     },

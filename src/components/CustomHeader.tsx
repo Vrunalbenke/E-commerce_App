@@ -2,13 +2,14 @@ import { StyleProp, StyleSheet, Text, View, TextStyle } from 'react-native'
 import React from 'react'
 
 type CustomHeaderProps = {
-    style : StyleProp<TextStyle>,
     headerTitle:string
+    style : StyleProp<TextStyle>,
+    headerContainerStyle : StyleProp<TextStyle>,
 }
 
-const CustomHeader = ({style,headerTitle}:CustomHeaderProps) => {
+const CustomHeader = ({headerTitle,style,headerContainerStyle}:CustomHeaderProps) => {
   return (
-    <View style = {styles.headerContainer}>
+    <View style = {headerContainerStyle}>
       <Text style = {style}>{headerTitle}</Text>
     </View>
   )
@@ -16,16 +17,4 @@ const CustomHeader = ({style,headerTitle}:CustomHeaderProps) => {
 
 export default CustomHeader
 
-const styles = StyleSheet.create({
-    headerContainer:{
-        height:'25%',
-        justifyContent:'center',
-        alignItems:'center',
-        // backgroundColor:'#000'
-    },
-    headerText:{
-        fontSize:50,
-        fontFamily:"Bebas Neue Bold",
-        // fontWeight:'900'
-    }
-})
+const styles = StyleSheet.create({})

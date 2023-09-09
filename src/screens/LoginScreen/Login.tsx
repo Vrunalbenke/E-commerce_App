@@ -3,6 +3,7 @@ import React from 'react';
 import CustomInputField from '../../components/CustomInputField';
 import CustomHeader from '../../components/CustomHeader';
 import CustomButton from '../../components/CustomButton';
+import {styles} from './style';
 
 const Login = () => {
   return (
@@ -12,6 +13,11 @@ const Login = () => {
           style={{
             fontSize: 50,
             fontFamily: 'Bebas Neue Bold',
+          }}
+          headerContainerStyle={{
+            height: '25%',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
           headerTitle="NeoSTORE"
         />
@@ -24,40 +30,53 @@ const Login = () => {
         <CustomInputField
           label="Email"
           placeholder="vrunalbenke@gmail.com"
-          secureTextEntry={false}
-          
-          style={{
+          secureTextEntry={true}
+          deCaptialize={(value: string) => {
+            return value.toLowerCase();
+          }}
+          textInputStyle={{
             fontSize: 18,
             fontFamily: 'Roboto Condensed',
             borderRadius: 10,
             paddingLeft: 10,
-            marginBottom: 25,
+            // marginBottom: 25,
             height: 35,
-            borderBottomWidth: 1,
-            borderBottomColor: '#b1afaf',
+            width:'85%'
           }}
-          deCaptialize = {((value:string) =>{
-             return value.toLowerCase()
-          })}
+          labelStyle={{
+            fontSize: 20,
+            fontFamily: 'Roboto Condensed',
+            fontWeight: '500',
+            paddingLeft: 10,
+            letterSpacing: 1,
+          }}
         />
         <CustomInputField
           label="Password"
           placeholder="*********"
           secureTextEntry={true}
-          style={{
+          Icon='eye-off'
+          Icon2='eye'
+          textInputStyle={{
             fontSize: 20,
             fontFamily: 'Roboto Condensed',
             borderRadius: 10,
             paddingLeft: 10,
             margin: 0,
             height: 35,
-            borderBottomWidth: 1,
-            borderBottomColor: '#b1afaf',
+            width:'85%'
+          }}
+          labelStyle={{
+            fontSize: 20,
+            fontFamily: 'Roboto Condensed',
+            fontWeight: '500',
+            paddingLeft: 10,
+            letterSpacing: 1,
           }}
         />
         <View style={styles.LoginBtn}>
           <CustomButton
-            style={{
+            TOPstyle={{
               backgroundColor: '#000',
               height: 50,
               alignItems: 'center',
@@ -65,7 +84,7 @@ const Login = () => {
               borderRadius: 30,
               width: '95%',
               // padding:10
-            //   marginBottom: 20,
+              //   marginBottom: 20,
             }}
             textStyle={{
               color: '#fff',
@@ -73,13 +92,13 @@ const Login = () => {
               fontFamily: 'Roboto Condensed Bold',
             }}
             onPress={() => console.log('abc')}
-            BtnName="Login in"
+            BtnName="Login"
           />
-          
-          <Text style = {{marginVertical:10,fontSize:17}}>or</Text>
-          
+
+          <Text style={{marginVertical: 10, fontSize: 17}}>or</Text>
+
           <CustomButton
-            style={{
+            TOPstyle={{
               backgroundColor: '#000',
               height: 50,
               alignItems: 'center',
@@ -104,33 +123,3 @@ const Login = () => {
 };
 
 export default Login;
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: '#ececec',
-  },
-  loginContainer: {
-    flex: 1,
-    padding: 10,
-  },
-  MidArea: {
-    height: '15%',
-  },
-  greeting: {
-    fontFamily: 'Roboto Condensed',
-    fontWeight: '600',
-    fontSize: 24,
-    letterSpacing: 1.2,
-  },
-  loginActionText: {
-    fontSize: 16,
-    color: '#666464',
-  },
-  LoginBtn: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    marginTop: 30,
-  },
-});

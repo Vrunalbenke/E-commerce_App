@@ -1,13 +1,14 @@
-import {StyleSheet, Text, View,SafeAreaView} from 'react-native';
+import {StyleSheet,SafeAreaView} from 'react-native';
 import React from 'react';
-import CustomInputField from './src/components/CustomInputField';
 import Login from './src/screens/LoginScreen/Login';
+import Signup from './src/screens/SignupScreen/Signup';
 // import {SafeAreaView} from 'react-native-safe-area-context';
 
 const App = () => {
   return (
     <SafeAreaView style={styles.root}>
-      <Login />
+      {/* <Login /> */}
+      <Signup />
     </SafeAreaView>
   );
 };

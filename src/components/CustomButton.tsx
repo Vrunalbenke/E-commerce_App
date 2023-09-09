@@ -2,7 +2,7 @@ import { StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewSty
 import React from 'react'
 
 type CustomButtonProps = {
-    style:StyleProp<ViewStyle>,
+    TOPstyle:StyleProp<ViewStyle>,
     // style:React.CSSProperties,
     textStyle:StyleProp<TextStyle>,
     onPress: () => void,
@@ -11,9 +11,9 @@ type CustomButtonProps = {
 
 
 
-const CustomButton = ({style,textStyle,onPress,BtnName}:CustomButtonProps) => {
+const CustomButton = ({TOPstyle,textStyle,onPress,BtnName}:CustomButtonProps) => {
   return (
-        <TouchableOpacity style={style} onPress={onPress}>
+        <TouchableOpacity style={TOPstyle} onPress={onPress}>
             <Text style = {textStyle}>{BtnName}</Text>
         </TouchableOpacity>
 

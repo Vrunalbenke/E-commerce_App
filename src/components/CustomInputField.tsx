@@ -1,26 +1,48 @@
-import { StyleSheet,StyleProp, Text, TextInput, View, TextStyle } from 'react-native'
-import React from 'react'
+import { StyleSheet,StyleProp, Text, TextInput, View, TextStyle, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 type CustomInputFieldProps ={
     // style : React.CSSProperties
     label:string
     placeholder:string
     secureTextEntry:boolean
-    style : StyleProp<TextStyle>
     deCaptialize?: ((value:string) => string) | undefined
+    Icon?:string | undefined
+    Icon2?:string | undefined
+    textInputStyle : StyleProp<TextStyle>
+    labelStyle : StyleProp<TextStyle>
+    
 }
 
-const CustomInputField = ({label,placeholder,secureTextEntry,style,deCaptialize}:CustomInputFieldProps) => {
+const CustomInputField = ({label,placeholder,secureTextEntry,deCaptialize,Icon,Icon2,textInputStyle,labelStyle}:CustomInputFieldProps) => {
+  const [pass,hidePass] = useState(Icon)
+
+  function IconToggle(){
+    if(pass === Icon){
+      hidePass(Icon2)
+      // secureTextEntry = true
+    }
+    else{
+      hidePass(Icon)
+      // secureTextEntry = false
+    }
+  }
   return (
-    <View>
-        <Text style={styles.label}>{label}</Text>
+    <View style={styles.MainContainer}>
+        <Text style={labelStyle}>{label}</Text>
+        <View style = {styles.TinpIconStyle}>
         <TextInput
-        style = {style}
-        secureTextEntry = {secureTextEntry}
+        style = {textInputStyle}
+        secureTextEntry = {pass === Icon2 ? !secureTextEntry:secureTextEntry}
         placeholder={placeholder}
-        value=''
+        // value=''
         // onChange={deCaptialize}
         />
+        <TouchableOpacity style={styles.IconContainer} onPress={IconToggle}>
+          <Ionicons name={pass} style={styles.Icon} />
+        </TouchableOpacity>
+        </View>
     </View>
   )
 }
@@ -28,13 +50,27 @@ const CustomInputField = ({label,placeholder,secureTextEntry,style,deCaptialize}
 export default CustomInputField
 
 const styles = StyleSheet.create({
-    TextInputStyle:{},
-    label:{
-        fontSize:20,
-        fontFamily:'Roboto Condensed',
-        fontWeight:'500',
-        paddingLeft:10,
-        letterSpacing:1
-        // backgroundColor:'lightblue'
-    }
+  MainContainer:{
+    // backgroundColor:'yellow',
+    marginBottom:10
+  },
+  TinpIconStyle:{
+    borderBottomWidth: 1,
+    borderBottomColor: '#b1afaf',
+    paddingHorizontal:10,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    margin:0,
+    width:'100%'
+    // backgroundColor:'lightblue'
+  },
+  IconContainer:{
+    // backgroundColor:'yellow',
+    height:35
+  },
+  Icon:{
+    fontSize:25
+  },
+
 })

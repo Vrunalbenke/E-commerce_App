@@ -1,8 +1,6 @@
 import {StyleSheet} from 'react-native';
 
 
-
-
 export const styles = StyleSheet.create({
     root: {
       flex: 1,
@@ -10,10 +8,12 @@ export const styles = StyleSheet.create({
     },
     signupContainer: {
       flex: 1,
-      padding: 10,
+      paddingHorizontal: 10,
+      paddingBottom:160,
     },
     MidArea: {
-      height: '10%',
+      height: '15%',
+
     },
     greeting: {
       fontFamily: 'Roboto Condensed',
@@ -47,11 +47,13 @@ export const styles = StyleSheet.create({
         fontSize:15,
         color:'#898686'
     },
+    
 
-    LoginBtn: {
+    SignupBtn: {
       justifyContent: 'center',
       alignItems: 'center',
       width: '100%',
       marginTop: 20,
+      // marginBottom:40,
     },
   });

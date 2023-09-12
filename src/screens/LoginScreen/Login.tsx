@@ -1,17 +1,21 @@
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import CustomInputField from '../../components/CustomInputField';
 import CustomHeader from '../../components/CustomHeader';
 import CustomButton from '../../components/CustomButton';
 import {styles} from './style';
-import { LoginNavigatonProp } from '../../navigation/type';
+import {LoginNavigatonProp} from '../../navigation/type';
 
-const Login = ({navigation}:LoginNavigatonProp) => {
-
-
-function NavigateSignup(){
-  navigation.navigate('Signup')
-}
+const Login = ({navigation}: LoginNavigatonProp) => {
+  function NavigateSignup() {
+    navigation.navigate('Signup');
+  }
 
   return (
     <SafeAreaView style={styles.root}>
@@ -48,7 +52,7 @@ function NavigateSignup(){
             paddingLeft: 10,
             // marginBottom: 25,
             height: 35,
-            width:'85%'
+            width: '85%',
           }}
           labelStyle={{
             fontSize: 20,
@@ -62,8 +66,8 @@ function NavigateSignup(){
           label="Password"
           placeholder="***********"
           secureTextEntry={true}
-          Icon='eye-off'
-          Icon2='eye'
+          Icon="eye-off"
+          Icon2="eye"
           textInputStyle={{
             fontSize: 20,
             fontFamily: 'Roboto Condensed',
@@ -71,7 +75,7 @@ function NavigateSignup(){
             paddingLeft: 10,
             margin: 0,
             height: 35,
-            width:'85%'
+            width: '85%',
           }}
           labelStyle={{
             fontSize: 20,
@@ -81,6 +85,9 @@ function NavigateSignup(){
             letterSpacing: 1,
           }}
         />
+        <TouchableOpacity style={styles.ForgetPassContainer}>
+          <Text style={styles.ForgetPass}>Forgot Password?</Text>
+        </TouchableOpacity>
         <View style={styles.LoginBtn}>
           <CustomButton
             TOPstyle={{

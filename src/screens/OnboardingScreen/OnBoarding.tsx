@@ -42,7 +42,7 @@ const SkipButton = ({...props})=>{
         onDone={() => OnboardingDone()}
         onSkip={() => OnboardingDone()}
         // bottomBarColor="#000"
-        // bottomBarHighlight={false}
+        bottomBarHighlight={false}
         SkipButtonComponent={SkipButton}
         NextButtonComponent={NextButton}
         DoneButtonComponent={DoneButton}
@@ -62,7 +62,7 @@ const SkipButton = ({...props})=>{
               </View>
             ),
             title: 'Discover the Perfect Furniture',
-            subtitle: 'Welcome to our furniture app! Get ready to explore a world of exquisite furniture designs that will transform your living spaces. From sleek modern pieces to timeless classics, we have something for every style and budget.',
+            subtitle: 'Welcome to NeoStore! Get ready to explore a world of exquisite furniture designs that will transform your living spaces. From sleek modern pieces to timeless classics, we have something for every style and budget.',
           },
           {
             backgroundColor: '#fff',
@@ -79,6 +79,22 @@ const SkipButton = ({...props})=>{
             ),
             title: 'Create Your Dream Space',
             subtitle: 'With our app, you can visualize and plan your dream home effortlessly. Use our innovative room planner to arrange and experiment with different furniture layouts. Your creativity knows no bounds, and neither does our app.',
+          },
+          {
+            backgroundColor: '#fff',
+            image: (
+              <View>
+                {/* <Text>Hello Lottie</Text> */}
+                <Lottie
+                  style={styles.cupBoard}
+                  source={require('../../assets/Lottie-JSON/cupboard.lottie.json')}
+                  autoPlay
+                  loop
+                />
+              </View>
+            ),
+            title: 'Stay Inspired',
+            subtitle: 'Our app isn\'t just for shopping; it\'s a source of inspiration. Follow your favorite designers, explore trending styles, and discover tips and tricks for interior design. Let us keep you inspired on your journey to create a space you\'ll love.',
           },
           {
             backgroundColor: '#fff',
@@ -126,6 +142,10 @@ const styles = StyleSheet.create({
     // backgroundColor:'#fff'
   },
   babyCradle: {
+    width: width * 0.9,
+    height: width,
+  },
+  cupBoard:{
     width: width * 0.9,
     height: width,
   },

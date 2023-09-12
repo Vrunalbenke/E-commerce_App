@@ -25,6 +25,15 @@ export const styles = StyleSheet.create({
       fontSize: 16,
       color: '#666464',
     },
+    ForgetPassContainer:{
+      // backgroundColor:'yellow',
+      alignSelf:'flex-end'
+    },
+    ForgetPass:{
+      fontFamily:'Roboto Condensed',
+      color:'#454444',
+      fontSize:18
+    },
     LoginBtn: {
       justifyContent: 'center',
       alignItems: 'center',

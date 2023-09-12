@@ -1,15 +1,16 @@
 import {StyleSheet,SafeAreaView} from 'react-native';
 import React from 'react';
-import Login from './src/screens/LoginScreen/Login';
-import Signup from './src/screens/SignupScreen/Signup';
-// import {SafeAreaView} from 'react-native-safe-area-context';
+import Navigation from './src/navigation/Navigation';
+import 'react-native-gesture-handler';
+
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.root}>
-      {/* <Login /> */}
-      <Signup />
-    </SafeAreaView>
+    // <SafeAreaView style={styles.root}>
+    //   {/* <Login /> */}
+    //   {/* <Signup /> */}
+    // </SafeAreaView>
+    <Navigation />
   );
 };
 

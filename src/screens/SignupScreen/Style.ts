@@ -17,9 +17,9 @@ export const styles = StyleSheet.create({
     },
     greeting: {
       fontFamily: 'Roboto Condensed',
-      fontWeight: '600',
+      fontWeight: '500',
       fontSize: 24,
-      letterSpacing: 1.2,
+      letterSpacing: 1,
     },
     loginActionText: {
       fontSize: 16,

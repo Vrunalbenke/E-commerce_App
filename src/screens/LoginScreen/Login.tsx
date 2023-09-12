@@ -4,8 +4,15 @@ import CustomInputField from '../../components/CustomInputField';
 import CustomHeader from '../../components/CustomHeader';
 import CustomButton from '../../components/CustomButton';
 import {styles} from './style';
+import { LoginNavigatonProp } from '../../navigation/type';
 
-const Login = () => {
+const Login = ({navigation}:LoginNavigatonProp) => {
+
+
+function NavigateSignup(){
+  navigation.navigate('Signup')
+}
+
   return (
     <SafeAreaView style={styles.root}>
       <View style={styles.loginContainer}>
@@ -46,14 +53,14 @@ const Login = () => {
           labelStyle={{
             fontSize: 20,
             fontFamily: 'Roboto Condensed',
-            fontWeight: '500',
+            fontWeight: '400',
             paddingLeft: 10,
             letterSpacing: 1,
           }}
         />
         <CustomInputField
           label="Password"
-          placeholder="*********"
+          placeholder="***********"
           secureTextEntry={true}
           Icon='eye-off'
           Icon2='eye'
@@ -69,7 +76,7 @@ const Login = () => {
           labelStyle={{
             fontSize: 20,
             fontFamily: 'Roboto Condensed',
-            fontWeight: '500',
+            fontWeight: '400',
             paddingLeft: 10,
             letterSpacing: 1,
           }}
@@ -113,7 +120,7 @@ const Login = () => {
               fontSize: 20,
               fontFamily: 'Roboto Condensed Bold',
             }}
-            onPress={() => console.log('abc')}
+            onPress={NavigateSignup}
             BtnName="Sign up"
           />
         </View>

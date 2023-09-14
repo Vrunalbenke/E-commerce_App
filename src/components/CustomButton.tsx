@@ -1,26 +1,44 @@
-import { StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
-import React from 'react'
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
+import React from 'react';
 
 type CustomButtonProps = {
-    TOPstyle:StyleProp<ViewStyle>,
-    // style:React.CSSProperties,
-    textStyle:StyleProp<TextStyle>,
-    onPress: () => void,
-    BtnName:string
-}
+  onPress?: () => void;
+  BtnName: string;
+};
 
-
-
-const CustomButton = ({TOPstyle,textStyle,onPress,BtnName}:CustomButtonProps) => {
+const CustomButton = ({
+  onPress,
+  BtnName,
+}: CustomButtonProps) => {
   return (
-        <TouchableOpacity style={TOPstyle} onPress={onPress}>
-            <Text style = {textStyle}>{BtnName}</Text>
-        </TouchableOpacity>
+    <TouchableOpacity style={styles.TOPstyle} onPress={onPress}>
+      <Text style={styles.textStyle}>{BtnName}</Text>
+    </TouchableOpacity>
+  );
+};
 
-  )
-}
-
-export default CustomButton
+export default CustomButton;
 
 const styles = StyleSheet.create({
-})
+  TOPstyle: {
+    backgroundColor: '#000',
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 30,
+    width: '95%',
+  },
+  textStyle: {
+    color: '#fff',
+    fontSize: 20,
+    fontFamily: 'Roboto Condensed Bold',
+  },
+});

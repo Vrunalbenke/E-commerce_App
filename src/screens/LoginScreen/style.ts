@@ -19,14 +19,13 @@ export const styles = StyleSheet.create({
       fontFamily: 'Roboto Condensed',
       fontWeight: '500',
       fontSize: 24,
-      letterSpacing: 1,
+      // letterSpacing: 1,
     },
     loginActionText: {
       fontSize: 16,
       color: '#666464',
     },
     ForgetPassContainer:{
-      // backgroundColor:'yellow',
       alignSelf:'flex-end'
     },
     ForgetPass:{

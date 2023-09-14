@@ -1,4 +1,5 @@
 import {
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
@@ -6,19 +7,157 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {styles} from './Style';
 import CustomHeader from '../../components/CustomHeader';
 import CustomInputField from '../../components/CustomInputField';
 import CheckBox from '@react-native-community/checkbox';
 import CustomButton from '../../components/CustomButton';
 import CustomToggleButton from '../../components/CustomToggleButton';
-// import { ScrollView } from 'react-native-gesture-handler';
+import {SignupNavigatonProp} from '../../navigation/type';
 
-const Signup = () => {
+export type errorsProps = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+};
+
+const Signup = ({navigation}: SignupNavigatonProp) => {
+  const [inputs, setInputs] = useState<errorsProps>({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const [errors, setErrors] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+    checkBox: false,
+    gender: '',
+  });
+
+  const [checkBox, setCheckBox] = useState(false);
+  const [gender, setGender] = useState<string>('not selected');
+
+  useEffect(() => {}, [gender]);
+
+  function validate() {
+    Keyboard.dismiss();
+    console.log(gender);
+    console.log(checkBox);
+    let valid = true;
+
+    if (!inputs.first_name) {
+      handleError('first_name', 'Please input Firstname');
+      valid = false;
+    } else if (!inputs.first_name.match(/^[A-Za-z\s'-]+$/)) {
+      handleError('first_name', 'Please input valid Firstname');
+      valid = false;
+    }
+
+    if (!inputs.last_name) {
+      handleError('last_name', 'Please input Lastname');
+      valid = false;
+    } else if (!inputs.last_name.match(/^[A-Za-z\s'-]+$/)) {
+      handleError('last_name', 'Please input valid Lastname');
+      valid = false;
+    }
+
+    if (!inputs.email) {
+      handleError('email', 'Please input email');
+      valid = false;
+    } else if (
+      !inputs.email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+    ) {
+      handleError('email', 'Please input valid email');
+      valid = false;
+    }
+
+    if (!inputs.phone) {
+      handleError('phone', 'Please input Phone number');
+      valid = false;
+    } else if (!inputs.phone.match(/^\d{10}$/)) {
+      handleError('phone', 'Please input valid Phone number');
+      valid = false;
+    }
+
+    if (!inputs.password) {
+      handleError('password', 'Please input password');
+      valid = false;
+    } else if (
+      !inputs.password.match(
+        /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}|:;<>,.?~])[A-Za-z\d!@#$%^&*()_+{}|:;<>,.?~]{8,}$/,
+      )
+    ) {
+      handleError('password', 'Please input valid password');
+      valid = false;
+    }
+
+    if (!inputs.confirmPassword) {
+      handleError('password', 'Please input Confirm Password');
+      valid = false;
+    } else if (inputs.password !== inputs.confirmPassword) {
+      handleError(
+        'confirmPassword',
+        "Password and Confirm Password doesn't match",
+      );
+      valid = false;
+    }
+
+    if (!gender) {
+      handleError('gender', 'gender missing');
+      valid = false;
+    }
+
+    if (!checkBox) {
+      setErrors(prevState => ({...prevState, checkBox: true}));
+      valid = false;
+    }
+    // console.log(valid)
+    if (valid) {
+      register();
+    }
+  }
+
+  function register() {
+    // console.log(gender);
+    navigation.navigate('Login');
+    console.log(inputs);
+  }
+
+  function handleOnChange(text: string, input: string) {
+    console.log(text)
+    setInputs(preState => ({...preState, [input]: text}));
+  }
+
+  function handleError(input: string, errorMessage: string | null) {
+    setErrors(prevState => ({...prevState, [input]: errorMessage}));
+  }
+
+  function HandleGender(mf: string) {
+    setGender(mf);
+  }
+
+  function ValidateCheckBox() {
+    // console.log(checkBox)
+    setCheckBox(!checkBox);
+    // console.log(checkBox)
+  }
+
   return (
     <SafeAreaView style={styles.root}>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView bounces={false}>
           <View style={[styles.signupContainer]}>
             <CustomHeader
@@ -35,146 +174,98 @@ const Signup = () => {
               headerTitle="NeoSTORE"
             />
             <View style={styles.MidArea}>
-              <Text style={styles.greeting}>Sign Up</Text>
+              <Text style={styles.greeting}>Register</Text>
               <Text style={styles.loginActionText}>Create an new account</Text>
             </View>
 
             <CustomInputField
-              label="User Name"
-              placeholder="Vrunal Benke"
-              secureTextEntry={true}
-              deCaptialize={(value: string) => {
-                return value.toLowerCase();
-              }}
-              textInputStyle={{
-                fontSize: 18,
-                fontFamily: 'Roboto Condensed',
-                borderRadius: 10,
-                paddingLeft: 10,
-                // marginBottom: 15,
-                height: 35,
-                width: '85%',
-              }}
-              labelStyle={{
-                // color:'#323131',
-                fontSize: 20,
-                fontFamily: 'Roboto Condensed',
-                fontWeight: '400',
-                paddingLeft: 10,
-                letterSpacing: 1,
-              }}
+              label="First Name"
+              placeholder="Vrunal"
+              secureTextEntry={false}
+              // errorText = 'Should only contain alphabets'
+              icon={false}
+              error={errors.first_name}
+              onChangeText={(text: string) =>
+                handleOnChange(text, 'first_name')
+              }
+              onFocus={() => handleError('first_name', null)}
+            />
+
+            <CustomInputField
+              label="Last Name"
+              placeholder="Benke"
+              secureTextEntry={false}
+              // errorText = 'Should only contain alphabets'
+              icon={false}
+              error={errors.last_name}
+              onFocus={() => handleError('last_name', null)}
+              onChangeText={(text: string) => handleOnChange(text, 'last_name')}
             />
 
             <CustomInputField
               label="Email"
               placeholder="vrunalbenke@gmail.com"
-              secureTextEntry={true}
-              deCaptialize={(value: string) => {
-                return value.toLowerCase();
-              }}
-              textInputStyle={{
-                fontSize: 18,
-                fontFamily: 'Roboto Condensed',
-                borderRadius: 10,
-                paddingLeft: 10,
-                // marginBottom: 15,
-                height: 35,
-                width: '85%',
-              }}
-              labelStyle={{
-                fontSize: 20,
-                fontFamily: 'Roboto Condensed',
-                fontWeight: '400',
-                paddingLeft: 10,
-                letterSpacing: 1,
-              }}
+              secureTextEntry={false}
+              // errorText = 'Enter a valid email address'
+              icon={false}
+              error={errors.email}
+              onFocus={() => handleError('email', null)}
+              onChangeText={(text: string) => handleOnChange((text.toLowerCase()), 'email')}
+
+              // regexFuncName={EmailValidator}
             />
 
             <CustomInputField
               label="Phone Number"
               placeholder="1234567894"
-              secureTextEntry={true}
-              deCaptialize={(value: string) => {
-                return value.toLowerCase();
-              }}
-              // Icon='eye-off'
-              // Icon2='eye'
-              textInputStyle={{
-                fontSize: 18,
-                fontFamily: 'Roboto Condensed',
-                borderRadius: 10,
-                paddingLeft: 10,
-                // marginBottom: 15,
-                height: 35,
-                width: '85%',
-              }}
-              labelStyle={{
-                fontSize: 20,
-                fontFamily: 'Roboto Condensed',
-                fontWeight: '400',
-                paddingLeft: 10,
-                letterSpacing: 1,
-              }}
+              secureTextEntry={false}
+              // errorText = 'Phone number should only contain number'
+              keyboardType="numeric"
+              maxLength={10}
+              icon={false}
+              error={errors.phone}
+              onFocus={() => handleError('phone', null)}
+              onChangeText={(text: string) => handleOnChange(text, 'phone')}
             />
 
             <CustomInputField
               label="Password"
               placeholder="***********"
               secureTextEntry={true}
-              deCaptialize={(value: string) => {
-                return value.toLowerCase();
-              }}
-              Icon="eye-off"
-              Icon2="eye"
-              textInputStyle={{
-                fontSize: 18,
-                fontFamily: 'Roboto Condensed',
-                borderRadius: 10,
-                paddingLeft: 10,
-                // marginBottom: 15,
-                height: 35,
-                width: '85%',
-              }}
-              labelStyle={{
-                fontSize: 20,
-                fontFamily: 'Roboto Condensed',
-                fontWeight: '400',
-                paddingLeft: 10,
-                letterSpacing: 1,
-              }}
+              icon={true}
+              // errorText = 'Minimuim length 8, minimuim 1 speical charater and 1 Capital Character and number'
+              error={errors.password}
+              onFocus={() => handleError('password', null)}
+              onChangeText={(text: string) => handleOnChange(text, 'password')}
             />
 
             <CustomInputField
               label="Confirm Password"
               placeholder="***********"
               secureTextEntry={true}
-              deCaptialize={(value: string) => {
-                return value.toLowerCase();
-              }}
-              Icon="eye-off"
-              Icon2="eye"
-              textInputStyle={{
-                fontSize: 18,
-                fontFamily: 'Roboto Condensed',
-                borderRadius: 10,
-                paddingLeft: 10,
-                // marginBottom: 15,
-                height: 35,
-                width: '85%',
-              }}
-              labelStyle={{
-                fontSize: 20,
-                fontFamily: 'Roboto Condensed',
-                fontWeight: '400',
-                paddingLeft: 10,
-                letterSpacing: 1,
-              }}
+              icon={true}
+              error={errors.confirmPassword}
+              onFocus={() => handleError('confirmPassword', null)}
+              onChangeText={(text: string) =>
+                handleOnChange(text, 'confirmPassword')
+              }
             />
 
-            <CustomToggleButton />
-            <View style={styles.bottomArea}>
-              <View style={styles.CheckBox}>
+            <CustomToggleButton
+              onPress={HandleGender}
+              gender={gender}
+              borderStyle={{borderColor: gender === '' ? 'red' : '#000'}}
+              error={errors.gender}
+            />
+            <View style={[styles.bottomArea]}>
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderColor: errors.checkBox ? 'red' : 'transparent',
+                }}>
                 <CheckBox
+                  value={checkBox}
+                  onValueChange={ValidateCheckBox}
                   lineWidth={1}
                   boxType={'square'}
                   onCheckColor="#fff"
@@ -193,26 +284,7 @@ const Signup = () => {
               </View>
             </View>
 
-            <CustomButton
-              TOPstyle={{
-                backgroundColor: '#000',
-                //   backgroundColor: '#149953',
-                height: 60,
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 30,
-                marginTop: 20,
-                // width: '95%',
-                // padding:10
-              }}
-              textStyle={{
-                color: '#fff',
-                fontSize: 20,
-                fontFamily: 'Roboto Condensed Bold',
-              }}
-              onPress={() => console.log('abc')}
-              BtnName="Signup"
-            />
+            <CustomButton onPress={validate} BtnName="Register" />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

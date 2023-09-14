@@ -9,33 +9,31 @@ export const styles = StyleSheet.create({
     signupContainer: {
       flex: 1,
       paddingHorizontal: 10,
-      paddingBottom:160,
+      paddingBottom:150,
     },
     MidArea: {
-      height: '15%',
+      height: '10%',
 
     },
     greeting: {
       fontFamily: 'Roboto Condensed',
       fontWeight: '500',
       fontSize: 24,
-      letterSpacing: 1,
+      // letterSpacing: 1,
     },
     loginActionText: {
       fontSize: 16,
       color: '#666464',
     },
     bottomArea:{
-        // paddingHorizontal:10,
-        // padding:10,
         flexDirection:'row',
         justifyContent:'flex-start',
         alignItems:'flex-start',
         gap:12,
+        paddingBottom:20,
         // backgroundColor:'lightblue'
     },
-    CheckBox:{
-    },
+    
     TCContainer:{
         flexDirection:'row',
         flexShrink:1,

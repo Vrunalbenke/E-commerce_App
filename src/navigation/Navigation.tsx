@@ -6,10 +6,13 @@ import OnBoarding from '../screens/OnboardingScreen/OnBoarding';
 import Login from '../screens/LoginScreen/Login';
 import Signup from '../screens/SignupScreen/Signup';
 import { RootStackParamList } from './type';
+import Home from '../screens/HomeScreen/Home';
+import { useAppSelector } from '../redux/store';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
+    const OnBoardingData = useAppSelector(state => (state.Auth.AuthData))
   return (
     <NavigationContainer>
         <RootStack.Navigator>
@@ -20,6 +23,9 @@ const Navigation = () => {
                 headerShown:false
             }}/>
             <RootStack.Screen name='Signup' component={Signup} options={{
+                headerShown:false
+            }}/>
+            <RootStack.Screen name='Home' component={Home} options={{
                 headerShown:false
             }}/>
         </RootStack.Navigator>

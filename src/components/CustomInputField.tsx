@@ -16,8 +16,8 @@ type CustomInputFieldProps = {
   secureTextEntry: boolean;
   icon:boolean;
   error?: string;
-  onFocus: () => void;
-  onChangeText: (text:string,input:string) => void;
+  onFocus?: () => void;
+  onChangeText?: (text:string,input:string) => void;
   keyboardType?: KeyboardTypeOptions;
   maxLength?: number;
 };

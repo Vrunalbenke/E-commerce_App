@@ -11,14 +11,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 type CustomToggleButtonProps = {
   onPress: (mf: string) => void;
-  borderStyle: StyleProp<ViewStyle>;
   error: string;
   gender?: string;
 };
 
 const CustomToggleButton = ({
   onPress,
-  borderStyle,
   gender,
   error,
 }: CustomToggleButtonProps) => {
@@ -29,10 +27,10 @@ const CustomToggleButton = ({
   return (
     <View style={styles.ToggleContainer}>
       <View style={styles.ToggleTextContainer}>
-        <Text style={styles.ToggleText}>Gender :</Text>
-        <Text>{error}</Text>
+        <Text style={styles.ToggleText}>Gender <Text style={{color:'red',fontSize:23}}>{error}</Text></Text>
+        
       </View>
-      <View style={[borderStyle, styles.ToggleBtnContainer]}>
+      <View style={[ styles.ToggleBtnContainer]}>
         {/* ,{borderColor:ErrorState?'red':'black'} */}
         <TouchableOpacity
           style={[

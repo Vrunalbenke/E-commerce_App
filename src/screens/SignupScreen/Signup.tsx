@@ -15,6 +15,8 @@ import CheckBox from '@react-native-community/checkbox';
 import CustomButton from '../../components/CustomButton';
 import CustomToggleButton from '../../components/CustomToggleButton';
 import {SignupNavigatonProp} from '../../navigation/type';
+import { useAppDispatch } from '../../redux/store';
+import { registerUser } from '../../redux/Slice/registerSlice';
 
 export type errorsProps = {
   first_name: string;
@@ -26,6 +28,9 @@ export type errorsProps = {
 };
 
 const Signup = ({navigation}: SignupNavigatonProp) => {
+
+const dispatch = useAppDispatch();
+
   const [inputs, setInputs] = useState<errorsProps>({
     first_name: '',
     last_name: '',
@@ -47,7 +52,7 @@ const Signup = ({navigation}: SignupNavigatonProp) => {
   });
 
   const [checkBox, setCheckBox] = useState(false);
-  const [gender, setGender] = useState<string>('not selected');
+  const [gender, setGender] = useState<string>('');
 
   useEffect(() => {}, [gender]);
 
@@ -115,7 +120,7 @@ const Signup = ({navigation}: SignupNavigatonProp) => {
     }
 
     if (!gender) {
-      handleError('gender', 'gender missing');
+      handleError('gender', '*');
       valid = false;
     }
 
@@ -129,10 +134,27 @@ const Signup = ({navigation}: SignupNavigatonProp) => {
     }
   }
 
-  function register() {
+  async function register() {
     // console.log(gender);
-    navigation.navigate('Login');
-    console.log(inputs);
+    let formData = new FormData();
+
+    formData.append('first_name',inputs.first_name)
+    formData.append('last_name',inputs.last_name)
+    formData.append('email',inputs.email)
+    formData.append('password',inputs.password)
+    formData.append('confirm_password',inputs.confirmPassword)
+    formData.append('gender',gender)
+    formData.append('phone_no',inputs.phone)
+    
+    try{
+      const data = await dispatch(registerUser(formData)).unwrap()
+      console.log('Success ',data)
+      navigation.navigate('Login');
+    }
+    catch{
+      console.log('error is catched!')
+    }
+    // console.log(inputs);
   }
 
   function handleOnChange(text: string, input: string) {
@@ -146,6 +168,7 @@ const Signup = ({navigation}: SignupNavigatonProp) => {
 
   function HandleGender(mf: string) {
     setGender(mf);
+    handleError(gender,null)
   }
 
   function ValidateCheckBox() {
@@ -254,7 +277,6 @@ const Signup = ({navigation}: SignupNavigatonProp) => {
             <CustomToggleButton
               onPress={HandleGender}
               gender={gender}
-              borderStyle={{borderColor: gender === '' ? 'red' : '#000'}}
               error={errors.gender}
             />
             <View style={[styles.bottomArea]}>

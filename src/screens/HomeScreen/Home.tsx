@@ -1,17 +1,37 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { useAppSelector } from '../../redux/store'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
+import { logout } from '../../redux/Slice/registerSlice'
+import { HomeNavigatonProp } from '../../navigation/type'
+import CustomButton from '../../components/CustomButton'
 
-const Home = () => {
-  const AuthData = useAppSelector(state => (state.Auth.AuthData))
-  console.log(AuthData)
+const Home = ({navigation}:HomeNavigatonProp) => {
+  const data = useAppSelector(state => (state.Auth.AuthData))
+    console.log('Home data:--😋😋😋',data)
+  const dispatch = useAppDispatch()
+
+  function LogoutUser(){
+    console.log('Logged')
+    // dispatch(logout(AuthData.length))
+    dispatch(logout(undefined))
+    console.log('Home data,AuthData is Popped:--😋#😋',data)
+    navigation.navigate('Login')
+  }
   return (
-    <View>
-      <Text>Home</Text>
-    </View>
+    <SafeAreaView style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+      <CustomButton
+      onPress={LogoutUser}
+      BtnName="logout"
+      />
+      {/* <TouchableOpacity onPress={LogoutUser} style = {styles.Logout}>
+        <Text>Logout</Text>
+      </TouchableOpacity> */}
+    </SafeAreaView>
   )
 }
 
 export default Home
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  
+})

@@ -7,6 +7,7 @@ export type RootStackParamList = {
     Login : undefined
     Signup : undefined
     Home:undefined
+    ForgotPassword:undefined
 }
 
 export type OnBoardingNavigatonProp = NativeStackScreenProps<RootStackParamList,'OnBoarding'>;
@@ -16,3 +17,5 @@ export type LoginNavigatonProp = NativeStackScreenProps<RootStackParamList,'Logi
 export type SignupNavigatonProp = NativeStackScreenProps<RootStackParamList,'Signup'>;
 
 export type HomeNavigatonProp = NativeStackScreenProps<RootStackParamList,'Home'>;
+
+export type ForgotPasswordNavigationProp = NativeStackScreenProps<RootStackParamList,'ForgotPassword'>;

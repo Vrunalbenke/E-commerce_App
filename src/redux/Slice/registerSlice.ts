@@ -15,10 +15,12 @@ export const registerUser = createAsyncThunk('register/user', async (formData,th
             }
     )
 
-    Toast.show('Registered',Toast.SHORT)
+    const toastMsg:string = res.data.user_msg
+    Toast.showWithGravity(toastMsg,Toast.SHORT,Toast.BOTTOM)
     return res.status
     }
     catch(error:any){
+        Toast.showWithGravity("Email id already exist",Toast.SHORT,Toast.CENTER)
         return thunkAPI.rejectWithValue(error.message);
     }
 })
@@ -32,11 +34,14 @@ export const loginUser = createAsyncThunk('login/User', async (formData,thunkAPI
                 },
             }
     )
-    Toast.show('Logged in Successfully',Toast.SHORT)
+    const toastMsg:string = res.data.user_msg
+    console.log('toast message ',toastMsg)
+    Toast.showWithGravity(toastMsg,Toast.SHORT,Toast.BOTTOM)
     return res.data
     }
     catch(error:any){
-        return thunkAPI.rejectWithValue(error.message);
+        Toast.show("Email or password is wrong. try again",Toast.SHORT)
+        return thunkAPI.rejectWithValue("Email or password is wrong. try again");
     }
 
 })
@@ -48,17 +53,19 @@ const AuthSlice = createSlice({
     name:'AuthUser',
     initialState,
     reducers:{
-        addUser:(state,action)=>{
-            
-        }
+            logout:(state,action)=>{
+                // state.AuthData.splice(0,action.payload)
+                state.AuthData.pop()
+        },
     },
     extraReducers:(builder) => {
-        builder.addCase(loginUser.fulfilled,(state,action:any)=>{
+        builder.addCase(loginUser.fulfilled,(state,action)=>{
             // state.AuthData.push(2)
             state.AuthData.push(action.payload)
         })
     },
 })
 
+export const {logout} = AuthSlice.actions
 
 export default AuthSlice.reducer

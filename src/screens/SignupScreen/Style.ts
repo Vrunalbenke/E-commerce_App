@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     signupContainer: {
       flex: 1,
       paddingHorizontal: 10,
-      paddingBottom:150,
+      paddingBottom:180,
     },
     MidArea: {
       height: '10%',

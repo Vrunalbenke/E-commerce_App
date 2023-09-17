@@ -10,12 +10,14 @@ import CustomHeader from '../../components/CustomHeader';
 import CustomButton from '../../components/CustomButton';
 import {styles} from './style';
 import {LoginNavigatonProp} from '../../navigation/type';
-import { useAppDispatch } from '../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { loginUser } from '../../redux/Slice/registerSlice';
+import Toast from 'react-native-simple-toast';
 
 const Login = ({navigation}: LoginNavigatonProp) => {
 
   const dispatch = useAppDispatch();
+  const LoginDataFromAPI = useAppSelector(state => (state.Auth.AuthData))
   const [inputs,setInputs] = useState({
     email:'',
     password:''
@@ -39,6 +41,11 @@ const Login = ({navigation}: LoginNavigatonProp) => {
   function handleError(input:string,errorMessage:string){
       setErrors(prevState => ({...prevState,[input]:errorMessage}))
   }
+
+
+  function handleForgotPassword(){
+    navigation.navigate('ForgotPassword')
+  }
   function validate(){
     let valid = true
 
@@ -58,17 +65,18 @@ const Login = ({navigation}: LoginNavigatonProp) => {
   }
    
   async function loggedIN(){
-
     const formData = new FormData();
     formData.append('email',inputs.email)
     formData.append('password',inputs.password)
     try{
-      const data = await dispatch(loginUser(formData)).unwrap()
-      console.log(data)
+      const data = await dispatch(loginUser(formData)).unwrap();
+      console.log("Login Data:--",data)
       navigation.navigate('Home')
     }
     catch{
-      console.log('Error is catched')
+      console.log('Error is catched',LoginDataFromAPI)
+      const toastErrMsg:string = LoginDataFromAPI[0];
+      Toast.showWithGravity(toastErrMsg,Toast.SHORT,Toast.CENTER)
     }
   }
 
@@ -110,7 +118,7 @@ const Login = ({navigation}: LoginNavigatonProp) => {
           onChangeText={(text:string)=>handleOnChange('password',text)}
           error={errors.password}
         />
-        <TouchableOpacity style={styles.ForgetPassContainer}>
+        <TouchableOpacity style={styles.ForgetPassContainer} onPress={handleForgotPassword}>
           <Text style={styles.ForgetPass}>Forgot Password?</Text>
         </TouchableOpacity>
 

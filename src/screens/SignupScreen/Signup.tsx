@@ -15,8 +15,9 @@ import CheckBox from '@react-native-community/checkbox';
 import CustomButton from '../../components/CustomButton';
 import CustomToggleButton from '../../components/CustomToggleButton';
 import {SignupNavigatonProp} from '../../navigation/type';
-import { useAppDispatch } from '../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { registerUser } from '../../redux/Slice/registerSlice';
+import Toast from 'react-native-simple-toast'
 
 export type errorsProps = {
   first_name: string;
@@ -30,6 +31,7 @@ export type errorsProps = {
 const Signup = ({navigation}: SignupNavigatonProp) => {
 
 const dispatch = useAppDispatch();
+const AuthData = useAppSelector(state => {state.Auth.AuthData})
 
   const [inputs, setInputs] = useState<errorsProps>({
     first_name: '',
@@ -135,7 +137,6 @@ const dispatch = useAppDispatch();
   }
 
   async function register() {
-    // console.log(gender);
     let formData = new FormData();
 
     formData.append('first_name',inputs.first_name)
@@ -154,7 +155,6 @@ const dispatch = useAppDispatch();
     catch{
       console.log('error is catched!')
     }
-    // console.log(inputs);
   }
 
   function handleOnChange(text: string, input: string) {

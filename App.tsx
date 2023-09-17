@@ -1,12 +1,14 @@
 import {StyleSheet,SafeAreaView} from 'react-native';
-import React from 'react';
+import React,{useState} from 'react';
 import Navigation from './src/navigation/Navigation';
 import { Provider } from 'react-redux';
-// import {store} from './src/redux/store'
 import { persistor, store } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 
 const App = () => {
+
+  
+
   return (
     // <SafeAreaView style={styles.root}>
     //   {/* <Login /> */}
@@ -14,7 +16,7 @@ const App = () => {
     // </SafeAreaView>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-          <Navigation />
+          <Navigation/>
       </PersistGate>
     </Provider>
 

@@ -1,10 +1,11 @@
 import {StyleSheet} from 'react-native';
-
+import color from '../../Constants/colors'
+import font from '../../Constants/fonts'
 
 export const styles = StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: '#ececec',
+      backgroundColor: color.offWhite,
     },
     signupContainer: {
       flex: 1,
@@ -16,14 +17,14 @@ export const styles = StyleSheet.create({
 
     },
     greeting: {
-      fontFamily: 'Roboto Condensed',
+      fontFamily: font.RobotoC,
       fontWeight: '500',
       fontSize: 24,
       // letterSpacing: 1,
     },
-    loginActionText: {
+    SignActionText: {
       fontSize: 16,
-      color: '#666464',
+      color: color.offBlack,
     },
     bottomArea:{
         flexDirection:'row',
@@ -43,7 +44,8 @@ export const styles = StyleSheet.create({
         flexShrink:1,
         // flexWrap:'wrap',
         fontSize:15,
-        color:'#898686'
+        // color:'#898686'
+        color:color.offBlack,
     },
     
 

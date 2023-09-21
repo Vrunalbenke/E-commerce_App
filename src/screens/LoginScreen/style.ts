@@ -1,12 +1,13 @@
 import {StyleSheet} from 'react-native';
-
+import color from '../../Constants/colors'
+import font from '../../Constants/fonts'
 
 
 
 export const styles = StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: '#ececec',
+      backgroundColor: color.offWhite,
     },
     loginContainer: {
       flex: 1,
@@ -16,21 +17,21 @@ export const styles = StyleSheet.create({
       height: '15%',
     },
     greeting: {
-      fontFamily: 'Roboto Condensed',
+      fontFamily: font.RobotoC,
       fontWeight: '500',
       fontSize: 24,
       // letterSpacing: 1,
     },
     loginActionText: {
       fontSize: 16,
-      color: '#666464',
+      color: color.offBlack,
     },
     ForgetPassContainer:{
       alignSelf:'flex-end'
     },
     ForgetPass:{
-      fontFamily:'Roboto Condensed',
-      color:'#454444',
+      fontFamily:font.RobotoC,
+      color:color.offBlack,
       fontSize:18
     },
     LoginBtn: {

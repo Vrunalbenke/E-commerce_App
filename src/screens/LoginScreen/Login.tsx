@@ -13,6 +13,7 @@ import {LoginNavigatonProp} from '../../navigation/type';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { loginUser } from '../../redux/Slice/registerSlice';
 import Toast from 'react-native-simple-toast';
+import font from '../../Constants/fonts'
 
 const Login = ({navigation}: LoginNavigatonProp) => {
 
@@ -71,7 +72,7 @@ const Login = ({navigation}: LoginNavigatonProp) => {
     try{
       const data = await dispatch(loginUser(formData)).unwrap();
       console.log("Login Data:--",data)
-      navigation.navigate('Home')
+      navigation.navigate('AppStack')
     }
     catch{
       console.log('Error is catched',LoginDataFromAPI)
@@ -86,7 +87,7 @@ const Login = ({navigation}: LoginNavigatonProp) => {
         <CustomHeader
           style={{
             fontSize: 50,
-            fontFamily: 'Bebas Neue Bold',
+            fontFamily: font.BebasNB,
           }}
           headerContainerStyle={{
             height: '25%',

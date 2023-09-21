@@ -8,6 +8,8 @@ import {
   ViewStyle,
 } from 'react-native';
 import React from 'react';
+import color from '../../src/Constants/colors'
+import font from '../../src/Constants/fonts'
 
 type CustomButtonProps = {
   onPress?: () => void;
@@ -29,7 +31,7 @@ export default CustomButton;
 
 const styles = StyleSheet.create({
   TOPstyle: {
-    backgroundColor: '#000',
+    backgroundColor: color.black,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -37,8 +39,8 @@ const styles = StyleSheet.create({
     width: '95%',
   },
   textStyle: {
-    color: '#fff',
+    color: color.white,
     fontSize: 20,
-    fontFamily: 'Roboto Condensed Bold',
+    fontFamily: font.RobotoCB,
   },
 });

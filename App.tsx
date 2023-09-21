@@ -1,5 +1,6 @@
 import {StyleSheet,SafeAreaView} from 'react-native';
 import React,{useState} from 'react';
+import 'react-native-gesture-handler'
 import Navigation from './src/navigation/Navigation';
 import { Provider } from 'react-redux';
 import { persistor, store } from './src/redux/store';

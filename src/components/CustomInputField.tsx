@@ -8,6 +8,9 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import color from '../Constants/colors'
+import font from '../Constants/fonts'
+
 
 type CustomInputFieldProps = {
   // style : React.CSSProperties
@@ -53,6 +56,7 @@ const CustomInputField = ({
           // {...props}
           onChangeText={onChangeText}
           onFocus={onFocus}
+          autoCorrect={false}
         />
 
         {icon && <TouchableOpacity style={styles.IconContainer} onPress={IconToggle}>
@@ -78,23 +82,25 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 20,
-    fontFamily: 'Roboto Condensed',
+    fontFamily: font.RobotoC,
     fontWeight: '400',
     paddingLeft: 10,
     letterSpacing: 1,
   },
   textInputStyle: {
     fontSize: 18,
-    fontFamily: 'Roboto Condensed',
+    fontFamily: font.RobotoC,
     borderRadius: 10,
     paddingLeft: 10,
     // marginBottom: 15,
-    height: 30,
+    height: 40,
     width: '85%',
+    // backgroundColor:'lightblue'
   },
   TinpIconStyle: {
     borderBottomWidth: 1,
-    borderBottomColor: '#b1afaf',
+    borderBottomColor: color.offBlack,
+    // borderBottomColor: '#b1afaf',
     paddingHorizontal: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -104,7 +110,7 @@ const styles = StyleSheet.create({
     // backgroundColor:'lightblue'
   },
   ValidationText: {
-    color: '#f40606',
+    color: color.red,
     fontSize: 16,
     // fontFamily:'Roboto Condensed',
     alignSelf: 'center',

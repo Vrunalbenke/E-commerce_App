@@ -17,7 +17,8 @@ import CustomToggleButton from '../../components/CustomToggleButton';
 import {SignupNavigatonProp} from '../../navigation/type';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { registerUser } from '../../redux/Slice/registerSlice';
-import Toast from 'react-native-simple-toast'
+import color from '../../Constants/colors'
+import font from '../../Constants/fonts'
 
 export type errorsProps = {
   first_name: string;
@@ -186,8 +187,7 @@ const AuthData = useAppSelector(state => {state.Auth.AuthData})
             <CustomHeader
               style={{
                 fontSize: 50,
-                fontFamily: 'Bebas Neue Bold',
-                // color:"#149953"
+                fontFamily: font.BebasNB,
               }}
               headerContainerStyle={{
                 height: '25%',
@@ -198,7 +198,7 @@ const AuthData = useAppSelector(state => {state.Auth.AuthData})
             />
             <View style={styles.MidArea}>
               <Text style={styles.greeting}>Register</Text>
-              <Text style={styles.loginActionText}>Create an new account</Text>
+              <Text style={styles.SignActionText}>Create an new account</Text>
             </View>
 
             <CustomInputField
@@ -290,9 +290,9 @@ const AuthData = useAppSelector(state => {state.Auth.AuthData})
                   onValueChange={ValidateCheckBox}
                   lineWidth={1}
                   boxType={'square'}
-                  onCheckColor="#fff"
-                  onFillColor="#000"
-                  onTintColor="#000"
+                  onCheckColor= {color.white}
+                  onFillColor={color.black}
+                  onTintColor={color.black}
                   animationDuration={0.3}
                   onAnimationType={'stroke'}
                   offAnimationType={'stroke'}

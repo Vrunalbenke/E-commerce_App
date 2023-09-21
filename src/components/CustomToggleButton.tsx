@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import color from '../Constants/colors'
+import font from '../Constants/fonts'
 type CustomToggleButtonProps = {
   onPress: (mf: string) => void;
   error: string;
@@ -35,31 +36,31 @@ const CustomToggleButton = ({
         <TouchableOpacity
           style={[
             styles.MaleContainer,
-            {backgroundColor: male ? '#000' : '#fff'},
+            {backgroundColor: male ? color.black : color.white},
           ]}
           onPress={() => onPress('M')}>
-          <Text style={[styles.Male, {color: male ? '#fff' : '#000'}]}>
+          <Text style={[styles.Male, {color: male ? color.white : color.black}]}>
             Male
           </Text>
           <Ionicons
             name="male-sharp"
             size={25}
-            style={{color: male ? '#fff' : '#000'}}
+            style={{color: male ? color.white : color.black}}
           />
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.FemaleContainer,
-            {backgroundColor: female ? '#000' : '#fff'},
+            {backgroundColor: female ? color.black : color.white},
           ]}
           onPress={() => onPress('F')}>
-          <Text style={[styles.Female, {color: female ? '#fff' : '#000'}]}>
+          <Text style={[styles.Female, {color: female ? color.white : color.black}]}>
             Female
           </Text>
           <Ionicons
             name="female-sharp"
             size={25}
-            style={{color: female ? '#fff' : '#000'}}
+            style={{color: female ? color.white : color.black}}
           />
         </TouchableOpacity>
       </View>
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   ToggleTextContainer: {},
   ToggleText: {
     fontSize: 20,
-    fontFamily: 'Roboto Condensed',
+    fontFamily: font.RobotoC,
     fontWeight: '400',
     paddingLeft: 10,
     letterSpacing: 1,
@@ -88,7 +89,6 @@ const styles = StyleSheet.create({
   ToggleBtnContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    // borderColor:'#2cca13',
     borderWidth: 1,
   },
   MaleContainer: {
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
   },
   Male: {
-    fontFamily: 'Roboto Condensed',
+    fontFamily: font.RobotoC,
     fontSize: 20,
   },
   FemaleContainer: {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   Female: {
-    fontFamily: 'Roboto Condensed',
+    fontFamily: font.RobotoC,
     fontSize: 20,
   },
 });

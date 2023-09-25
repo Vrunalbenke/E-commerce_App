@@ -1,58 +1,52 @@
 import React from 'react';
-import {
-  Dimensions,
-  StyleSheet,
-  View,
-  ScrollView,
-} from 'react-native';
-import video1 from '../assets/video/video1.mp4';
-import video2 from '../assets/video/video2.mp4';
+import {Dimensions, Image, Text, View} from 'react-native';
+import Carousel from 'react-native-reanimated-carousel';
 import Video from 'react-native-video';
-import color from '../../src/Constants/colors'
-
-const {height, width} = Dimensions.get('window');
 
 const CustomCarouselSlider = () => {
+  const width = Dimensions.get('window').width;
+  const data = [
+    require('../assets/video/video1.mp4'),
+    require('../assets/images/CarouselImage1.png'),
+    require('../assets/images/CarouselImage2.png'),
+    require('../assets/images/CarouselImage3.png'),
+  ];
+  let count = 1;
   return (
-    <View style={{justifyContent:'center',alignItems:'flex-start'}}>
-      <ScrollView horizontal bounces={false} style={styles.ScrollViewStyle} pagingEnabled={true}
-      indicatorStyle='white'
-      persistentScrollbar={true}
-      >
-      <View style={styles.VideoContainer}>
-        <Video source={video1} style={styles.VideoStyle} repeat={false} />
-      </View>
-      <View style={styles.VideoContainer}>
-        <Video source={video2} style={styles.VideoStyle} repeat={false} />
-      </View>
-      <View style={styles.VideoContainer}>
-        <Video source={video1} style={styles.VideoStyle} repeat={false} />
-      </View>
-    </ScrollView>
+    <View style={{flex: 1}}>
+      <Carousel
+        loop
+        width={width}
+        height={width / 2}
+        autoPlay={true}
+        data={data}
+        scrollAnimationDuration={3000}
+        onSnapToItem={index => console.log('current index:', index)}
+        renderItem={({item, index}) => (
+          <View
+            style={{
+              flex: 1,
+              // borderWidth: 1,
+              justifyContent: 'center',
+              padding: 2,
+            }}>
+            {index === 0 ? (
+              <Video
+                source={item}
+                style={{width: '100%', height: '100%',
+                backgroundColor:'pink',
+              }}
+              resizeMode='cover'
+                repeat={true}
+              />
+            ) : (
+              <Image style={{width: '100%', height: '100%'}} source={item} />
+            )}
+          </View>
+        )}
+      />
     </View>
   );
 };
 
 export default CustomCarouselSlider;
-
-const styles = StyleSheet.create({
-  ScrollViewStyle: {
-    height:220,
-    // paddingHorizontal: 10,
-    // backgroundColor:'#e2e2e2',
-    
-  },
-  VideoContainer: {
-    width: width,
-    height: '100%',
-    justifyContent:'center',
-    alignItems:'flex-start',
-    // padding:10
-  },
-  VideoStyle: {
-    // aspectRatio:'cover',
-    // padding:10,
-    width: width ,
-    height: '100%',
-  },
-});

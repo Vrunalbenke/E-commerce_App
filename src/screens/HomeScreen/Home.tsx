@@ -1,9 +1,13 @@
 import {
+  ImageBackground,
   SafeAreaView,
+  ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  useWindowDimensions,
 } from 'react-native';
 import React from 'react';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
@@ -15,11 +19,15 @@ import CustomHeader from '../../components/CustomHeader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import color from '../../Constants/colors'
 import font from '../../Constants/fonts'
+import {Dimensions} from 'react-native';
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const Home = ({navigation}: HomeNavigatonProp) => {
   const data = useAppSelector(state => state.Auth.AuthData);
   console.log('Home data:--😋😋😋', data);
   const dispatch = useAppDispatch();
+
 
   function LogoutUser() {
     console.log('Logged');
@@ -36,7 +44,11 @@ const Home = ({navigation}: HomeNavigatonProp) => {
     })
   }
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1,height:'100%',backgroundColor:'#d4d1d1'}}>
+      <StatusBar 
+      backgroundColor='#000'
+      barStyle={'light-content'}
+      />
       <View style={styles.headerConatianer}>
         <TouchableOpacity style={styles.IconContainer}
         onPress={() => navigation.openDrawer()}
@@ -57,49 +69,69 @@ const Home = ({navigation}: HomeNavigatonProp) => {
           headerTitle="NeoSTORE"
         />
         <View style={styles.headerRightConatianer}>
-          <TouchableOpacity style={styles.IconContainer}>
+          {/* <TouchableOpacity style={styles.IconContainer}>
             <Ionicons name="search" size={30} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
-          <TouchableOpacity style={styles.IconContainer}>
+          <TouchableOpacity style={styles.IconContainer} onPress={()=> navigation.navigate('Cart')}>
             <Ionicons name="cart" size={30} />
           </TouchableOpacity>
         </View>
       </View>
-        
-      <CustomCarouselSlider />
+        <ScrollView style={{flex:1,backgroundColor:'white',borderTopLeftRadius:30,borderTopRightRadius:30,paddingTop:30}}>
 
-      <View style={styles.CategoryContainer}>
-        
-        <View style={styles.Category12}>
-          <TouchableOpacity style={styles.Category}
-          onPress={()=>(CategoryRoute(1))}
-          >
-            <Text>Table</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.Category}
-          onPress={()=>(CategoryRoute(2))}
-          >
-          <Text>Chair</Text>
-          </TouchableOpacity>
-        </View>
+        <CustomCarouselSlider />
 
-        <View style={styles.Category34}>
-
-          <TouchableOpacity style={styles.Category}
+      {/* <View style={styles.CategoryContainer}>
+        <TouchableOpacity style={{width:windowWidth*0.8,height:windowWidth*0.5,backgroundColor:'#fff'}}
             onPress={()=>(CategoryRoute(3))}
           >
-          <Text>Sofa</Text>
+          <ImageBackground 
+          source={require('../../assets/images/Sofas.png')}
+          style={styles.CategoryBGI}
+          imageStyle={{borderRadius:30,resizeMode:'contain'}}
+          >
+            
+          </ImageBackground>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.Category}
+          
+
+          <TouchableOpacity style={{width:windowWidth*0.5,height:windowWidth*0.8,}}
+          onPress={()=>(CategoryRoute(2))}
+          >
+            <ImageBackground 
+          source={require('../../assets/images/Chairs.png')}
+          style={styles.CategoryBGI}
+          imageStyle={{borderRadius:20,resizeMode: 'contain'}}
+          ></ImageBackground>
+          </TouchableOpacity>
+
+        <TouchableOpacity style={{width:windowWidth*0.8,height:windowWidth*0.8}}
+          onPress={()=>(CategoryRoute(1))}
+          >
+          <ImageBackground 
+          source={require('../../assets/images/Tables.png')}
+          style={styles.CategoryBGI}
+          imageStyle={{borderRadius:20,resizeMode:'contain'}}
+          >
+            
+          </ImageBackground>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{width:windowWidth*0.8,height:windowWidth*0.8,}}
           onPress={()=>(CategoryRoute(4))}
           >
-          <Text>Bed</Text>
+          <ImageBackground 
+          source={require('../../assets/images/Beds.png')}
+          style={[styles.CategoryBGI]}
+          imageStyle={{borderRadius:20,resizeMode:'contain'}}
+          ></ImageBackground>
           </TouchableOpacity>
-        </View>
-      </View>
+      </View> */}
       <CustomButton onPress={LogoutUser} BtnName="logout" />
+      
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -109,7 +141,8 @@ export default Home;
 const styles = StyleSheet.create({
   headerConatianer: {
     flexDirection: 'row',
-    backgroundColor: color.offWhite,
+    // backgroundColor: '#f4f4f4',
+    backgroundColor: '#d4d1d1',
     height: '10%',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -122,27 +155,42 @@ const styles = StyleSheet.create({
   },
 
   CategoryContainer:{
-    height:'40%',
-    backgroundColor:'lightblue',
+    width:windowWidth,
+    // backgroundColor:color.black,
     padding:10,
-    justifyContent:'space-between'
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius:10,
+    gap:20
   },
   Category12:{
+    width:'100%',
+    height:'48%',
     flexDirection:'row',
     justifyContent:'space-between',
-    // width:'100%',
-    // height:'100%'
+    gap:5
   },
   Category34:{
-  flexDirection:'row',
-  justifyContent:'space-between',
-  // width:'100%',
-  // height:'100%'
+    width:'100%',
+    height:'48%',
+    flexDirection:'row',
+    justifyContent:'space-between',
+    gap:5
   },
   Category:{
-    padding:10,
-    borderWidth:1,
-    width:'35%',
-    height:'50%'
+    // borderWidth:1,
+    width:'100%',
+    height:300,
+    // borderRadius:20,
+    
+  },
+  CategoryBGI:{
+    width:'100%',
+    height:'100%',
+    resizeMode:'cover'
+  },
+  CategoryTitle:{
+    fontSize:18,
+    paddingLeft:10
   }
 });

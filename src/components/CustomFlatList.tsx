@@ -4,18 +4,18 @@ import {
   View,
   FlatList,
   Image,
-  Dimensions,
   useWindowDimensions,
   ListRenderItemInfo,
   TouchableOpacity,
+  Dimensions
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import color from '../Constants/colors';
 import { useAppDispatch, useAppSelector } from '../redux/store';
-import { EmptyProductData } from '../redux/Slice/productSlice';
-
+import { EmptyProductData, getProduct } from '../redux/Slice/productSlice';
+import Lottie from 'lottie-react-native';
 type CustomFlatListProps = {
-  data: itemProps[];
+  product_category_id: number
   onPress: (product_id:number) => void
 };
 
@@ -32,14 +32,39 @@ type itemProps = {
   modified: string;
   product_images: string;
 };
-
-const CustomFlatList = ({data,onPress}: CustomFlatListProps) => {
+const {width, height} = Dimensions.get('window');
+const CustomFlatList = ({product_category_id,onPress}: CustomFlatListProps) => {
   const {height, width} = useWindowDimensions();
-  const productArrLength = useAppSelector(state => (state.Product.ProductData))
-  console.log('Length is ☠️☠️☠️☠️☠️☠️☠️ --->',productArrLength.length)
-  console.log('Length is ☠️☠️☠️☠️☠️☠️☠️ --->',data)
+  const dispatch = useAppDispatch();
+  let ProductData = useAppSelector(state => state.Product.ProductData);
 
+  const [isloading,setIsloading] = useState<boolean>(false)
+  console.log('Length is ☠️☠️☠️☠️☠️☠️☠️ --->',ProductData)
+  // console.log('Length is ☠️☠️☠️☠️☠️☠️☠️ --->',data)
+  console.log('🦋🦋🦋🦋🦋🦋', product_category_id,'🦋🦋🦋🦋🦋🦋');
 
+  const apiData = async () => {
+    setIsloading(true)
+    try{
+      console.log('LOGGGGGGGGGGGGG')
+      const val = await dispatch(getProduct(product_category_id)).unwrap();
+      console.log(val)
+      setIsloading(false)
+    }
+    catch(error){
+      setIsloading(false)
+      console.log(error)
+    }
+  };
+
+  useEffect(() => {
+      apiData();
+    return () => {
+      dispatch(EmptyProductData([]));
+      ProductData = [];
+      console.log('🐵🐵🐵🐵🐵🐵🐵', ProductData);
+    };
+  }, [product_category_id]);
 
 
   function RenderProduct(item: ListRenderItemInfo<itemProps>) {
@@ -74,18 +99,30 @@ const CustomFlatList = ({data,onPress}: CustomFlatListProps) => {
   }
   return (
     <View style={{flex: 1, backgroundColor: color.offWhite}}>
-      {data.length !== 0 && (
+      {/* {data.length !== 0 && ( */}
+      {isloading ? (
+          <Lottie
+            style={styles.Loader}
+            source={require('../../src/assets/Lottie-JSON/furniture_loader.json')}
+            autoPlay
+            loop
+          />
+        ) : (
         <FlatList
-          data={data}
+          data={ProductData}
           renderItem={(item) => RenderProduct(item)}
         //   keyExtractor={item => (item.item.id)?.toString()}
           showsVerticalScrollIndicator={false}
-        />
-      )}
+        />)}
     </View>
   );
 };
 
 export default CustomFlatList;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  Loader: {
+    width: width * 0.9,
+    height: width,
+  },
+});

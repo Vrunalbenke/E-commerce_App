@@ -1,12 +1,11 @@
 import {
   SafeAreaView,
   StyleSheet,
-  Text,
   View,
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import CustomHeader from '../../components/CustomHeader';
 import font from '../../Constants/fonts';
 import color from '../../Constants/colors';
@@ -14,23 +13,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {CategoryNavigatonProp} from '../../navigation/type';
 import CustomFlatList from '../../components/CustomFlatList';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
-import {
-  EmptyProductData,
-  getProduct,
-  getProductDetail,
-} from '../../redux/Slice/productSlice';
+import {getProductDetail} from '../../redux/Slice/productSlice';
 import Lottie from 'lottie-react-native';
 
 const {width, height} = Dimensions.get('window');
 const Category = ({route, navigation}: CategoryNavigatonProp) => {
   const {product_category_id} = route.params;
-  let ProductData = useAppSelector(
-    state => state.Product.ProductData);
-    console.log('👓👓👓👓👓👓👓',ProductData)
   const dispatch = useAppDispatch();
-  const [isLoading, setIsloading] = useState<boolean>(true);
-
-  console.log('category id: ', product_category_id);
+  // let isloading = useAppSelector(state => state.Product.isLoading);
+  console.log('🦋🦋🦋🦋🦋🦋', product_category_id);
   const CategoryName =
     product_category_id === 1
       ? 'Table'
@@ -39,29 +30,16 @@ const Category = ({route, navigation}: CategoryNavigatonProp) => {
       : product_category_id === 3
       ? 'Sofa'
       : 'Bed';
-
-  useEffect(() => {
-    setIsloading(true);
-    const apiData = async () => {
-        const APIdata = await dispatch(
-          getProduct(product_category_id),
-        ).unwrap();
-        setIsloading(false);
-        return () => {
-          ProductData = []
-        };
-    };
-    apiData();
-
-  }, [product_category_id]);
-
+  // console.log('((((((((((((((((((((',isloading)
   async function ProductDetail(product_id: number) {
-    const productDetailAPIData = await dispatch(
-      getProductDetail(product_id),
-    ).unwrap();
-    navigation.navigate('ProductDetail', {
-      ProductDetailData: productDetailAPIData.data,
-    });
+    try {
+      const productDetailAPIData = await dispatch(
+        getProductDetail(product_id),
+      ).unwrap();
+      navigation.navigate('ProductDetail');
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -94,17 +72,11 @@ const Category = ({route, navigation}: CategoryNavigatonProp) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        {isLoading && (
-          <Lottie
-            style={styles.Loader}
-            source={require('../../assets/Lottie-JSON/furniture_loader.json')}
-            autoPlay
-            loop
+        
+          <CustomFlatList
+            product_category_id={product_category_id}
+            onPress={ProductDetail}
           />
-        )}
-        {!isLoading && (
-          <CustomFlatList data={ProductData || []} onPress={()=>ProductDetail} />
-        )}
       </View>
     </SafeAreaView>
   );
@@ -126,10 +98,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 10,
   },
-  Loader: {
-    width: width * 0.9,
-    height: width,
-  },
+  
   IconContainer: {
     padding: 10,
   },

@@ -12,9 +12,12 @@ export type RootStackParamList = {
     Drawer:undefined
     Cart:undefined
     Category:{product_category_id : number}
-    ProductDetail:{ProductDetailData: {}}
+    ProductDetail:undefined
     AppStack :undefined
     CustomDrawer:{props:React.ComponentProps<typeof DrawerItemList>}
+    Orders:undefined
+    AddressList:undefined
+    NewAddress:undefined
 }
 
 export type OnBoardingNavigatonProp = NativeStackScreenProps<RootStackParamList,'OnBoarding'>;
@@ -37,6 +40,9 @@ export type ForgotPasswordNavigationProp = NativeStackScreenProps<RootStackParam
 
 export type CustomDrawerNavigationProp = NativeStackScreenProps<RootStackParamList,'CustomDrawer'>;
 
+export type OrdersNavigationProp = NativeStackScreenProps<RootStackParamList,'Orders'>;
 
+export type AddressListNavigationProp = NativeStackScreenProps<RootStackParamList,'AddressList'>;
 
-// export 
+export type NewAddressNavigationProp = NativeStackScreenProps<RootStackParamList,'NewAddress'>;
+

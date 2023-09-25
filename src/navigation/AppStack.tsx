@@ -9,6 +9,9 @@ import ProductDetail from '../screens/ProductDetailScreen/ProductDetail';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useAppDispatch, useAppSelector } from '../redux/store';
 import { logout } from '../redux/Slice/registerSlice';
+import Orders from '../screens/OrdersScreen/Orders';
+import AddressList from '../screens/AddressScreen/AddressList';
+import NewAddress from '../screens/AddressScreen/NewAddress';
 
 const RootDrawer= createDrawerNavigator<RootStackParamList>();
 const color = '#000'
@@ -48,12 +51,28 @@ const AppStack = ({navigation}:AppStackpNavigatonProp) => {
           drawerIcon:({color}) =>(
             <Ionicons name='grid-outline' size={22} color={color} />
           )
+          
         }}/>
-        <RootDrawer.Screen name='ProductDetail' component={ProductDetail} options={{
+        {/* <RootDrawer.Screen name='ProductDetail' component={ProductDetail} options={{
           drawerIcon:({color}) =>(
             <Ionicons name='home' size={22} color={color} />
           )
+        }}/> */}
+        <RootDrawer.Screen name='Orders' component={Orders} options={{
+          drawerIcon:({color}) =>(
+            <Ionicons name='bag-handle-outline' size={22} color={color} />
+          )
         }}/>
+        {/* <RootDrawer.Screen name='AddressList' component={AddressList} options={{
+          drawerIcon:({color}) =>(
+            <Ionicons name='bag-handle-outline' size={22} color={color} />
+          )
+        }}/>
+        <RootDrawer.Screen name='NewAddress' component={NewAddress} options={{
+          drawerIcon:({color}) =>(
+            <Ionicons name='bag-handle-outline' size={22} color={color} />
+          )
+        }}/> */}
     </RootDrawer.Navigator>
   )
 }

@@ -12,6 +12,9 @@ import { logout } from '../redux/Slice/registerSlice';
 import Orders from '../screens/OrdersScreen/Orders';
 import AddressList from '../screens/AddressScreen/AddressList';
 import NewAddress from '../screens/AddressScreen/NewAddress';
+import Profile from '../screens/ProfileScreen/Profile';
+import EditProfile from '../screens/ProfileScreen/EditProfile';
+import ChangePassword from '../screens/ForgotPasswordScreen/ChangePassword';
 
 const RootDrawer= createDrawerNavigator<RootStackParamList>();
 const color = '#000'
@@ -53,17 +56,29 @@ const AppStack = ({navigation}:AppStackpNavigatonProp) => {
           )
           
         }}/>
-        {/* <RootDrawer.Screen name='ProductDetail' component={ProductDetail} options={{
+        <RootDrawer.Screen name='ProductDetail' component={ProductDetail} options={{
           drawerIcon:({color}) =>(
             <Ionicons name='home' size={22} color={color} />
           )
-        }}/> */}
+        }}/>
         <RootDrawer.Screen name='Orders' component={Orders} options={{
           drawerIcon:({color}) =>(
             <Ionicons name='bag-handle-outline' size={22} color={color} />
           )
         }}/>
-        {/* <RootDrawer.Screen name='AddressList' component={AddressList} options={{
+
+        <RootDrawer.Screen name='Profile' component={Profile} options={{
+          drawerIcon:({color}) =>(
+            <Ionicons name='person-outline' size={22} color={color} />
+          )
+        }}/>
+
+        <RootDrawer.Screen name='EditProfile' component={EditProfile} options={{
+          drawerIcon:({color}) =>(
+            <Ionicons name='person-outline' size={22} color={color} />
+          )
+        }}/>
+        <RootDrawer.Screen name='AddressList' component={AddressList} options={{
           drawerIcon:({color}) =>(
             <Ionicons name='bag-handle-outline' size={22} color={color} />
           )
@@ -72,7 +87,12 @@ const AppStack = ({navigation}:AppStackpNavigatonProp) => {
           drawerIcon:({color}) =>(
             <Ionicons name='bag-handle-outline' size={22} color={color} />
           )
-        }}/> */}
+        }}/>
+        <RootDrawer.Screen name='ChangePassword' component={ChangePassword} options={{
+          drawerIcon:({color}) =>(
+            <Ionicons name='bag-handle-outline' size={22} color={color} />
+          )
+        }}/>
     </RootDrawer.Navigator>
   )
 }

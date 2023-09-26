@@ -24,7 +24,7 @@ type itemProps = {
 
 const Cart = ({ navigation }: CartNavigatonProp) => {
   const dispatch = useAppDispatch();
-  const accessToken = useAppSelector((state) => state.Auth.AuthData);
+  const accessToken = useAppSelector((state) => state.Auth.AccessToken);
   const cartItems = useAppSelector((state) => state.Cart.CartItem.data);
   const cartItemsTotal = useAppSelector((state) => state.Cart.CartItem.total);
   const editStatus = useAppSelector(state => state.Cart.EditStatus)

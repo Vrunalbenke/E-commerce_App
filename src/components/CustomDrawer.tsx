@@ -24,7 +24,7 @@ const CustomDrawer = (
   {navigation}: CustomDrawerNavigationProp,
 ) => {
   const dispatch = useAppDispatch();
-  const data = useAppSelector(state => state.Auth.AuthData);
+  const accessToken = useAppSelector(state => state.Auth.AccessToken);
   const [icon, setIcon] = useState('chevron-down-outline');
   const [ddMenu, setDDMenu] = useState(false);
   const [pressed, setPressed] = useState({
@@ -46,7 +46,7 @@ const CustomDrawer = (
     console.log('Logged');
     // dispatch(logout(AuthData.length))
     dispatch(logout(undefined));
-    console.log('Home data,AuthData is Popped:--😋#😋', data);
+    console.log('Home data,AuthData is Popped:--😋#😋', accessToken);
     props.navigation.navigate('Login');
   }
 
@@ -159,7 +159,7 @@ const CustomDrawer = (
           }>
           <TouchableOpacity
             onPress={() => {
-              props.navigation.navigate('Home');
+              props.navigation.navigate('Profile');
               setPressed({
                 Home: false,
                 Category: false,
@@ -264,7 +264,7 @@ const CustomDrawer = (
         </View>
 
         <View style={styles.CategoryDDM}>
-          <TouchableOpacity onPress={LogoutUser} >
+          <TouchableOpacity onPress={LogoutUser}>
             <View style={styles.CategoryDDMLeftContainer}>
               <MaterialIcons name="logout" size={25} />
               <Text

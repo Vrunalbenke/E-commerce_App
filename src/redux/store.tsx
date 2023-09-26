@@ -9,6 +9,7 @@ import ProductReducer from './Slice/productSlice';
 import CartReducer from './Slice/cartSlice';
 import OrderReducer from './Slice/orderSlice'
 import AddressReducer from './Slice/addressSlice'
+import UserReducer from './Slice/userSlice'
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER} from 'redux-persist';
@@ -24,6 +25,7 @@ const reducers = combineReducers({
   Cart : CartReducer,
   Order : OrderReducer,
   Address :AddressReducer,
+  User : UserReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -31,11 +33,11 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
-      // serializableCheck: {
-      //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      // },
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
       // immutableCheck: false,
-      serializableCheck: false,
+      // serializableCheck: false,
     }),
 });
 

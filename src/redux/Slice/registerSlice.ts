@@ -37,7 +37,8 @@ export const loginUser = createAsyncThunk('login/User', async (formData,thunkAPI
     const toastMsg:string = res.data.user_msg
     console.log('toast message ',toastMsg)
     Toast.showWithGravity(toastMsg,Toast.SHORT,Toast.BOTTOM)
-    return res.data.data.access_token
+    console.log(res.data.data)
+    return res.data.data
     }
     catch(error:any){
         Toast.show("Email or password is wrong. try again",Toast.SHORT)
@@ -47,7 +48,8 @@ export const loginUser = createAsyncThunk('login/User', async (formData,thunkAPI
 })
 
 const initialState = {
-    AuthData:[]
+    AuthData:[],
+    AccessToken: []
 }
 const AuthSlice = createSlice({
     name:'AuthUser',
@@ -62,6 +64,7 @@ const AuthSlice = createSlice({
         builder.addCase(loginUser.fulfilled,(state,action)=>{
             // state.AuthData.push(2)
             state.AuthData = (action.payload)
+            state.AccessToken = action.payload.access_token
         })
     },
 })

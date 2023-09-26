@@ -42,9 +42,9 @@ const AddressList = ({route,navigation}: AddressListNavigationProp) => {
       {address.length === 0 ? (<View style={{justifyContent:'center',alignItems:'center'}}>
         <Image source={require('../../assets/images/Address.png')} style={{height:300,width:300}}/>
       </View>) :
-      ( address.map((element)=>{
+      ( address.map((element,index)=>{
         return (
-          <CustomAddressCard address={element} />
+          <CustomAddressCard key={index} address={element} />
         )
       }))
       }

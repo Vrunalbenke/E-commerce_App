@@ -13,8 +13,8 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
   const Storage = new MMKV();
-  const LoginData = useAppSelector(state => state.Auth.AuthData);
-  console.log('LoginData Printed for Navigation.tsx', LoginData);
+  const LoginAccessToken = useAppSelector(state => state.Auth.AccessToken);
+  console.log('LoginData Printed for Navigation.tsx', LoginAccessToken);
 
   const isAuthenticated = (): string => {
     console.log('User Onboarded Value', Storage.getBoolean('UserOnboardData'));
@@ -27,7 +27,7 @@ const Navigation = () => {
       );
       return 'OnBoarding';
     }
-    else if(LoginData){
+    else if(LoginAccessToken){
       return 'AppStack'
     }
     return 'Login';

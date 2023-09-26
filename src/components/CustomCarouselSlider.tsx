@@ -21,7 +21,7 @@ const CustomCarouselSlider = () => {
         autoPlay={true}
         data={data}
         scrollAnimationDuration={3000}
-        onSnapToItem={index => console.log('current index:', index)}
+        // onSnapToItem={index => console.log('current index:', index)}
         renderItem={({item, index}) => (
           <View
             style={{

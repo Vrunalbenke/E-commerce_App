@@ -9,7 +9,7 @@ const windowWidth = Dimensions.get('window').width;
 const ProductDetail = () => {
   const dispatch = useAppDispatch();
   const ProductDetail = useAppSelector((state) => state.Product.ProductDetailData);
-  const accessToken = useAppSelector((state) => state.Auth.AuthData);
+  const accessToken = useAppSelector((state) => state.Auth.AccessToken);
 
   async function AppendToCart(product_id) {
     const formData = new FormData();

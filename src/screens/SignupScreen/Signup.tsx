@@ -32,7 +32,7 @@ export type errorsProps = {
 const Signup = ({navigation}: SignupNavigatonProp) => {
 
 const dispatch = useAppDispatch();
-const AuthData = useAppSelector(state => {state.Auth.AuthData})
+const AuthData = useAppSelector(state => {state.Auth.AccessToken})
 
   const [inputs, setInputs] = useState<errorsProps>({
     first_name: '',

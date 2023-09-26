@@ -9,7 +9,7 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {logout} from '../../redux/Slice/registerSlice';
 import {HomeNavigatonProp} from '../../navigation/type';
@@ -17,17 +17,30 @@ import CustomButton from '../../components/CustomButton';
 import CustomCarouselSlider from '../../components/CustomCarouselSlider';
 import CustomHeader from '../../components/CustomHeader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import color from '../../Constants/colors'
-import font from '../../Constants/fonts'
+import color from '../../Constants/colors';
+import font from '../../Constants/fonts';
 import {Dimensions} from 'react-native';
+import {getUserDetail} from '../../redux/Slice/userSlice';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const Home = ({navigation}: HomeNavigatonProp) => {
-  const data = useAppSelector(state => state.Auth.AuthData);
-  console.log('Home data:--😋😋😋', data);
+  const accessToken = useAppSelector(state => state.Auth.AccessToken);
+  console.log('Home data:--😋😋😋', accessToken);
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  async function getUserData() {
+    try {
+      const userdata = await dispatch(getUserDetail(accessToken)).unwrap();
+      console.log('Profile called');
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   function LogoutUser() {
     console.log('Logged');
@@ -37,22 +50,19 @@ const Home = ({navigation}: HomeNavigatonProp) => {
     navigation.navigate('Login');
   }
 
-  function CategoryRoute(id:number){
-    console.log(id)
-    navigation.navigate('Category',{
-      product_category_id : id
-    })
+  function CategoryRoute(id: number) {
+    console.log(id);
+    navigation.navigate('Category', {
+      product_category_id: id,
+    });
   }
   return (
-    <SafeAreaView style={{flex: 1,height:'100%',backgroundColor:'#d4d1d1'}}>
-      <StatusBar 
-      backgroundColor='#000'
-      barStyle={'light-content'}
-      />
+    <SafeAreaView style={{flex: 1, height: '100%', backgroundColor: '#d4d1d1'}}>
+      <StatusBar backgroundColor="#000" barStyle={'light-content'} />
       <View style={styles.headerConatianer}>
-        <TouchableOpacity style={styles.IconContainer}
-        onPress={() => navigation.openDrawer()}
-        >
+        <TouchableOpacity
+          style={styles.IconContainer}
+          onPress={() => navigation.openDrawer()}>
           <Ionicons name="menu" size={30} />
         </TouchableOpacity>
         <CustomHeader
@@ -73,16 +83,38 @@ const Home = ({navigation}: HomeNavigatonProp) => {
             <Ionicons name="search" size={30} />
           </TouchableOpacity> */}
 
-          <TouchableOpacity style={styles.IconContainer} onPress={()=> navigation.navigate('Cart')}>
+          <TouchableOpacity
+            style={styles.IconContainer}
+            onPress={() => navigation.navigate('Cart')}>
             <Ionicons name="cart" size={30} />
           </TouchableOpacity>
         </View>
       </View>
-        <ScrollView style={{flex:1,backgroundColor:'white',borderTopLeftRadius:30,borderTopRightRadius:30,paddingTop:30}}>
-
+      <ScrollView
+        style={{
+          flex: 1,
+          backgroundColor: 'white',
+          borderTopLeftRadius: 30,
+          borderTopRightRadius: 30,
+          paddingTop: 30,
+        }}>
         <CustomCarouselSlider />
 
-      {/* <View style={styles.CategoryContainer}>
+        {/* <View style={styles.CategoryContainer}>
+          <Text style={{fontSize:25,alignSelf:'flex-start',fontWeight:'bold'}}>Category's</Text>
+
+      <TouchableOpacity style={{width:windowWidth*0.8,height:windowWidth*0.8}}
+          onPress={()=>(CategoryRoute(1))}
+          >
+          <ImageBackground 
+          source={require('../../assets/images/Tables.png')}
+          style={styles.CategoryBGI}
+          imageStyle={{borderRadius:20,resizeMode:'contain'}}
+          >
+            
+          </ImageBackground>
+          </TouchableOpacity>
+
         <TouchableOpacity style={{width:windowWidth*0.8,height:windowWidth*0.5,backgroundColor:'#fff'}}
             onPress={()=>(CategoryRoute(3))}
           >
@@ -107,17 +139,7 @@ const Home = ({navigation}: HomeNavigatonProp) => {
           ></ImageBackground>
           </TouchableOpacity>
 
-        <TouchableOpacity style={{width:windowWidth*0.8,height:windowWidth*0.8}}
-          onPress={()=>(CategoryRoute(1))}
-          >
-          <ImageBackground 
-          source={require('../../assets/images/Tables.png')}
-          style={styles.CategoryBGI}
-          imageStyle={{borderRadius:20,resizeMode:'contain'}}
-          >
-            
-          </ImageBackground>
-          </TouchableOpacity>
+        
 
           <TouchableOpacity style={{width:windowWidth*0.8,height:windowWidth*0.8,}}
           onPress={()=>(CategoryRoute(4))}
@@ -129,8 +151,7 @@ const Home = ({navigation}: HomeNavigatonProp) => {
           ></ImageBackground>
           </TouchableOpacity>
       </View> */}
-      <CustomButton onPress={LogoutUser} BtnName="logout" />
-      
+        <CustomButton onPress={LogoutUser} BtnName="logout" />
       </ScrollView>
     </SafeAreaView>
   );
@@ -154,43 +175,42 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 
-  CategoryContainer:{
-    width:windowWidth,
+  CategoryContainer: {
+    width: windowWidth,
     // backgroundColor:color.black,
-    padding:10,
-    alignItems:'center',
-    justifyContent:'center',
-    borderRadius:10,
-    gap:20
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    gap: 20,
   },
-  Category12:{
-    width:'100%',
-    height:'48%',
-    flexDirection:'row',
-    justifyContent:'space-between',
-    gap:5
+  Category12: {
+    width: '100%',
+    height: '48%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 5,
   },
-  Category34:{
-    width:'100%',
-    height:'48%',
-    flexDirection:'row',
-    justifyContent:'space-between',
-    gap:5
+  Category34: {
+    width: '100%',
+    height: '48%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 5,
   },
-  Category:{
+  Category: {
     // borderWidth:1,
-    width:'100%',
-    height:300,
+    width: '100%',
+    height: 300,
     // borderRadius:20,
-    
   },
-  CategoryBGI:{
-    width:'100%',
-    height:'100%',
-    resizeMode:'cover'
+  CategoryBGI: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
   },
-  CategoryTitle:{
-    fontSize:18,
-    paddingLeft:10
-  }
+  CategoryTitle: {
+    fontSize: 18,
+    paddingLeft: 10,
+  },
 });

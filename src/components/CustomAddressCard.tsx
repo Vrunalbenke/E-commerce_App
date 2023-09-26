@@ -18,7 +18,8 @@ const CustomAddressCard = (address :CustomAddressCardProps) => {
   };
   console.log(address,'^^^^^^^^^')
   return (
-    <TouchableOpacity onPress={toggleSelection} key={address.address.postalCode} style={styles.TOP}>
+    // key={address.address.postalCode}
+    <TouchableOpacity onPress={toggleSelection} style={styles.TOP}>
       <View style={styles.container}>
         <Text style={styles.addressText}>{address.address.streetAddress}</Text>
         <Text style={styles.addressText}>{address.address.city}, {address.address.state} {address.address.postalCode}</Text>

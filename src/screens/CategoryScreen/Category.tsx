@@ -14,7 +14,6 @@ import {CategoryNavigatonProp} from '../../navigation/type';
 import CustomFlatList from '../../components/CustomFlatList';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {getProductDetail} from '../../redux/Slice/productSlice';
-import Lottie from 'lottie-react-native';
 
 const {width, height} = Dimensions.get('window');
 const Category = ({route, navigation}: CategoryNavigatonProp) => {

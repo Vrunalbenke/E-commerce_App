@@ -8,8 +8,6 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CustomHeader from '../../components/CustomHeader';
-import font from '../../Constants/fonts';
 import {ForgotPasswordNavigationProp} from '../../navigation/type';
 import CustomInputField from '../../components/CustomInputField';
 import CustomButton from '../../components/CustomButton';

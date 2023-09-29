@@ -46,27 +46,33 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
             </View>
             
         <View style={styles.SecondContainer}>
+          <View>
           <Image
             source={require('../../assets/images/UserImage.jpg')}
             style={{width: 120, height: 120, borderRadius: 60}}
           />
+          {/* <TouchableOpacity onPress={()=>console.log('I was clicked')}>
+          <MaterialIcons name='edit' size={25} style={styles.editIcon}/>
+          </TouchableOpacity> */}
+          </View>
+          
           <View>
             <Text style={styles.name}>
-              {UserData.user_data.first_name} {UserData.user_data.last_name}
+              {UserData?.user_data.first_name} {UserData?.user_data.last_name}
             </Text>
-            <Text style={styles.member}>{address[0].streetAddress},</Text>
-            <Text style={styles.member}>{address[0].city}-{address[0].postalCode},</Text>
-            <Text style={styles.member}>{address[0].state}</Text>
+            <Text style={[styles.member,{width:210}]}>{address[0]?.streetAddress},</Text>
+            <Text style={styles.member}>{address[0]?.city}-{address[0]?.postalCode},</Text>
+            <Text style={styles.member}>{address[0]?.state},{address[0]?.country}</Text>
           </View>
         </View>
         <View style={styles.thirdContiner}>
           <View style={{flexDirection: 'row', gap: 10, alignItems: 'center'}}>
             <Ionicons name="call-outline" size={25} />
-            <Text style={{fontSize: 18}}>{UserData.user_data.phone_no}</Text>
+            <Text style={{fontSize: 18}}>{UserData?.user_data.phone_no}</Text>
           </View>
           <View style={{flexDirection: 'row', gap: 10, alignItems: 'center'}}>
             <Ionicons name="mail-outline" size={25} />
-            <Text style={{fontSize: 18}}>{UserData.user_data.email}</Text>
+            <Text style={{fontSize: 18}}>{UserData?.user_data.email}</Text>
           </View>
         </View>
 
@@ -137,7 +143,7 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
               alignItems: 'center',
             }}>
             <View style={{flexDirection: 'row', gap: 8}}>
-              <Text style={{fontSize: 20}}>{UserData.total_orders}</Text>
+              <Text style={{fontSize: 20}}>{UserData?.total_orders}</Text>
             </View>
             <View style={{marginTop: 5}}>
               <Text style={{fontSize: 18, color: '#302f2f'}}>Orders</Text>
@@ -227,4 +233,12 @@ const styles = StyleSheet.create({
     // flexDirection:'row'
     gap: 15,
   },
+  editIcon: {
+    // backgroundColor: '#ccc',
+    // color:'#d42e2e',
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+   }
+   
 });

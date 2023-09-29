@@ -115,8 +115,7 @@ const ChangePassword = ({navigation}: ChangePasswordNavigationProp) => {
             Change Password
           </Text>
           <Text style={{fontSize: 18, fontWeight: '500', color: '#263238'}}>
-            Stay ahead of the digital game! Rotate your password every 3 months
-            to keep your accounts safe and sound. ⏳🔒
+          Much like we sharpen our tools every week for precision, remember to sharpen your online security by changing your password every 3 months. Keep your digital space finely tuned and protected!" 🔧🔐💻
           </Text>
           <View style={{marginTop: 20}}>
             <View style={styles.LabelInputContainer}>

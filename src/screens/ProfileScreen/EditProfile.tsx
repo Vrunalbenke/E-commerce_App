@@ -5,9 +5,11 @@ import {
   Text,
   View,
   Modal,
+  Image
 } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {EditProfileNavigationProp} from '../../navigation/type';
 import {TextInput} from 'react-native-gesture-handler';
 import CustomHeader from '../../components/CustomHeader';
@@ -16,6 +18,8 @@ import {Calendar} from 'react-native-calendars';
 import CustomButton from '../../components/CustomButton';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {getUserDetail, updateUserDetail} from '../../redux/Slice/userSlice';
+import ImagePicker from 'react-native-image-crop-picker';
+import ImageModeModal from "react-native-modal";
 
 const EditProfile = ({navigation}: EditProfileNavigationProp) => {
   const dispatch = useAppDispatch();
@@ -23,6 +27,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
   const UserStoreData = useAppSelector(state => state.Auth.AuthData)
   console.log(UserStoreData.email,'*&^%$%^&*&^%$%^&')
   const [modal, showModal] = useState(false);
+  const [optionModal,setOptionModal] = useState(false);
   const [date, setDate] = useState('');
   const currentDate = new Date();
   console.log(
@@ -43,6 +48,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
     last_name: UserStoreData.last_name,
     dob: '',
     phone_no: UserStoreData.phone_no,
+    profile_pic:UserStoreData?.profile_pic,
   });
 
   const [error, setError] = useState({
@@ -90,10 +96,10 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
       handleError('phone_no', 'Please input Phone number');
       valid = false;
     }
-    //   else if (!input.phone_no.match(/^\d{10}$/)) {
-    //     handleError('phone', 'Please input valid Phone number');
-    //     valid = false;
-    //   }
+    else if (!input.phone_no.match(/^\d{10}$/)) {
+        handleError('phone', 'Please input valid Phone number');
+        valid = false;
+      }
 
     if (!input.dob) {
       handleError('dob', 'Please input Date of birth');
@@ -111,7 +117,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
     formData.append('last_name', input.last_name);
     formData.append('email', input.email);
     formData.append('dob', input.dob);
-    formData.append('profile_pic', '');
+    formData.append('profile_pic', input.profile_pic);
     formData.append('phone_no', input.phone_no);
     console.log(formData);
     try {
@@ -122,6 +128,28 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function SelectImage(){
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+      includeBase64:true,
+    }).then(image => {
+      console.log(image.path);
+      handleOnChange('profile_pic',image.path)
+    });
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      includeBase64:true,
+    }).then(image => {
+      console.log(image);
+      handleOnChange('profile_pic',image.path)
+    });
+    
   }
 
   return (
@@ -156,6 +184,40 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
           borderTopRightRadius: 30,
           padding: 10,
         }}>
+          <View style={styles.EditImage}>
+            <Image
+              // source={require('../../assets/images/UserImage.jpg')}
+              source={input.profile_pic}
+              style={{width: 120, height: 120, borderRadius: 60}}
+            />
+            <TouchableOpacity onPress={()=>{
+              setOptionModal(!optionModal)
+              }}>
+            <MaterialIcons name='edit' size={25} style={styles.editIcon}/>
+            </TouchableOpacity>
+            <ImageModeModal isVisible={optionModal}>
+            <View style={styles.modalContainer}>
+        <TouchableOpacity
+          style={styles.optionContainer}
+          // onPress={handleGalleryImage}
+        >
+          <Text style={styles.optionText}>Select from Gallery</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.optionContainer}
+          // onPress={handleCameraImage}
+        >
+          <Text style={styles.optionText}>Take a Photo</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.cancelButton}
+          onPress={()=>setOptionModal(!optionModal)}
+        >
+          <Text style={styles.cancelButtonText}>Cancel</Text>
+        </TouchableOpacity>
+      </View>
+            </ImageModeModal>
+          </View>
         <View style={styles.LabelInputContainer}>
           <Text style={styles.Label}>Email Address</Text>
           {error.email && <Text style={styles.error}>{error.email}</Text>}
@@ -293,4 +355,38 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
   },
+  EditImage:{
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  editIcon: {
+    position: 'absolute',
+    left: 40,
+    bottom: 0,
+   },
+   modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  optionContainer: {
+    width: 200,
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  optionText: {
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  cancelButton: {
+    marginTop: 20,
+  },
+  cancelButtonText: {
+    fontSize: 18,
+    color: 'red',
+    textAlign: 'center',
+  },
+
 });

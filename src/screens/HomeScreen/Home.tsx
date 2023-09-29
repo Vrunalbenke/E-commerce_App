@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
   useWindowDimensions,
+  Dimensions
 } from 'react-native';
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
@@ -19,7 +20,6 @@ import CustomHeader from '../../components/CustomHeader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import color from '../../Constants/colors';
 import font from '../../Constants/fonts';
-import {Dimensions} from 'react-native';
 import {getUserDetail} from '../../redux/Slice/userSlice';
 
 const windowWidth = Dimensions.get('window').width;

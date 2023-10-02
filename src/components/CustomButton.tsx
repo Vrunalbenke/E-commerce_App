@@ -31,12 +31,12 @@ export default CustomButton;
 
 const styles = StyleSheet.create({
   TOPstyle: {
-    backgroundColor: color.black,
+    backgroundColor: '#325f88',
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 30,
-    width: '95%',
+    borderRadius: 5,
+    width: '100%',
   },
   textStyle: {
     color: color.white,

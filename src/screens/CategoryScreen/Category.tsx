@@ -43,33 +43,35 @@ const Category = ({route, navigation}: CategoryNavigatonProp) => {
 
   return (
     <SafeAreaView style={styles.root}>
-      <View style={styles.headerConatiner}>
-        <TouchableOpacity
-          style={styles.IconContainer}
-          onPress={() => navigation.openDrawer()}>
-          <Ionicons name="menu" size={30} />
+      <View style={styles.headerConatianer}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Ionicons name="arrow-back-outline" size={29} color={'#fff'} />
         </TouchableOpacity>
         <CustomHeader
           style={{
+            paddingTop: 6,
             fontSize: 30,
-            fontFamily: font.RobotoCLI,
+            fontFamily: font.BebasNB,
+            color:'#fff'
           }}
           headerContainerStyle={{
             justifyContent: 'center',
-            // alignItems: 'center',
-            alignSelf: 'center',
+            alignItems: 'flex-start',
+            padding: 10,
           }}
           headerTitle={CategoryName}
         />
-        <Ionicons name="search-outline" size={30} />
+        <View>
+
+        </View>
       </View>
       <View
         style={{
           flex: 1,
-          width: '100%',
-          height: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
+          backgroundColor: '#fff',
+          borderTopLeftRadius: 30,
+          borderTopRightRadius: 30,
+          padding: 10,
         }}>
         
           <CustomFlatList
@@ -86,16 +88,16 @@ export default Category;
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: color.white,
+    backgroundColor: '#325f88',
     // backgroundColor: color.offWhite,
   },
-  headerConatiner: {
+  headerConatianer: {
+    // backgroundColor:'#d4d1d1',
+    // padding: 10,
+    margin: 0,
     flexDirection: 'row',
-    backgroundColor: color.offWhite,
-    height: '10%',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 10,
   },
   
   IconContainer: {

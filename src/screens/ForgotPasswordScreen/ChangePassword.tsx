@@ -98,8 +98,8 @@ const ChangePassword = ({navigation}: ChangePasswordNavigationProp) => {
   }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#d4d1d1'}}>
-      <View style={styles.headerConatianer}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
+      <View style={styles.headerContianer}>
         <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           <Ionicons name="arrow-back-outline" size={29} />
         </TouchableOpacity>
@@ -111,13 +111,13 @@ const ChangePassword = ({navigation}: ChangePasswordNavigationProp) => {
         style={{width:300,height:300}}
         /> */}
         <View>
-          <Text style={{fontSize: 45, fontWeight: 'bold', color: '#263238'}}>
+          <Text style={{fontSize: 45, fontWeight: 'bold',   color:'#325f88'}}>
             Change Password
           </Text>
           <Text style={{fontSize: 18, fontWeight: '500', color: '#263238'}}>
           Much like we sharpen our tools every week for precision, remember to sharpen your online security by changing your password every 3 months. Keep your digital space finely tuned and protected!" 🔧🔐💻
           </Text>
-          <View style={{marginTop: 20}}>
+          <View style={{marginTop: 10}}>
             <View style={styles.LabelInputContainer}>
               <Text style={styles.Label}>Old password</Text>
               {error.old_password && (
@@ -182,10 +182,10 @@ const ChangePassword = ({navigation}: ChangePasswordNavigationProp) => {
 export default ChangePassword;
 
 const styles = StyleSheet.create({
-  headerConatianer: {
+  headerContianer: {
     // backgroundColor:'#d4d1d1',
-    padding: 5,
-    margin: 0,
+    // padding: 10,
+    marginVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
   useWindowDimensions,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
@@ -57,19 +57,21 @@ const Home = ({navigation}: HomeNavigatonProp) => {
     });
   }
   return (
-    <SafeAreaView style={{flex: 1, height: '100%', backgroundColor: '#d4d1d1'}}>
+    <SafeAreaView style={{flex: 1, height: '100%', backgroundColor: '#325f88'}}>
       <StatusBar backgroundColor="#000" barStyle={'light-content'} />
       <View style={styles.headerConatianer}>
         <TouchableOpacity
           style={styles.IconContainer}
           onPress={() => navigation.openDrawer()}>
-          <Ionicons name="menu" size={30} />
+          <Ionicons name="menu" size={30} color={'#fff'} />
         </TouchableOpacity>
         <CustomHeader
           style={{
             paddingTop: 6,
             fontSize: 30,
             fontFamily: font.BebasNB,
+            color:'#fff'
+            
           }}
           headerContainerStyle={{
             justifyContent: 'center',
@@ -86,71 +88,78 @@ const Home = ({navigation}: HomeNavigatonProp) => {
           <TouchableOpacity
             style={styles.IconContainer}
             onPress={() => navigation.navigate('Cart')}>
-            <Ionicons name="cart" size={30} />
+            <Ionicons name="cart" size={30}color={'#fff'}/>
           </TouchableOpacity>
         </View>
       </View>
       <ScrollView
         style={{
           flex: 1,
-          backgroundColor: 'white',
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
           paddingTop: 30,
+          backgroundColor:'#fff'
         }}>
         <CustomCarouselSlider />
 
-        {/* <View style={styles.CategoryContainer}>
-          <Text style={{fontSize:25,alignSelf:'flex-start',fontWeight:'bold'}}>Category's</Text>
+        <View style={styles.CategoryContainer}>
+          <Text
+            style={{fontSize: 25, alignSelf: 'flex-start', fontWeight: 'bold'}}>
+            Category's
+          </Text>
 
-      <TouchableOpacity style={{width:windowWidth*0.8,height:windowWidth*0.8}}
-          onPress={()=>(CategoryRoute(1))}
-          >
-          <ImageBackground 
-          source={require('../../assets/images/Tables.png')}
-          style={styles.CategoryBGI}
-          imageStyle={{borderRadius:20,resizeMode:'contain'}}
-          >
-            
-          </ImageBackground>
+          <TouchableOpacity
+            style={{width: windowWidth * 0.8, height: windowWidth * 0.8}}
+            onPress={() => CategoryRoute(1)}>
+            <ImageBackground
+              source={require('../../assets/images/Tables.png')}
+              style={styles.CategoryBGI}
+              imageStyle={{
+                borderRadius: 20,
+                resizeMode: 'contain',
+              }}></ImageBackground>
           </TouchableOpacity>
 
-        <TouchableOpacity style={{width:windowWidth*0.8,height:windowWidth*0.5,backgroundColor:'#fff'}}
-            onPress={()=>(CategoryRoute(3))}
-          >
-          <ImageBackground 
-          source={require('../../assets/images/Sofas.png')}
-          style={styles.CategoryBGI}
-          imageStyle={{borderRadius:30,resizeMode:'contain'}}
-          >
-            
-          </ImageBackground>
+          <TouchableOpacity
+            style={{
+              width: windowWidth * 0.8,
+              height: windowWidth * 0.5,
+              backgroundColor: '#fff',
+            }}
+            onPress={() => CategoryRoute(3)}>
+            <ImageBackground
+              source={require('../../assets/images/Sofas.png')}
+              style={styles.CategoryBGI}
+              imageStyle={{
+                borderRadius: 30,
+                resizeMode: 'contain',
+              }}></ImageBackground>
           </TouchableOpacity>
 
-          
-
-          <TouchableOpacity style={{width:windowWidth*0.5,height:windowWidth*0.8,}}
-          onPress={()=>(CategoryRoute(2))}
-          >
-            <ImageBackground 
-          source={require('../../assets/images/Chairs.png')}
-          style={styles.CategoryBGI}
-          imageStyle={{borderRadius:20,resizeMode: 'contain'}}
-          ></ImageBackground>
+          <TouchableOpacity
+            style={{width: windowWidth * 0.5, height: windowWidth * 0.8}}
+            onPress={() => CategoryRoute(2)}>
+            <ImageBackground
+              source={require('../../assets/images/Chairs.png')}
+              style={styles.CategoryBGI}
+              imageStyle={{
+                borderRadius: 20,
+                resizeMode: 'contain',
+              }}></ImageBackground>
           </TouchableOpacity>
 
-        
-
-          <TouchableOpacity style={{width:windowWidth*0.8,height:windowWidth*0.8,}}
-          onPress={()=>(CategoryRoute(4))}
-          >
-          <ImageBackground 
-          source={require('../../assets/images/Beds.png')}
-          style={[styles.CategoryBGI]}
-          imageStyle={{borderRadius:20,resizeMode:'contain'}}
-          ></ImageBackground>
+          <TouchableOpacity
+            style={{width: windowWidth * 0.8, height: windowWidth * 0.8}}
+            onPress={() => CategoryRoute(4)}>
+            <ImageBackground
+              source={require('../../assets/images/Beds.png')}
+              style={[styles.CategoryBGI]}
+              imageStyle={{
+                borderRadius: 20,
+                resizeMode: 'contain',
+              }}></ImageBackground>
           </TouchableOpacity>
-      </View> */}
+        </View>
         <CustomButton onPress={LogoutUser} BtnName="logout" />
       </ScrollView>
     </SafeAreaView>
@@ -163,7 +172,7 @@ const styles = StyleSheet.create({
   headerConatianer: {
     flexDirection: 'row',
     // backgroundColor: '#f4f4f4',
-    backgroundColor: '#d4d1d1',
+    // backgroundColor: '#d4d1d1',
     height: '10%',
     justifyContent: 'space-between',
     alignItems: 'center',

@@ -43,7 +43,7 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
     state: '',
     place: 'home',
     country:'',
-    postalCode:0,
+    postalCode:'',
   });
   const [error, setError] = useState({
     streetAddress: '',
@@ -175,7 +175,7 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
       handleError('postalCode', 'Please select a state');
       valid = false;
     }
-    else if(!input.postalCode.match(/^\d{6}$/)){
+    else if(!input.postalCode.match(/^.{6}$/)){
       handleError('postalCode', 'Please input valid postal code');
       valid = false;
     }
@@ -216,16 +216,17 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
   }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#d4d1d1'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
       <View style={styles.headerContianer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Ionicons name="arrow-back-outline" size={29} />
+        <TouchableOpacity onPress={() => navigation.navigate('AddressList')}>
+          <Ionicons name="arrow-back-outline" size={29} color={'#fff'} />
         </TouchableOpacity>
         <CustomHeader
           style={{
             paddingTop: 6,
             fontSize: 30,
             fontFamily: font.BebasNB,
+            color:'#fff'
           }}
           headerContainerStyle={{
             justifyContent: 'center',
@@ -249,7 +250,7 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
                   isSelected={obj.value === input.place}
                   onPress={value => handleOnChange('place', value)}
                   borderWidth={2}
-                  buttonInnerColor={'#000'}
+                  buttonInnerColor={'#325f88'}
                   buttonOuterColor={
                     obj.value === input.place ? '#000000' : '#000'
                   }
@@ -262,7 +263,8 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
                   obj={obj}
                   index={i}
                   labelHorizontal={true}
-                  // onPress={onPress}
+                  onPress={value => console.log(value)}
+                  // onPress={value => handleOnChange('place', value)}
                   labelStyle={{fontSize: 20, color: '#000000'}}
                   labelWrapStyle={{}}
                 />
@@ -398,9 +400,11 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
                 style={styles.InputFeild}
                 placeholder="400004"
                 autoCorrect={false}
+                keyboardType='numeric'
+                maxLength={6}
                 value={input.postalCode}
                 onChangeText={(text: string) =>
-                  handleOnChange('postalCode', text)
+                  handleOnChange('postalCode', text.toString())
                 }
                 onFocus={() => handleError('postalCode', '')}
               />

@@ -21,13 +21,13 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#d4d1d1'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
       <View style={styles.headerConatianer}>
         <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          <Ionicons name="menu" size={29} />
+          <Ionicons name="menu" size={29} style={{color:'#ffffff'}}/>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
-          <Ionicons name="create-outline" size={29} />
+          <Ionicons name="create-outline" size={29} style={{color:'#ffffff'}} />
         </TouchableOpacity>
       </View>
       <View
@@ -40,7 +40,7 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
           position:'relative'
         }}>
             <View style={{alignItems:'flex-end'}}>
-            <View style={{alignItems:'center',borderTopRightRadius:10,backgroundColor:'#000000'}}>
+            <View style={{alignItems:'center',borderTopRightRadius:10,backgroundColor:'#3498DB',borderBottomLeftRadius:10}}>
                 <Text style={{padding:4,color:'#ffffff',fontSize:18}}>Neoplus member</Text>
                 </View>
             </View>
@@ -48,7 +48,8 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
         <View style={styles.SecondContainer}>
           <View>
           <Image
-            source={require('../../assets/images/UserImage.jpg')}
+            // source={require('../../assets/images/UserImage.jpg')}
+            source={{uri:UserData?.user_data.profile_pic}}
             style={{width: 120, height: 120, borderRadius: 60}}
           />
           {/* <TouchableOpacity onPress={()=>console.log('I was clicked')}>
@@ -115,19 +116,19 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
                 onOpen={() => setOpen(true)}
                 onClose={() => setOpen(false)}
                 // ModalComponent={Modal}
-                backgroundColor={'#000000'}
+                backgroundColor={'#325f88'}
                 width={300}
                 height={60}
                 containerStyle={{padding: 5}}
                 popover={
                   <>
                     <Text style={{color: '#ffffff'}}>
-                      "Get NeoCoins: Earn 10% of your order's{' '}
+                      Get NeoCoins: Earn 10% of your order's{' '}
                     </Text>
                     <Text style={{color: '#ffffff'}}>
                       worth in NeoCoins, which you can use on{' '}
                     </Text>
-                    <Text style={{color: '#ffffff'}}>your next purchase!"</Text>
+                    <Text style={{color: '#ffffff'}}>your next purchase!</Text>
                   </>
                 }>
                 <Ionicons name="information-circle-outline" size={18} />
@@ -161,7 +162,7 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
             }}
             onPress={()=> navigation.navigate('ChangePassword')}
             >
-            <MaterialIcons name="key" size={30} />
+            <MaterialIcons name="key" size={30} color={'#3498DB'}  />
             <Text style={{fontSize: 20}}>Change Password</Text>
           </TouchableOpacity>
 
@@ -174,7 +175,7 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
             }}
             onPress={()=> navigation.navigate('AddressList')}
             >
-            <MaterialIcons name="location-on" size={30} />
+            <MaterialIcons name="location-on" size={30} color={'#3498DB'} />
             <Text style={{fontSize: 20}}>Address list</Text>
           </TouchableOpacity>
 
@@ -185,7 +186,7 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
               justifyContent: 'flex-start',
               gap: 20,
             }}>
-            <MaterialIcons name="settings" size={30} />
+            <MaterialIcons name="settings" size={30} color={'#3498DB'}  />
             <Text style={{fontSize: 20}}>Setting</Text>
           </TouchableOpacity>
 

@@ -21,16 +21,17 @@ const AddressList = ({route, navigation}: AddressListNavigationProp) => {
 
   useEffect(() => {}, [address]);
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#d4d1d1'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
       <View style={styles.headerContianer}>
         <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Ionicons name="arrow-back-outline" size={29} />
+          <Ionicons name="arrow-back-outline" size={29} color={'#fff'}/>
         </TouchableOpacity>
         <CustomHeader
           style={{
             // paddingTop: 6,
             fontSize: 30,
             fontFamily: font.BebasNB,
+            color:'#fff'
           }}
           headerContainerStyle={{
             justifyContent: 'center',
@@ -44,7 +45,7 @@ const AddressList = ({route, navigation}: AddressListNavigationProp) => {
           onPress={() => {
             navigation.navigate('NewAddress');
           }}>
-          <Ionicons name="add-circle-outline" size={45} color="black" />
+          <Ionicons name="add-circle-outline" size={45} color="#fff" />
         </TouchableOpacity>
       </View>
       <View style={styles.mainContainer}>

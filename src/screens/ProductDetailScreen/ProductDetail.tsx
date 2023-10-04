@@ -93,6 +93,17 @@ const ProductDetail = ({navigation}:ProductDetailNavigatonProp) => {
     return <View style={{flexDirection: 'row'}}>{stars}</View>;
   }
 
+  function commafy( num ) {
+    var str = num.toString().split('.');
+    if (str[0].length >= 4) {
+        str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+    }
+    if (str[1] && str[1].length >= 4) {
+        str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+    }
+    return str.join('.');
+}
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
       <View style={styles.headerContianer}>
@@ -116,6 +127,7 @@ const ProductDetail = ({navigation}:ProductDetailNavigatonProp) => {
         <View></View>
       </View>
       <ScrollView
+      showsVerticalScrollIndicator ={false}
         style={{
           flex: 1,
           borderTopLeftRadius: 30,
@@ -144,7 +156,7 @@ const ProductDetail = ({navigation}:ProductDetailNavigatonProp) => {
             <Text style={{fontSize: 18, fontWeight: '500'}}>Description: </Text>
             {ProductDetail.description}
           </Text>
-          <Text style={styles.productCost}>Price: ${ProductDetail.cost}</Text>
+          <Text style={styles.productCost}>Price: ₹{commafy(ProductDetail.cost)}</Text>
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity
@@ -168,33 +180,7 @@ const ProductDetail = ({navigation}:ProductDetailNavigatonProp) => {
         <CustomSimilarProducts product_id={ProductDetail.product_images[0].product_id} onPressProductDetail={onPressProductDetail} />
       </ScrollView>
     </SafeAreaView>
-    // <ScrollView style={styles.container} bounces={false}>
-
-    //   <View style={styles.productContainer}>
-    //     <Text style={styles.productName}>{ProductDetail.name}</Text>
-    //     <Text style={styles.productDescription}>{ProductDetail.description}</Text>
-    //     <ScrollView horizontal pagingEnabled={true} bounces={false} style={styles.imageScrollView}>
-    //       {ProductDetail.product_images.map((element, index) => (
-    //         <Image key={index} source={{ uri: element.image }} style={styles.productImage} />
-    //       ))}
-    //     </ScrollView>
-    //     <Text style={styles.productCost}>Price: ${ProductDetail.cost}</Text>
-    //     <Text style={styles.productRating}>Rating: {ProductDetail.rating}</Text>
-    //     <Text style={styles.productId}>ID: {ProductDetail.id}</Text>
-    //   </View>
-    //   <View style={styles.buttonContainer}>
-    //     <TouchableOpacity onPress={() => AppendToCart(ProductDetail.product_images[0].product_id)} style={styles.button}>
-    //       <Text style={styles.buttonText}>Add to cart</Text>
-    //     </TouchableOpacity>
-    //     <TouchableOpacity onPress={() => console.log('first')} style={styles.button}>
-    //       <Text style={styles.buttonText}>Buy now</Text>
-    //     </TouchableOpacity>
-    //   </View>
-    //   <View style={styles.similarProductsContainer}>
-    //   <Text style={styles.similarProductsTitle}>Similar Products</Text>
-    //   <CustomSimilarProducts product_id={ProductDetail.product_images[0].product_id} />
-    // </View>
-    // </ScrollView>
+    
   );
 };
 

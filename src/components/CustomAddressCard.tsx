@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useAppDispatch, useAppSelector} from '../redux/store';
 import {DeleteAddress} from '../redux/Slice/addressSlice';
 

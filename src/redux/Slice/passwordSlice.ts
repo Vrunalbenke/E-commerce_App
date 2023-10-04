@@ -1,7 +1,6 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import Toast from 'react-native-simple-toast'
-import { create } from "react-test-renderer";
 
 
 const baseURL = 'http://staging.php-dev.in:8844/trainingapp/api'

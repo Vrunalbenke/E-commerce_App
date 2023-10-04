@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import {OrdersNavigationProp} from '../../navigation/type';
@@ -14,20 +14,39 @@ import font from '../../Constants/fonts';
 import CustomDeliveryAddress from '../../components/CustomDeliveryAddress';
 import CustomPayment from '../../components/CustomPayment';
 import CustomPlacedOrder from '../../components/CustomPlacedOrder';
+import { getOrderList } from '../../redux/Slice/orderSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 
 
 const Orders = ({navigation}: OrdersNavigationProp) => {
   const [stage,setStage] = useState(1)
-
+  const dispatch = useAppDispatch();
+  const accessToken = useAppSelector(state => state.Auth.AccessToken);
+  const order = useAppSelector(state => state.Order.order)
 /**
  * @author benke
  * @param index 
  * 
  */
+
+async function getOrderListAndDetail(){
+  try{ 
+   await dispatch(getOrderList({accessToken})).unwrap();
+   // await dispatch(getOrderDetail({}))
+   }
+   catch(error){
+       console.log(error)
+   }
+  }
+
   function ChangeStage(index:number){
     setStage(index)
   }
 
+  useEffect(()=>{
+    getOrderListAndDetail()
+  },[order])
+  
   function NavigationRoute(){
     if(stage  === 1){
       navigation.navigate('Cart')
@@ -37,6 +56,13 @@ const Orders = ({navigation}: OrdersNavigationProp) => {
     }
     else{
       navigation.navigate('Cart')
+    }
+  }
+
+
+  function bgColor(){
+    if(stage === 3){
+      return '#b7b8c9'
     }
   }
   const headerTitle = `Checkout(${stage}/3)`
@@ -117,10 +143,10 @@ const Orders = ({navigation}: OrdersNavigationProp) => {
         </View>
       </View>
 
-      <View style={styles.MainContainer}>
+      <View style={[styles.MainContainer]}>
         {stage === 1 ? 
         (<CustomDeliveryAddress stage={()=>ChangeStage(2)}/>):
-        stage === 2 ?(<CustomPayment stage={()=>ChangeStage(3)}/>) : <CustomPlacedOrder/>
+        stage === 2 ?(<CustomPayment stage={()=>ChangeStage(3)}/>) : <CustomPlacedOrder stage={()=>ChangeStage(1)}/>
         }
         
       </View>
@@ -173,6 +199,6 @@ const styles = StyleSheet.create({
     backgroundColor:'#fff',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    padding:10
+    // padding:10
   }
 });

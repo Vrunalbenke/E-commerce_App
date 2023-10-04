@@ -1,12 +1,14 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import Toast from 'react-native-simple-toast'
 
 const baseURL = 'http://staging.php-dev.in:8844/trainingapp/api'
 
 const initialState = {
     ProductData:[],
     ProductDetailData:[],
-    isLoading:false
+    isLoading:false,
+    ProductRating:[]
 }
 
 export const getProduct = createAsyncThunk('products/getList', async (product_category_id,thunkAPI) =>{
@@ -42,6 +44,24 @@ export const getProductDetail = createAsyncThunk('products/getDetail',async(prod
     }
 })
 
+export const setProductRating = createAsyncThunk('products/setRating',async(formData,thunkAPI)=>{
+    try{
+        const ProductRatingAPIData = await axios.post(`${baseURL}/products/setRating`,
+        formData,
+        {headers: {
+                'Content-Type': 'multipart/form-data',
+                }}
+        )
+        console.log(ProductRatingAPIData.data)
+        const toastMsg = ProductRatingAPIData.data.user_msg;
+
+        Toast.show(toastMsg,Toast.SHORT)
+        return ProductRatingAPIData.data
+    }
+    catch(error:any){
+        return thunkAPI.rejectWithValue(error.message)
+    }
+})
 
 
 const ProductSlice = createSlice({
@@ -69,6 +89,9 @@ const ProductSlice = createSlice({
         }).addCase(getProductDetail.fulfilled,(state,action)=>{
             // state.ProductData.splice(0,state.ProductData.length)
             state.ProductDetailData = action.payload
+        })
+        .addCase(setProductRating.fulfilled,(state,action)=>{
+            state.ProductRating = action.payload
         })
     },
 })

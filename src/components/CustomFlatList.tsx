@@ -14,9 +14,7 @@ import color from '../Constants/colors';
 import {useAppDispatch, useAppSelector} from '../redux/store';
 import {EmptyProductData, getProduct} from '../redux/Slice/productSlice';
 import Lottie from 'lottie-react-native';
-import {Rating, AirbnbRating} from 'react-native-ratings';
-import StarRating from 'react-native-star-rating-widget';
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 type CustomFlatListProps = {
   product_category_id: number;
@@ -90,9 +88,19 @@ const CustomFlatList = ({
       stars.push(<Ionicons key={i} name="star-sharp" size={20} style={{ color: 'gray' }} />);
     }
   }
-
   return <View style={{flexDirection:'row'}}>{stars}</View>;
   }
+
+  function commafy( num ) {
+    var str = num.toString().split('.');
+    if (str[0].length >= 4) {
+        str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+    }
+    if (str[1] && str[1].length >= 4) {
+        str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+    }
+    return str.join('.');
+}
 
   function RenderProduct(item: ListRenderItemInfo<itemProps>) {
     console.log('item😇😇😇😇😇😇', item);
@@ -132,7 +140,7 @@ const CustomFlatList = ({
             <Text style={{fontSize: 25,fontWeight:"700"}}>
               {item.item.name}
             </Text>
-            <Text style={{fontSize: 20}}>₹{item.item.cost}</Text>
+            <Text style={{fontSize: 20}}>₹{commafy(item.item.cost)}</Text>
            
             {StarRating(item.item.rating)}
           </View>

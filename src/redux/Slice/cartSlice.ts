@@ -1,4 +1,4 @@
-import {createSlice, createAsyncThunk, addListener} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
 import Toast from 'react-native-simple-toast';
 

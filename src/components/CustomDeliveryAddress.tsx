@@ -8,9 +8,10 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useAppSelector} from '../redux/store';
+import {useAppDispatch, useAppSelector} from '../redux/store';
 import CustomAddressCard from './CustomAddressCard';
 import {useNavigation} from '@react-navigation/native';
+import { DeliveryAddress } from '../redux/Slice/addressSlice';
 
 type CustomDeliveryAddressProps = {
   stage: (index: number) => void;
@@ -18,10 +19,16 @@ type CustomDeliveryAddressProps = {
 const CustomDeliveryAddress = ({stage}: CustomDeliveryAddressProps) => {
   const AddressArray = useAppSelector(state => state.Address.address);
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
   const [isSelected,setIsSelected]= useState<number>();
   console.log('IsSelected',isSelected === undefined)
   function handleSelect(index:number){
     setIsSelected(index)
+  }
+
+  function getAddressIndex(index:number){
+    stage(2)
+    dispatch(DeliveryAddress(index))
   }
   return (
     <View style={{flex: 1}}>
@@ -50,7 +57,7 @@ const CustomDeliveryAddress = ({stage}: CustomDeliveryAddressProps) => {
         </ScrollView>
       </View>
       {/* <View style={styles.NextBtnContainer}> */}
-      <TouchableOpacity style={styles.NextBtn} disabled={isSelected === undefined} onPress={() => stage(2)} >
+      <TouchableOpacity style={styles.NextBtn} disabled={isSelected === undefined} onPress={() => getAddressIndex(isSelected)} >
         <Text style={{fontSize: 25, color: '#fff'}}>Proceed to Payment</Text>
       </TouchableOpacity>
       {/* </View> */}

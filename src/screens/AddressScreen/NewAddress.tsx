@@ -6,7 +6,6 @@ import {
   Text,
   View,
   TextInput,
-  Button,
 } from 'react-native';
 import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -190,7 +189,7 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
     }
   }
 
-  async function loggedIN() {
+   function loggedIN() {
     const address = {
       place:input.place,
       streetAddress: input.streetAddress,
@@ -200,7 +199,7 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
       country: input.country,
     };
 
-    // Handle saving the address data (e.g., send it to an API or store it in state)
+    
     console.log('Saved address:', address);
     dispatch(AddAddress(address));
     navigation.navigate('AddressList');
@@ -444,7 +443,7 @@ const styles = StyleSheet.create({
   },
   InputFeild: {
     backgroundColor: '#f4f3f3',
-    height: 40,
+    height: 50,
     borderRadius: 10,
     paddingHorizontal: 10,
     fontSize: 20,

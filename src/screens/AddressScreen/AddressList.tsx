@@ -28,7 +28,7 @@ const AddressList = ({route, navigation}: AddressListNavigationProp) => {
         </TouchableOpacity>
         <CustomHeader
           style={{
-            // paddingTop: 6,
+            paddingTop: 6,
             fontSize: 30,
             fontFamily: font.BebasNB,
             color:'#fff'
@@ -49,14 +49,7 @@ const AddressList = ({route, navigation}: AddressListNavigationProp) => {
         </TouchableOpacity>
       </View>
       <View style={styles.mainContainer}>
-        {address.length === 0 ? (
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <Image
-              source={require('../../assets/images/Address.png')}
-              style={{height: 300, width: 300}}
-            />
-          </View>
-        ) : (
+        {address.length > 0 ? (
           <ScrollView bounces={false}>
             {address.map((element, index) => {
               return (
@@ -64,6 +57,14 @@ const AddressList = ({route, navigation}: AddressListNavigationProp) => {
               );
             })}
           </ScrollView>
+        ) :
+        (
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Image
+              source={require('../../assets/images/Address.png')}
+              style={{height: 300, width: 300}}
+            />
+          </View>
         )}
       </View>
     </SafeAreaView>

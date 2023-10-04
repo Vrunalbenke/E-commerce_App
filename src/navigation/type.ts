@@ -14,6 +14,8 @@ export type RootStackParamList = {
   AppStack: undefined;
   CustomDrawer: {props: React.ComponentProps<typeof DrawerItemList>};
   Orders: undefined;
+  OrdersList: undefined;
+  OrdersDetail: {orderID:number,orderDate:string};
   AddressList: undefined;
   NewAddress: undefined;
   Profile: undefined;
@@ -73,6 +75,16 @@ export type CustomDrawerNavigationProp = NativeStackScreenProps<
 export type OrdersNavigationProp = NativeStackScreenProps<
   RootStackParamList,
   'Orders'
+>;
+
+export type OrdersDetailNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'OrdersDetail'
+>;
+
+export type OrdersListNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'OrdersList'
 >;
 
 export type AddressListNavigationProp = NativeStackScreenProps<

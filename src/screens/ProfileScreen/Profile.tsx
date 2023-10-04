@@ -15,10 +15,18 @@ import {ProfileNavigationProp} from '../../navigation/type';
 
 const Profile = ({navigation}: ProfileNavigationProp) => {
   const UserData = useAppSelector(state => state.User.user.data);
+  const totalOrders = useAppSelector(state => state.Order.orderList)
+  console.log(totalOrders.data,'⛅️⛅️⛅️⛅️⛅️⛅️⛅️⛅️⛅️⛅️')
   const address = useAppSelector(state => state.Address.address)
-  console.log(address[0],'23456765432')
-  console.log(UserData, '##############');
   const [open, setOpen] = useState(false);
+
+  function CalNeoCoin(){
+     const neocoins = totalOrders.data.reduce((acc,curr)=>{
+        return acc = acc+curr.cost
+    },0)
+    console.log(neocoins,'💸💵💸💸💸')
+    return neocoins*0.1
+  }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
@@ -61,9 +69,12 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
             <Text style={styles.name}>
               {UserData?.user_data.first_name} {UserData?.user_data.last_name}
             </Text>
-            <Text style={[styles.member,{width:210}]}>{address[0]?.streetAddress},</Text>
-            <Text style={styles.member}>{address[0]?.city}-{address[0]?.postalCode},</Text>
-            <Text style={styles.member}>{address[0]?.state},{address[0]?.country}</Text>
+            {address.length > 0 && 
+            <View>
+              <Text style={[styles.member,{width:210}]}>{address[0]?.streetAddress},</Text>
+              <Text style={styles.member}>{address[0]?.city}-{address[0]?.postalCode},</Text>
+              <Text style={styles.member}>{address[0]?.state},{address[0]?.country}</Text>
+            </View>}
           </View>
         </View>
         <View style={styles.thirdContiner}>
@@ -99,7 +110,7 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
                 style={{width: 30, height: 30}}
               />
               {/* <Text style={{fontSize: 20}}>{Math.floor(Math.random()*1000)}</Text> */}
-              <Text style={{fontSize: 20}}>0</Text>
+              <Text style={{fontSize: 20}}>{CalNeoCoin()}</Text>
             </View>
             <View
               style={{
@@ -144,7 +155,7 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
               alignItems: 'center',
             }}>
             <View style={{flexDirection: 'row', gap: 8}}>
-              <Text style={{fontSize: 20}}>{UserData?.total_orders}</Text>
+              <Text style={{fontSize: 20}}>{totalOrders?.data.length}</Text>
             </View>
             <View style={{marginTop: 5}}>
               <Text style={{fontSize: 18, color: '#302f2f'}}>Orders</Text>

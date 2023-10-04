@@ -3,7 +3,11 @@ import React, {useState} from 'react';
 import LottieView from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const CustomPlacedOrder = () => {
+type CustomPaymentProps = {
+  stage: (index: number) => void;
+};
+
+const CustomPlacedOrder = ({stage}: CustomPaymentProps) => {
   const [animation, setAnimation] = useState(true);
   const navigation = useNavigation();
   setTimeout(() => {
@@ -34,10 +38,18 @@ const CustomPlacedOrder = () => {
             You can track your order number
           </Text>
           <View style={styles.BtnContainer}>
-            <TouchableOpacity style={styles.TOPContainer} onPress={()=> navigation.navigate('Home') }>
+            <TouchableOpacity style={styles.TOPContainer} 
+            onPress={()=> {
+              navigation.navigate('Home')
+              stage(1)
+              } }>
               <Text style={{color:'#ffffff',fontSize:18}}>Continue Shopping</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.TOPContainer}>
+            <TouchableOpacity style={styles.TOPContainer}
+            onPress={()=> {
+              navigation.navigate('Orders')
+              stage(1)
+              } }>
               <Text style={{color:'#ffffff',fontSize:18}}>Track Order</Text>
             </TouchableOpacity>
           </View>
@@ -53,7 +65,7 @@ const styles = StyleSheet.create({
   LottieStyle: {
     position: 'absolute',
     flex: 1,
-    // backgroundColor:'pink',
+    backgroundColor:'#b7b8c9',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',

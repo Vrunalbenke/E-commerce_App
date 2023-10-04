@@ -7,7 +7,8 @@ import RadioForm, {
 } from 'react-native-simple-radio-button';
 import Carousel from 'react-native-reanimated-carousel';
 import { useNavigation } from '@react-navigation/native';
-import { useAppSelector } from '../redux/store';
+import { useAppDispatch, useAppSelector } from '../redux/store';
+import { placeOrder } from '../redux/Slice/orderSlice';
 
 type CustomPaymentProps = {
   stage: (index: number) => void;
@@ -15,7 +16,13 @@ type CustomPaymentProps = {
 
 const CustomPayment = ({stage}: CustomPaymentProps) => {
   const CartData = useAppSelector(state => state.Cart.CartItem)
-
+  const dispatch = useAppDispatch();
+  const accessToken = useAppSelector(state => state.Auth.AccessToken);
+  const cartItemsTotal = useAppSelector(state => state.Cart.CartItem.total);
+  console.log(accessToken)
+  const Address = useAppSelector(state => state.Address.selectAddress)
+  const OrderAddress = `${Address.streetAddress},${Address.city}-${Address.postalCode},${Address.state}-${Address.country}`
+  console.log(OrderAddress)
   function commafy( num ) {
     var str = num.toString().split('.');
     if (str[0].length >= 5) {
@@ -26,6 +33,7 @@ const CustomPayment = ({stage}: CustomPaymentProps) => {
     }
     return str.join('.');
 }
+
 let totalPrice = commafy(CartData.total)
   console.log(CartData.total)
   const navigation = useNavigation();
@@ -55,6 +63,17 @@ let totalPrice = commafy(CartData.total)
     {label: 'Cash on Delivery', value: 'Cash on Delivery', index: 4,text:'Additional ₹100 charges for COD services'},
   ];
 
+
+  async function handlePlacedOrder(){
+    try{
+      const OrderData = await dispatch(placeOrder({OrderAddress,accessToken})).unwrap();
+      console.log('success!',OrderData)
+      stage(3)
+    }
+    catch(error){
+      console.log('LOOOOOOOOGGGGGG',error)
+    }
+  }
   return (
     <View style={{flex: 1}}>
       <View style={styles.firstContainer}>
@@ -64,7 +83,7 @@ let totalPrice = commafy(CartData.total)
         <View style={{flexDirection: 'row',padding:10}}>
           <RadioForm animation={true}>
             {radioData.map((obj, i) => (
-              <View style={{flexDirection:'row',justifyContent:'space-between',paddingVertical:10}}>
+              <View key={i} style={{flexDirection:'row',justifyContent:'space-between',paddingVertical:10}}>
                 <RadioButton labelHorizontal={true} key={i} style={{flexDirection:'column'}}>
                   <View style={{flexDirection:'row'}}>
                   <RadioButtonInput
@@ -123,9 +142,9 @@ let totalPrice = commafy(CartData.total)
           </RadioForm>
         </View>
       </View>
-      <TouchableOpacity style={styles.NextBtn} disabled={isSelected === undefined} onPress={() => stage(3)}>
+      <TouchableOpacity style={styles.NextBtn} disabled={isSelected === undefined} onPress={handlePlacedOrder}>
         <Text style={{fontSize: 25, color: '#fff'}}>Place Order</Text>
-        <Text style={{fontSize: 25, color: '#fff',alignSelf:'center'}}>{totalPrice}₹</Text>
+        <Text style={{fontSize: 25, color: '#fff',alignSelf:'center'}}>₹{commafy(cartItemsTotal)}</Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,7 +1,6 @@
 import {
   combineReducers,
   configureStore,
-  legacy_createStore,
 } from '@reduxjs/toolkit';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import AuthReducer from './Slice/registerSlice';

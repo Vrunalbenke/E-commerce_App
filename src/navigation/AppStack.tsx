@@ -15,6 +15,8 @@ import NewAddress from '../screens/AddressScreen/NewAddress';
 import Profile from '../screens/ProfileScreen/Profile';
 import EditProfile from '../screens/ProfileScreen/EditProfile';
 import ChangePassword from '../screens/ForgotPasswordScreen/ChangePassword';
+import OrdersList from '../screens/OrdersScreen/OrdersList';
+import OrdersDetail from '../screens/OrdersScreen/OrdersDetail';
 
 const RootDrawer= createDrawerNavigator<RootStackParamList>();
 const color = '#000'
@@ -62,6 +64,18 @@ const AppStack = ({navigation}:AppStackpNavigatonProp) => {
           )
         }}/>
         <RootDrawer.Screen name='Orders' component={Orders} options={{
+          drawerIcon:({color}) =>(
+            <Ionicons name='bag-handle-outline' size={22} color={color} />
+          )
+        }}/>
+
+        <RootDrawer.Screen name='OrdersList' component={OrdersList} options={{
+          drawerIcon:({color}) =>(
+            <Ionicons name='bag-handle-outline' size={22} color={color} />
+          )
+        }}/>
+        
+        <RootDrawer.Screen name='OrdersDetail' component={OrdersDetail} options={{
           drawerIcon:({color}) =>(
             <Ionicons name='bag-handle-outline' size={22} color={color} />
           )

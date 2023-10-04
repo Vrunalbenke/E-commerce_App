@@ -6,12 +6,12 @@ import {
   View,
   Modal,
   Image,
+  TextInput
 } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {EditProfileNavigationProp} from '../../navigation/type';
-import {TextInput} from 'react-native-gesture-handler';
 import CustomHeader from '../../components/CustomHeader';
 import font from '../../Constants/fonts';
 import {Calendar} from 'react-native-calendars';
@@ -133,7 +133,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
 
   function SelectImage() {
     console.log('first');
-    setOptionModal(!optionModal);
+    
     ImagePicker.openPicker({
       width: 300,
       height: 400,
@@ -142,7 +142,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
     }).then(image => {
       console.log(image);
       handleOnChange('profile_pic', `data:image/jpg;base64,${image.data}`);
-
+      setOptionModal(!optionModal);
     });
   }
 

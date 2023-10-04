@@ -39,11 +39,23 @@ const CustomSimilarProducts = ({product_id,onPressProductDetail}:CustomSimilarPr
     return <View style={{flexDirection:'row'}}>{stars}</View>;
     }
 
+    function commafy( num ) {
+      var str = num.toString().split('.');
+      if (str[0].length >= 4) {
+          str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+      }
+      if (str[1] && str[1].length >= 4) {
+          str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+      }
+      return str.join('.');
+  }
+
     
   return (
     <View>
     {SimilarProductsData.map((item, index) => (
     <TouchableOpacity
+    key={index}
         style={{
           marginVertical: 10, 
           backgroundColor: color.offWhite,
@@ -78,7 +90,7 @@ const CustomSimilarProducts = ({product_id,onPressProductDetail}:CustomSimilarPr
             <Text style={{fontSize: 25,fontWeight:"700"}}>
               {item.name}
             </Text>
-            <Text style={{fontSize: 20}}>₹{item.cost}</Text>
+            <Text style={{fontSize: 20}}>₹{commafy(item.cost)}</Text>
            
             {StarRating(item.rating)}
           </View>
@@ -86,22 +98,6 @@ const CustomSimilarProducts = ({product_id,onPressProductDetail}:CustomSimilarPr
       </TouchableOpacity>
       ))}
     </View>
-//     <View>
-//   {SimilarProductsData.map((item, index) => (
-//     <View style={styles.card} key={index}>
-//       <Image source={{ uri: item.product_images }} style={styles.image} />
-//       <View style={styles.details}>
-//         <Text style={styles.name}>{item.name}</Text>
-//         {/* <Text style={styles.description}>{item.description.length > 60
-//             ? `${item.description.slice(0, 60)}...`
-//             : item.description}</Text> */}
-//         <Text style={styles.price}>Price: ${item.cost}</Text>
-//         {/* <Text style={styles.rating}>Rating: {item.rating}</Text> */}
-//         {/* <Text style={styles.viewCount}>Views: {item.view_count}</Text> */}
-//       </View>
-//     </View>
-//   ))}
-// </View>
 
   )
 }

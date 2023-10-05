@@ -35,7 +35,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-      // immutableCheck: false,
+      immutableCheck: false,
       // serializableCheck: false,
     }),
 });

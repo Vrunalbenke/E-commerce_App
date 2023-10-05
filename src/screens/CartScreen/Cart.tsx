@@ -45,9 +45,10 @@ const Cart = ({navigation}: CartNavigatonProp) => {
   console.log('☄️☄️☄️☄️☄️☄️☄️☄️☄️', editStatus);
   console.log('☄️☄️☄️☄️☄️☄️☄️☄️☄️', cartItems, '☄️☄️☄️☄️☄️☄️☄️☄️☄️');
   console.log(cartItems);
+  
   useEffect(() => {
     getCartData();
-  }, [editStatus, deletedItem]);
+  }, [cartItems,editStatus, deletedItem]);
 
   async function getCartData() {
     try {

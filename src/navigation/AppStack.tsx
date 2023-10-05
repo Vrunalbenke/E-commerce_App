@@ -17,6 +17,7 @@ import EditProfile from '../screens/ProfileScreen/EditProfile';
 import ChangePassword from '../screens/ForgotPasswordScreen/ChangePassword';
 import OrdersList from '../screens/OrdersScreen/OrdersList';
 import OrdersDetail from '../screens/OrdersScreen/OrdersDetail';
+import FullCategory from '../screens/CategoryScreen/FullCategory';
 
 const RootDrawer= createDrawerNavigator<RootStackParamList>();
 const color = '#000'
@@ -52,12 +53,21 @@ const AppStack = ({navigation}:AppStackpNavigatonProp) => {
             <Ionicons name='cart-outline' size={22} color={color} />
           )
         }}/>
+        
         <RootDrawer.Screen name='Category' component={Category} options={{
           drawerIcon:({color}) =>(
             <Ionicons name='grid-outline' size={22} color={color} />
           )
           
         }}/>
+
+        <RootDrawer.Screen name='FullCategory' component={FullCategory} options={{
+          drawerIcon:({color}) =>(
+            <Ionicons name='grid-outline' size={22} color={color} />
+          )
+          
+        }}/>
+
         <RootDrawer.Screen name='ProductDetail' component={ProductDetail} options={{
           drawerIcon:({color}) =>(
             <Ionicons name='home' size={22} color={color} />

@@ -25,12 +25,12 @@ type CustomAddressCardProps = {
 const CustomAddressCard = ({address,order,index,SelectedState,stateFunc}:CustomAddressCardProps) => {
   const dispatch = useAppDispatch();
   const UserData = useAppSelector(state => state.User.user.data.user_data);
-  console.log(UserData,'&&&&&&')
+  // console.log(UserData,'&&&&&&')
   let place = address.place === 'home' ? 'Home' : 'Work';
   const icon =
     address.place === 'home' ? 'home-outline' : 'briefcase-outline';
   
-  console.log(address, '^^^^^^^^^');
+  // console.log(address, '^^^^^^^^^');
 
   function handleDelete(streetAddress:string) {
     dispatch(DeleteAddress(streetAddress));

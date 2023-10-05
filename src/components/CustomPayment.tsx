@@ -19,10 +19,10 @@ const CustomPayment = ({stage}: CustomPaymentProps) => {
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector(state => state.Auth.AccessToken);
   const cartItemsTotal = useAppSelector(state => state.Cart.CartItem.total);
-  console.log(accessToken)
+  // console.log(accessToken)
   const Address = useAppSelector(state => state.Address.selectAddress)
   const OrderAddress = `${Address.streetAddress},${Address.city}-${Address.postalCode},${Address.state}-${Address.country}`
-  console.log(OrderAddress)
+  // console.log(OrderAddress)
   function commafy( num ) {
     var str = num.toString().split('.');
     if (str[0].length >= 5) {
@@ -35,7 +35,7 @@ const CustomPayment = ({stage}: CustomPaymentProps) => {
 }
 
 let totalPrice = commafy(CartData.total)
-  console.log(CartData.total)
+  // console.log(CartData.total)
   const navigation = useNavigation();
   const [isSelected, setIsSelected] = useState();
   const UPI = [
@@ -67,7 +67,7 @@ let totalPrice = commafy(CartData.total)
   async function handlePlacedOrder(){
     try{
       const OrderData = await dispatch(placeOrder({OrderAddress,accessToken})).unwrap();
-      console.log('success!',OrderData)
+      // console.log('success!',OrderData)
       stage(3)
     }
     catch(error){

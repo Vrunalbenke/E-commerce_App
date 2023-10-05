@@ -12,12 +12,12 @@ type CustomRatingProps = {
 
 const CustomRating = ({setState, ProductID, rating}: CustomRatingProps) => {
   const dispatch = useAppDispatch();
-  console.log(ProductID, 'Hii', rating);
+  // console.log(ProductID, 'Hii', rating);
 
 
 
   async function setRating(prodRating:number) {
-    console.log(prodRating, '0909909');
+    // console.log(prodRating, '0909909');
     let formData = new FormData();
         formData.append('product_id',ProductID)
         formData.append('rating',prodRating)
@@ -30,7 +30,7 @@ const CustomRating = ({setState, ProductID, rating}: CustomRatingProps) => {
 
   const handleStarClick = (clickedIndex: number) => {
     const newRating = clickedIndex + 1;
-    console.log(newRating, '77777');
+    // console.log(newRating, '77777');
     setState(newRating);
     setRating(newRating);
   };

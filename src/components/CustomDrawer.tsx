@@ -27,7 +27,7 @@ const CustomDrawer = (
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector(state => state.Auth.AccessToken);
   const UserData = useAppSelector(state => state.User.user.data)
-  console.log(UserData,'HJ%^&*^&&^')
+  // console.log(UserData,'HJ%^&*^&&^')
   const [icon, setIcon] = useState('chevron-down-outline');
   const [ddMenu, setDDMenu] = useState(false);
   const [pressed, setPressed] = useState({
@@ -46,7 +46,7 @@ const CustomDrawer = (
   ];
 
   function LogoutUser() {
-    console.log('Logged');
+    console.log('Logged out');
     // dispatch(logout(AuthData.length))
     dispatch(logout(undefined));
     dispatch(EmptyData([]))
@@ -55,9 +55,10 @@ const CustomDrawer = (
   }
 
   function CategoryRoute(id: number) {
-    console.log(id);
+    // console.log(id);
     props.navigation.navigate('Category', {
       product_category_id: id,
+      route:'Home',
     });
 
     setDDMenu(!ddMenu);
@@ -78,7 +79,7 @@ const CustomDrawer = (
   }
   return (
     <View style={{flex: 1, backgroundColor: color.offWhite}}>
-      <DrawerContentScrollView {...props}>
+      {/* <DrawerContentScrollView {...props}> */}
         {/* <ImageBackground
           source={require('../assets/images/DrawerImagesBG1.jpg')}
           resizeMode={'cover'}
@@ -153,10 +154,23 @@ const CustomDrawer = (
 
         {/* ************CATEGORY*********** */}
         <View style={styles.CategoryDDM}>
+        <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('FullCategory');
+              setPressed({
+                Home: false,
+                Category: true,
+                Profile: false,
+                Orders: false,
+                Cart: false,
+              });
+            }}
+            style={styles.DDMTOPicon}>
           <View style={styles.CategoryDDMLeftContainer}>
             <MaterialIcons name="category" size={30} color={'#325f88'}/>
             <Text style={{fontSize: 18}}>Category</Text>
           </View>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={DropDownMenu}
             style={[styles.DDMTOPicon, {width: 100, alignItems: 'flex-end'}]}>
@@ -307,7 +321,7 @@ const CustomDrawer = (
             </View>
           </TouchableOpacity>
         </View>
-      </DrawerContentScrollView>
+      {/* </DrawerContentScrollView> */}
 
       {/* <View
         style={{

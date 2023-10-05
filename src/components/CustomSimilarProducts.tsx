@@ -14,7 +14,7 @@ const CustomSimilarProducts = ({product_id,onPressProductDetail}:CustomSimilarPr
         return item.id !== product_id;
     })
 
-    console.log(SimilarProductsData,'💧💧💧💧💧💧💧💧💧💧')
+    // console.log(SimilarProductsData,'💧💧💧💧💧💧💧💧💧💧')
 
 
     function StarRating(rating){

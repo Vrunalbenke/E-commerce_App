@@ -13,13 +13,14 @@ import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {logout} from '../../redux/Slice/registerSlice';
 import {HomeNavigatonProp} from '../../navigation/type';
-// import CustomCarouselSlider from '../../components/CustomCarouselSlider';
+import CustomCarouselSlider from '../../components/CustomCarouselSlider';
 import CustomHeader from '../../components/CustomHeader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import font from '../../Constants/fonts';
 import {getUserDetail} from '../../redux/Slice/userSlice';
 import { getOrderList } from '../../redux/Slice/orderSlice';
 import { getCartItem } from '../../redux/Slice/cartSlice';
+import { getFullProduct } from '../../redux/Slice/productSlice';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -32,7 +33,20 @@ const Home = ({navigation}: HomeNavigatonProp) => {
     getUserData();
     getOrderListAndDetail();
     getCartData();
+    getFullProductList();
   }, []);
+
+  async function getFullProductList() {
+      try {
+        const val = await dispatch(getFullProduct()).unwrap();
+        // console.log(val,'🌻🌻🌻🌻🌻🌻🌻🌻🌻🌻🌻🌻🌻');
+        console.log('All Category called')
+      } 
+      catch (error) {
+        console.log(error);
+      }
+    
+  }
 
   async function getUserData() {
     try {
@@ -46,7 +60,6 @@ const Home = ({navigation}: HomeNavigatonProp) => {
   async function getOrderListAndDetail(){
     try{ 
      await dispatch(getOrderList({accessToken})).unwrap();
-     // await dispatch(getOrderDetail({}))
      }
      catch(error){
          console.log(error)
@@ -61,15 +74,6 @@ const Home = ({navigation}: HomeNavigatonProp) => {
       }
     }
 
-
-
-  // function LogoutUser() {
-  //   console.log('Logged');
-  //   // dispatch(logout(AuthData.length))
-  //   dispatch(logout(undefined));
-  //   console.log('Home data,AuthData is Popped:--😋#😋', data);
-  //   navigation.navigate('Login');
-  // }
 
   function CategoryRoute(id: number) {
     console.log(id);
@@ -102,9 +106,7 @@ const Home = ({navigation}: HomeNavigatonProp) => {
           headerTitle="NeoSTORE"
         />
         <View style={styles.headerRightConatianer}>
-          {/* <TouchableOpacity style={styles.IconContainer}>
-            <Ionicons name="search" size={30} />
-          </TouchableOpacity> */}
+          
 
           <TouchableOpacity
             style={styles.IconContainer}
@@ -122,7 +124,7 @@ const Home = ({navigation}: HomeNavigatonProp) => {
           paddingTop: 30,
           backgroundColor:'#fff'
         }}>
-        {/* <CustomCarouselSlider /> */}
+        <CustomCarouselSlider />
 
         <View style={styles.CategoryContainer}>
           <Text

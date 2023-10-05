@@ -21,7 +21,7 @@ const CustomDeliveryAddress = ({stage}: CustomDeliveryAddressProps) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const [isSelected,setIsSelected]= useState<number>();
-  console.log('IsSelected',isSelected === undefined)
+  // console.log('IsSelected',isSelected === undefined)
   function handleSelect(index:number){
     setIsSelected(index)
   }

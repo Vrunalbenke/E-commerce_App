@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  SafeAreaView,
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-} from 'react-native';
+import {SafeAreaView,TouchableOpacity,StyleSheet,Text,View,TextInput} from 'react-native';
 import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomHeader from '../../components/CustomHeader';
@@ -63,9 +56,7 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
     
     axios(config)
     .then(function (response) {
-      // console.log(JSON.stringify(response.data));
       var count = (response.data).length
-      // console.log(count,'$$$$$$')
       let countryArrayData = []
       for(var i = 0; i < count;i++){
         countryArrayData.push({
@@ -73,7 +64,6 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
           label:response.data[i].name
         })
       }
-      // console.log(countryArrayData)
       setCountryData(countryArrayData);
     })
     .catch(function (error) {
@@ -93,9 +83,7 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
   
     axios(config)
     .then(function (response) {
-      // console.log(JSON.stringify(response.data));
       var count = (response.data).length
-      // console.log(count,'$$$$$$')
       let stateArrayData = []
       for(var i = 0; i < count;i++){
         stateArrayData.push({
@@ -103,7 +91,6 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
           label:response.data[i].name
         })
       }
-      // console.log(stateArrayData)
       setStateData(stateArrayData);
     })
     .catch(function (error) {
@@ -122,9 +109,7 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
     
     axios(config)
     .then(function (response) {
-      // console.log(JSON.stringify(response.data));
       var count = (response.data).length
-      // console.log(count,'$$$$$$')
       let cityArrayData = []
       for(var i = 0; i < count;i++){
         cityArrayData.push({
@@ -132,7 +117,6 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
           label:response.data[i].name
         })
       }
-      // console.log(cityArrayData)
       setCityData(cityArrayData);
     })
     .catch(function (error) {
@@ -203,7 +187,6 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
     console.log('Saved address:', address);
     dispatch(AddAddress(address));
     navigation.navigate('AddressList');
-    // Clear the input fields after saving
     setInput({
       streetAddress: '',
       city: '',

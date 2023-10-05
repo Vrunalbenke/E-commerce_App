@@ -105,7 +105,7 @@ const OrdersDetail = ({route, navigation}: OrdersDetailNavigationProp) => {
                 gap: 10,
               }}>
               <Text style={{fontSize: 22, color: '#325f88', fontWeight: '600'}}>
-                Quantity
+                Qty
               </Text>
               <Text style={{fontSize: 22, color: '#325f88', fontWeight: '600'}}>
                 Price

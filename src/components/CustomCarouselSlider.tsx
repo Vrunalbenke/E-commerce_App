@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, Image, Text, View} from 'react-native';
+import {Dimensions, Image, View} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import Video from 'react-native-video';
 
@@ -24,12 +24,14 @@ const CustomCarouselSlider = () => {
         // onSnapToItem={index => console.log('current index:', index)}
         renderItem={({item, index}) => (
           <View
+            key={index}
             style={{
               flex: 1,
               // borderWidth: 1,
               justifyContent: 'center',
               padding: 2,
             }}>
+            {/* <Image style={{width: '100%', height: '100%'}} source={item} /> */}
             {index === 0 ? (
               <Video
                 source={item}

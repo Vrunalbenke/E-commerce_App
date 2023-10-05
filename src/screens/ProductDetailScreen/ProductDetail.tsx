@@ -20,7 +20,7 @@ import { getProductDetail } from '../../redux/Slice/productSlice';
 import { ProductDetailNavigatonProp } from '../../navigation/type';
 const windowWidth = Dimensions.get('window').width;
 
-const ProductDetail = ({navigation}:ProductDetailNavigatonProp) => {
+const ProductDetail = ({route,navigation}:ProductDetailNavigatonProp) => {
   const dispatch = useAppDispatch();
   const ProductDetail = useAppSelector(
     state => state.Product.ProductDetailData,
@@ -44,7 +44,10 @@ const ProductDetail = ({navigation}:ProductDetailNavigatonProp) => {
       const productDetailAPIData = await dispatch(
         getProductDetail(product_id),
       ).unwrap();
-      navigation.navigate('ProductDetail');
+      navigation.navigate('ProductDetail',{
+        product_category_id:route.params.product_category_id,
+        backRoute:route.params.backRoute,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -107,7 +110,9 @@ const ProductDetail = ({navigation}:ProductDetailNavigatonProp) => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
       <View style={styles.headerContianer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress={() => navigation.navigate(route.params.backRoute,{
+          product_category_id:route.params.product_category_id
+        })}>
           <Ionicons name="arrow-back-outline" size={29} color={'#fff'} />
         </TouchableOpacity>
         <CustomHeader
@@ -177,7 +182,7 @@ const ProductDetail = ({navigation}:ProductDetailNavigatonProp) => {
             </TouchableOpacity>
           </View>
         </View>
-        <CustomSimilarProducts product_id={ProductDetail.product_images[0].product_id} onPressProductDetail={onPressProductDetail} />
+        <CustomSimilarProducts product_id={ProductDetail.id} onPressProductDetail={onPressProductDetail} />
       </ScrollView>
     </SafeAreaView>
     

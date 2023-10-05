@@ -18,7 +18,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 type CustomFlatListProps = {
   product_category_id: number;
-  onPress: (product_id: number) => void;
+  onPress: (product_id: number,product_category_id:number) => void;
 };
 
 type itemProps = {
@@ -44,16 +44,16 @@ const CustomFlatList = ({
   let ProductData = useAppSelector(state => state.Product.ProductData);
 
   const [isloading, setIsloading] = useState<boolean>(false);
-  console.log('Length is ☠️☠️☠️☠️☠️☠️☠️ --->', ProductData);
+  // console.log('Length is ☠️☠️☠️☠️☠️☠️☠️ --->', ProductData);
   // console.log('Length is ☠️☠️☠️☠️☠️☠️☠️ --->',data)
-  console.log('🦋🦋🦋🦋🦋🦋', product_category_id, '🦋🦋🦋🦋🦋🦋');
+  // console.log('🦋🦋🦋🦋🦋🦋', product_category_id, '🦋🦋🦋🦋🦋🦋');
 
   const apiData = async () => {
     setIsloading(true);
     try {
-      console.log('LOGGGGGGGGGGGGG');
+      // console.log('LOGGGGGGGGGGGGG');
       const val = await dispatch(getProduct(product_category_id)).unwrap();
-      console.log(val);
+      // console.log(val);
       setIsloading(false);
     } catch (error) {
       setIsloading(false);
@@ -66,7 +66,7 @@ const CustomFlatList = ({
     return () => {
       dispatch(EmptyProductData([]));
       ProductData = [];
-      console.log('🐵🐵🐵🐵🐵🐵🐵', ProductData);
+      // console.log('🐵🐵🐵🐵🐵🐵🐵', ProductData);
     };
   }, [product_category_id]);
 
@@ -103,8 +103,8 @@ const CustomFlatList = ({
 }
 
   function RenderProduct(item: ListRenderItemInfo<itemProps>) {
-    console.log('item😇😇😇😇😇😇', item);
-    console.log(item.item.id);
+    // console.log('item😇😇😇😇😇😇', item);
+    // console.log(item.item.id);
     return (
       <TouchableOpacity
         style={{
@@ -120,7 +120,7 @@ const CustomFlatList = ({
           shadowOpacity: 0.2,
           shadowRadius: 10,
         }}
-        onPress={()=> (onPress(item.item.id))}
+        onPress={()=> (onPress(item.item.id,product_category_id))}
         >
         <View>
           <View style={{justifyContent: 'flex-start', backgroundColor: '#fff'}}>

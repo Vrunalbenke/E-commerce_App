@@ -5,22 +5,20 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import CustomHeader from '../../components/CustomHeader';
 import font from '../../Constants/fonts';
-import color from '../../Constants/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {CategoryNavigatonProp} from '../../navigation/type';
 import CustomFlatList from '../../components/CustomFlatList';
-import {useAppDispatch, useAppSelector} from '../../redux/store';
+import {useAppDispatch} from '../../redux/store';
 import {getProductDetail} from '../../redux/Slice/productSlice';
 
 const {width, height} = Dimensions.get('window');
 const Category = ({route, navigation}: CategoryNavigatonProp) => {
   const {product_category_id} = route.params;
+  const navRoute = route.params.backRoute;
   const dispatch = useAppDispatch();
-  // let isloading = useAppSelector(state => state.Product.isLoading);
-  console.log('🦋🦋🦋🦋🦋🦋', product_category_id);
   const CategoryName =
     product_category_id === 1
       ? 'Table'
@@ -29,13 +27,16 @@ const Category = ({route, navigation}: CategoryNavigatonProp) => {
       : product_category_id === 3
       ? 'Sofa'
       : 'Bed';
-  // console.log('((((((((((((((((((((',isloading)
-  async function ProductDetail(product_id: number) {
+      
+  async function ProductDetail(product_id: number,product_category_id:number) {
     try {
       const productDetailAPIData = await dispatch(
         getProductDetail(product_id),
       ).unwrap();
-      navigation.navigate('ProductDetail');
+      navigation.navigate('ProductDetail',{
+        backRoute:'Category',
+        product_category_id:product_category_id
+      });
     } catch (err) {
       console.log(err);
     }
@@ -44,7 +45,7 @@ const Category = ({route, navigation}: CategoryNavigatonProp) => {
   return (
     <SafeAreaView style={styles.root}>
       <View style={styles.headerConatianer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress={() => navigation.navigate('FullCategory')}>
           <Ionicons name="arrow-back-outline" size={29} color={'#fff'} />
         </TouchableOpacity>
         <CustomHeader
@@ -52,7 +53,7 @@ const Category = ({route, navigation}: CategoryNavigatonProp) => {
             paddingTop: 6,
             fontSize: 30,
             fontFamily: font.BebasNB,
-            color:'#fff'
+            color: '#fff',
           }}
           headerContainerStyle={{
             justifyContent: 'center',
@@ -61,9 +62,7 @@ const Category = ({route, navigation}: CategoryNavigatonProp) => {
           }}
           headerTitle={CategoryName}
         />
-        <View>
-
-        </View>
+        <View></View>
       </View>
       <View
         style={{
@@ -73,11 +72,10 @@ const Category = ({route, navigation}: CategoryNavigatonProp) => {
           borderTopRightRadius: 30,
           padding: 10,
         }}>
-        
-          <CustomFlatList
-            product_category_id={product_category_id}
-            onPress={ProductDetail}
-          />
+        <CustomFlatList
+          product_category_id={product_category_id}
+          onPress={ProductDetail}
+        />
       </View>
     </SafeAreaView>
   );
@@ -99,7 +97,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  
+
   IconContainer: {
     padding: 10,
   },

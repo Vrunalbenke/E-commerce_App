@@ -9,8 +9,8 @@ export type RootStackParamList = {
   Home: undefined;
   Drawer: undefined;
   Cart: undefined;
-  Category: {product_category_id: number};
-  ProductDetail: undefined;
+  Category: {product_category_id: number,backRoute:string};
+  ProductDetail: {backRoute:string,product_category_id:number};
   AppStack: undefined;
   CustomDrawer: {props: React.ComponentProps<typeof DrawerItemList>};
   Orders: undefined;
@@ -21,6 +21,7 @@ export type RootStackParamList = {
   Profile: undefined;
   EditProfile: undefined;
   ChangePassword: undefined;
+  FullCategory: undefined;
 };
 
 export type OnBoardingNavigatonProp = NativeStackScreenProps<
@@ -50,6 +51,11 @@ export type CartNavigatonProp = DrawerScreenProps<RootStackParamList, 'Cart'>;
 export type CategoryNavigatonProp = DrawerScreenProps<
   RootStackParamList,
   'Category'
+>;
+
+export type FullCategoryNavigatonProp = DrawerScreenProps<
+  RootStackParamList,
+  'FullCategory'
 >;
 
 export type ProductDetailNavigatonProp = DrawerScreenProps<

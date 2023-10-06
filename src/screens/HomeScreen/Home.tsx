@@ -18,9 +18,10 @@ import CustomHeader from '../../components/CustomHeader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import font from '../../Constants/fonts';
 import {getUserDetail} from '../../redux/Slice/userSlice';
-import { getOrderList } from '../../redux/Slice/orderSlice';
-import { getCartItem } from '../../redux/Slice/cartSlice';
-import { getFullProduct } from '../../redux/Slice/productSlice';
+import {getOrderList} from '../../redux/Slice/orderSlice';
+import {getCartItem} from '../../redux/Slice/cartSlice';
+import {getFullProduct} from '../../redux/Slice/productSlice';
+import {AppName} from '../../Constants/string'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -37,15 +38,12 @@ const Home = ({navigation}: HomeNavigatonProp) => {
   }, []);
 
   async function getFullProductList() {
-      try {
-        const val = await dispatch(getFullProduct()).unwrap();
-        // console.log(val,'🌻🌻🌻🌻🌻🌻🌻🌻🌻🌻🌻🌻🌻');
-        console.log('All Category called')
-      } 
-      catch (error) {
-        console.log(error);
-      }
-    
+    try {
+      const val = await dispatch(getFullProduct()).unwrap();
+      console.log('All Category called');
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function getUserData() {
@@ -57,28 +55,27 @@ const Home = ({navigation}: HomeNavigatonProp) => {
     }
   }
 
-  async function getOrderListAndDetail(){
-    try{ 
-     await dispatch(getOrderList({accessToken})).unwrap();
-     }
-     catch(error){
-         console.log(error)
-     }
+  async function getOrderListAndDetail() {
+    try {
+      await dispatch(getOrderList({accessToken})).unwrap();
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    async function getCartData() {
-      try {
-        await dispatch(getCartItem(accessToken));
-      } catch (error) {
-        console.log(error);
-      }
+  async function getCartData() {
+    try {
+      await dispatch(getCartItem(accessToken));
+    } catch (error) {
+      console.log(error);
     }
-
+  }
 
   function CategoryRoute(id: number) {
     console.log(id);
     navigation.navigate('Category', {
       product_category_id: id,
+      backRoute: 'Home',
     });
   }
   return (
@@ -92,37 +89,35 @@ const Home = ({navigation}: HomeNavigatonProp) => {
         </TouchableOpacity>
         <CustomHeader
           style={{
-            paddingTop: 6,
+            // paddingTop: 6,
             fontSize: 30,
             fontFamily: font.BebasNB,
-            color:'#fff'
-            
+            color: '#fff',
           }}
           headerContainerStyle={{
             justifyContent: 'center',
             alignItems: 'flex-start',
             padding: 10,
           }}
-          headerTitle="NeoSTORE"
+          headerTitle={AppName}
         />
         <View style={styles.headerRightConatianer}>
-          
-
           <TouchableOpacity
             style={styles.IconContainer}
             onPress={() => navigation.navigate('Cart')}>
-            <Ionicons name="cart" size={30}color={'#fff'}/>
+            <Ionicons name="cart" size={30} color={'#fff'} />
           </TouchableOpacity>
         </View>
       </View>
       <ScrollView
-      showsVerticalScrollIndicator ={false}
+        showsVerticalScrollIndicator={false}
         style={{
           flex: 1,
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
           paddingTop: 30,
-          backgroundColor:'#fff'
+          backgroundColor: '#fff',
+          // overflow: 'visible',
         }}>
         <CustomCarouselSlider />
 
@@ -197,7 +192,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // backgroundColor: '#f4f4f4',
     // backgroundColor: '#d4d1d1',
-    height: '10%',
+    // height: '10%',
+    padding: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
   },

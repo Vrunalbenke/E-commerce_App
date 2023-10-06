@@ -26,6 +26,7 @@ const CustomPlacedOrder = ({stage}: CustomPaymentProps) => {
         </View>
       ) : (
         <View style={styles.firstContainer}>
+          <View style={styles.upperContainer}>
           <Image
             source={require('../assets/images/OrderImage.jpg')}
             style={styles.OrderImage}
@@ -37,6 +38,7 @@ const CustomPlacedOrder = ({stage}: CustomPaymentProps) => {
           <Text style={styles.subtitleText}>
             You can track your order number
           </Text>
+          </View>
           <View style={styles.BtnContainer}>
             <TouchableOpacity style={styles.TOPContainer} 
             onPress={()=> {
@@ -77,8 +79,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   firstContainer: {
-    padding: 10,
+    // padding: 10,
     flex:1
+  },
+  upperContainer:{
+    alignItems:'center',
+    justifyContent:'center'
   },
   headerText: {
     fontSize: 23,
@@ -97,7 +103,8 @@ const styles = StyleSheet.create({
     bottom:20,
     flexDirection:'row',
     justifyContent:'space-between',
-    width:'100%'
+    width:'100%',
+    paddingHorizontal:20
   },
   TOPContainer: {
     padding:10,

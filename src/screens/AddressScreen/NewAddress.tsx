@@ -1,13 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView,TouchableOpacity,StyleSheet,Text,View,TextInput} from 'react-native';
+import {
+  SafeAreaView,
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+} from 'react-native';
 import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomHeader from '../../components/CustomHeader';
 import font from '../../Constants/fonts';
 import {NewAddressNavigationProp} from '../../navigation/type';
 import {useAppDispatch} from '../../redux/store';
-import {AddAddress} from '../../redux/Slice/addressSlice';
-import {Dropdown} from 'react-native-element-dropdown';
+import {AddAddress, EditAddress} from '../../redux/Slice/addressSlice';
 import RadioForm, {
   RadioButton,
   RadioButtonInput,
@@ -15,115 +21,68 @@ import RadioForm, {
 } from 'react-native-simple-radio-button';
 import CustomButton from '../../components/CustomButton';
 
-const NewAddress = ({navigation}: NewAddressNavigationProp) => {
+const NewAddress = ({route,navigation}: NewAddressNavigationProp) => {
   const dispatch = useAppDispatch();
-  const [countryData,setCountryData] = useState([]);
-  const [stateData,setStateData] = useState([]);
-  const [cityData,setCityData] = useState([]);
+  const [countryData, setCountryData] = useState([]);
+  const [view,setView] = useState(true)
+  const {place,streetAddress,city,postalCode,state,country,btnName,index} = route.params
 
 
-  const [countryForState,setCountryForState] = useState('');
 
+  console.log(streetAddress,city,postalCode,state,country,btnName,index)
   const radioData = [
     {label: 'Home', value: 'home', index: 0},
     {label: 'Work', value: 'work', index: 1},
   ];
 
   const [input, setInput] = useState({
-    streetAddress: '',
-    city: '',
-    state: '',
-    place: 'home',
-    country:'',
-    postalCode:'',
+    randomIndex: Math.floor(Math.random() * 100000),
+    streetAddress: streetAddress,
+    city: city,
+    state: state,
+    place: place,
+    country: country,
+    postalCode: postalCode,
   });
   const [error, setError] = useState({
     streetAddress: '',
     city: '',
     state: '',
-    country:'',
+    country: '',
     postalCode: '',
   });
 
   useEffect(()=>{
+
+  },[btnName])
+
+  useEffect(() => {
     var config = {
       method: 'get',
       url: 'https://api.countrystatecity.in/v1/countries',
       headers: {
-        'X-CSCAPI-KEY': 'T2JsODlsdzFZd2FXZE1Fd3l0c2dWZVFURUFHRFpIbnU5N0ZyaWpyNw=='
-      }
+        'X-CSCAPI-KEY':
+          'T2JsODlsdzFZd2FXZE1Fd3l0c2dWZVFURUFHRFpIbnU5N0ZyaWpyNw==',
+      },
     };
-    
-    axios(config)
-    .then(function (response) {
-      var count = (response.data).length
-      let countryArrayData = []
-      for(var i = 0; i < count;i++){
-        countryArrayData.push({
-          name:response.data[i].iso2,
-          label:response.data[i].name
-        })
-      }
-      setCountryData(countryArrayData);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  },[])
 
-  function handleState(countryLabel:string){
-    setCountryForState(countryLabel)
-    var config = {
-      method: 'get',
-      url: `https://api.countrystatecity.in/v1/countries/${countryLabel}/states`,
-      headers: {
-        'X-CSCAPI-KEY': 'T2JsODlsdzFZd2FXZE1Fd3l0c2dWZVFURUFHRFpIbnU5N0ZyaWpyNw=='
-      }
-    };
-  
     axios(config)
-    .then(function (response) {
-      var count = (response.data).length
-      let stateArrayData = []
-      for(var i = 0; i < count;i++){
-        stateArrayData.push({
-          name:response.data[i].iso2,
-          label:response.data[i].name
-        })
-      }
-      setStateData(stateArrayData);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
-  function handleCity(countryLabel:string,stateLabel:string){
-    var config = {
-      method: 'get',
-      url: `https://api.countrystatecity.in/v1/countries/${countryLabel}/states/${stateLabel}/cities`,
-      headers: {
-        'X-CSCAPI-KEY': 'T2JsODlsdzFZd2FXZE1Fd3l0c2dWZVFURUFHRFpIbnU5N0ZyaWpyNw=='
-      }
-    };
-    
-    axios(config)
-    .then(function (response) {
-      var count = (response.data).length
-      let cityArrayData = []
-      for(var i = 0; i < count;i++){
-        cityArrayData.push({
-          name:response.data[i].iso2,
-          label:response.data[i].name
-        })
-      }
-      setCityData(cityArrayData);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
+      .then(function (response) {
+        var count = response.data.length;
+        let countryArrayData = [];
+        for (var i = 0; i < count; i++) {
+          countryArrayData.push(
+            // name: response.data[i].iso2,
+            response.data[i].name,
+          );
+        }
+        console.log(countryArrayData)
+        setCountryData(countryArrayData);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
 
   function handleOnChange(input: string, text: string | null) {
     console.log(text);
@@ -157,8 +116,7 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
     if (!input.postalCode) {
       handleError('postalCode', 'Please select a state');
       valid = false;
-    }
-    else if(!input.postalCode.match(/^.{6}$/)){
+    } else if (!input.postalCode.match(/^.{6}$/)) {
       handleError('postalCode', 'Please input valid postal code');
       valid = false;
     }
@@ -173,42 +131,60 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
     }
   }
 
-   function loggedIN() {
+  function loggedIN() {
     const address = {
-      place:input.place,
+      index:input.randomIndex,
+      place: input.place,
       streetAddress: input.streetAddress,
       city: input.city,
       postalCode: input.postalCode,
       state: input.state,
       country: input.country,
     };
-
-    
+    setView(true)
     console.log('Saved address:', address);
-    dispatch(AddAddress(address));
-    navigation.navigate('AddressList');
+    if(btnName === 'Save Address'){
+      dispatch(EditAddress({index,address}))
+    }
+    else{
+      dispatch(AddAddress(address));
+    }
     setInput({
       streetAddress: '',
       city: '',
       state: '',
-      place: '',
-      country:'',
+      place: 'home',
+      country: '',
       postalCode: '',
+      randomIndex:Math.floor(Math.random() * 100000),
     });
+    navigation.navigate('AddressList');
+    
   }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
       <View style={styles.headerContianer}>
-        <TouchableOpacity onPress={() => navigation.navigate('AddressList')}>
+        <TouchableOpacity onPress={() => {
+          setInput({
+            streetAddress: '',
+            city: '',
+            state: '',
+            place: 'home',
+            country: '',
+            postalCode: '',
+            randomIndex:Math.floor(Math.random() * 100000),
+          });
+          navigation.navigate('AddressList')
+          }}>
           <Ionicons name="arrow-back-outline" size={29} color={'#fff'} />
         </TouchableOpacity>
         <CustomHeader
           style={{
-            paddingTop: 6,
+            // paddingTop: 6,
             fontSize: 30,
             fontFamily: font.BebasNB,
-            color:'#fff'
+            color: '#fff',
           }}
           headerContainerStyle={{
             justifyContent: 'center',
@@ -222,10 +198,8 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
       <View style={styles.mainContainer}>
         <View>
           <RadioForm formHorizontal={true} animation={true}>
-            {/* To create radio buttons, loop through your array of options */}
             {radioData.map((obj, i) => (
               <RadioButton labelHorizontal={true} key={i}>
-                {/*  You can set RadioButtonLabel before RadioButtonInput */}
                 <RadioButtonInput
                   obj={obj}
                   index={i}
@@ -246,7 +220,6 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
                   index={i}
                   labelHorizontal={true}
                   onPress={value => console.log(value)}
-                  // onPress={value => handleOnChange('place', value)}
                   labelStyle={{fontSize: 20, color: '#000000'}}
                   labelWrapStyle={{}}
                 />
@@ -280,32 +253,17 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
             justifyContent: 'flex-start',
           }}>
           <View style={styles.LabelInputContainer}>
-            <Text style={styles.Label}>Country</Text>
-            {error.country && <Text style={styles.error}>{error.country}</Text>}
+            <Text style={styles.Label}>City</Text>
+            {error.city && <Text style={styles.error}>{error.city}</Text>}
 
-            <Dropdown
-              style={[styles.dropdown]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={countryData}
-              search
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              // placeholder={!isFocus ? 'Select item' : '...'}
-              placeholder= 'Select item'
-              searchPlaceholder="Search..."
-              value={input.country}
-              // onFocus={() => setIsFocus(true)}
-              // onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                
-                handleOnChange('country',item.label)
-                handleState(item.name)
-                // setIsFocus(false);
-              }}
+            <TextInput
+              style={[styles.InputFeild, {width: 150}]}
+              placeholder="Mumbai"
+              autoCorrect={false}
+              value={input.city}
+              maxLength={50}
+              onChangeText={(text: string) => handleOnChange('city', text)}
+              onFocus={() => handleError('city', '')}
             />
           </View>
 
@@ -313,28 +271,14 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
             <Text style={styles.Label}>State</Text>
             {error.state && <Text style={styles.error}>{error.state}</Text>}
 
-            <Dropdown
-              style={[styles.dropdown]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={stateData}
-              search
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              // placeholder={!isFocus ? 'Select item' : '...'}
-              placeholder= 'Select item'
-              searchPlaceholder="Search..."
+            <TextInput
+              style={[styles.InputFeild, {width: 150}]}
+              placeholder="Maharashtra"
+              autoCorrect={false}
               value={input.state}
-              // onFocus={() => setIsFocus(true)}
-              // onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                handleOnChange('state',item.label)
-                handleCity(countryForState,item.name)
-                // setIsFocus(false);
-              }}
+              maxLength={20}
+              onChangeText={(text: string) => handleOnChange('state', text)}
+              onFocus={() => handleError('state', '')}
             />
           </View>
         </View>
@@ -343,58 +287,83 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
           style={{
             width: '100%',
             flexDirection: 'row',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             justifyContent: 'flex-start',
           }}>
           <View style={styles.LabelInputContainer}>
-            <Text style={styles.Label}>City</Text>
-            {error.city && <Text style={styles.error}>{error.city}</Text>}
+            <Text style={styles.Label}>Country</Text>
+            {error.country && <Text style={styles.error}>{error.country}</Text>}
 
-            <Dropdown
-              style={[styles.dropdown]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={cityData}
-              search
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              // placeholder={!isFocus ? 'Select item' : '...'}
-              placeholder= 'Select item'
-              searchPlaceholder="Search..."
-              value={input.city}
-              // onFocus={() => setIsFocus(true)}
-              // onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                handleOnChange('city',item.label)
-                // setIsFocus(false);
-              }}
+            <TextInput
+              style={[styles.InputFeild, {width: 150}]}
+              placeholder="India"
+              autoCorrect={false}
+              value={input.country}
+              maxLength={20}
+              onChangeText={(text: string) => handleOnChange('country', text)}
+              onFocus={() => {
+                handleError('country', '')}}
+            />
+            {
+              view && (
+                <View 
+            style={{
+              // borderWidth:countryInput?1:0,
+              padding:3
+            }}
+            >
+              {countryData.filter((item)=>{
+                const countryName = item
+                const userInput = (input.country);
+
+                return userInput && countryName.startsWith(userInput)
+              }).slice(0,5).map((item,index)=>{
+                const ctry = item
+                return (
+                  <TouchableOpacity onPress={(value)=> {
+                    console.log(value)
+                    setView(false)
+                    handleOnChange('country', item)}} key={index}
+                  style={{
+                    width:150,
+                    padding:2,
+                    
+                  }}
+                  >
+                    <Text style={{fontSize:18}}>{item}</Text>
+                    </TouchableOpacity>
+                )
+              })
+              
+              }
+            </View>
+              )
+            }
+
+          </View>
+
+          <View style={styles.LabelInputContainer}>
+            <Text style={styles.Label}>Postal code</Text>
+            {error.postalCode && (
+              <Text style={styles.error}>{error.postalCode}</Text>
+            )}
+            <TextInput
+              style={styles.InputFeild}
+              placeholder="400026"
+              autoCorrect={false}
+              keyboardType="numeric"
+              maxLength={6}
+              value={input.postalCode}
+              onChangeText={(text: string) =>
+                handleOnChange('postalCode', text.toString())
+              }
+              onFocus={() => handleError('postalCode', '')}
             />
           </View>
-          <View style={styles.LabelInputContainer}>
-              <Text style={styles.Label}>Postal code</Text>
-              {error.postalCode && (
-                <Text style={styles.error}>{error.postalCode}</Text>
-              )}
-              <TextInput
-                style={styles.InputFeild}
-                placeholder="400004"
-                autoCorrect={false}
-                keyboardType='numeric'
-                maxLength={6}
-                value={input.postalCode}
-                onChangeText={(text: string) =>
-                  handleOnChange('postalCode', text.toString())
-                }
-                onFocus={() => handleError('postalCode', '')}
-              />
-            </View>
         </View>
 
-        <View style={{marginTop:20}}>
-        <CustomButton onPress={validate} BtnName="Add address" />
+        <View style={{marginTop: 20}}>
+          <CustomButton onPress={validate} BtnName={btnName ? btnName : "Add address"} />
         </View>
       </View>
     </SafeAreaView>
@@ -404,7 +373,7 @@ const NewAddress = ({navigation}: NewAddressNavigationProp) => {
 const styles = StyleSheet.create({
   headerContianer: {
     // backgroundColor:'#d4d1d1',
-    padding: 5,
+    padding: 10,
     margin: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -470,41 +439,6 @@ const styles = StyleSheet.create({
   },
 });
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-//   headerContainer: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     justifyContent: 'space-between',
-//     padding: 10,
-//     backgroundColor: 'white', // Change the background color as needed
-//   },
-//   iconContainer: {
-//     padding: 5,
-//   },
-//   inputContainer: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     width:'80%',
-//     padding: 16,
-//   },
-//   label: {
-//     fontSize: 16,
-//     marginBottom: 4,
-//   },
-//   input: {
-//     width:'100%',
-//     fontSize: 16,
-//     borderWidth: 1,
-//     borderColor: '#ccc',
-//     borderRadius: 4,
-//     paddingVertical: 8,
-//     paddingHorizontal: 12,
-//     marginBottom: 16,
-//   },
-// });
+
 
 export default NewAddress;

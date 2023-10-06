@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   ScrollView,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
@@ -17,8 +18,10 @@ import CustomToggleButton from '../../components/CustomToggleButton';
 import {SignupNavigatonProp} from '../../navigation/type';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { registerUser } from '../../redux/Slice/registerSlice';
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import color from '../../Constants/colors'
 import font from '../../Constants/fonts'
+import { AppName } from '../../Constants/string';
 
 export type errorsProps = {
   first_name: string;
@@ -188,13 +191,14 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
               style={{
                 fontSize: 50,
                 fontFamily: font.BebasNB,
+                color:'#325f88'
               }}
               headerContainerStyle={{
                 height: '25%',
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              headerTitle="NeoSTORE"
+              headerTitle= {AppName}
             />
             <View style={styles.MidArea}>
               <Text style={styles.greeting}>Register</Text>
@@ -308,6 +312,14 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
 
             <CustomButton onPress={validate} BtnName="Register" />
           </View>
+          <TouchableOpacity 
+          style={styles.BackIcon}
+          onPress={()=>{
+            navigation.navigate('Login')
+          }}
+          >
+            <Ionicons name='arrow-back-outline' size={30} />
+          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

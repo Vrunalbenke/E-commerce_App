@@ -30,15 +30,15 @@ const CustomCarouselSlider = () => {
               // borderWidth: 1,
               justifyContent: 'center',
               padding: 2,
+              borderTopLeftRadius: 30,
+              borderTopRightRadius: 30,
             }}>
             {/* <Image style={{width: '100%', height: '100%'}} source={item} /> */}
             {index === 0 ? (
               <Video
                 source={item}
-                style={{width: '100%', height: '100%',
-                backgroundColor:'pink',
-              }}
-              resizeMode='cover'
+                style={{width: '100%', height: '100%'}}
+                resizeMode="cover"
                 repeat={true}
               />
             ) : (

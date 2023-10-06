@@ -44,11 +44,12 @@ const Cart = ({navigation}: CartNavigatonProp) => {
   const deletedItem = useAppSelector(state => state.Cart.DeleteItem);
   console.log('☄️☄️☄️☄️☄️☄️☄️☄️☄️', editStatus);
   console.log('☄️☄️☄️☄️☄️☄️☄️☄️☄️', cartItems, '☄️☄️☄️☄️☄️☄️☄️☄️☄️');
+  console.log('rendered');
   console.log(cartItems);
-  
+
   useEffect(() => {
     getCartData();
-  }, [cartItems,editStatus, deletedItem]);
+  }, [editStatus, deletedItem]);
 
   async function getCartData() {
     try {
@@ -124,7 +125,7 @@ const Cart = ({navigation}: CartNavigatonProp) => {
     }
   };
 
-  function commafy(num:number) {
+  function commafy(num: number) {
     var str = num.toString().split('.');
     if (str[0].length >= 4) {
       str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
@@ -148,20 +149,30 @@ const Cart = ({navigation}: CartNavigatonProp) => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingVertical: 10,
+            // paddingVertical: 3,
+
+            // backgroundColor:'lightblue'
           }}>
-          <Text style={{fontSize: 22, color: '#325f88', fontWeight: '600'}}>
+          <Text
+            style={{
+              fontSize: 22,
+              color: '#325f88',
+              fontWeight: '600',
+              width: '60%',
+            }}>
             Products
           </Text>
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'flex-end',
+              justifyContent: 'space-around',
               gap: 10,
+              // backgroundColor:'pink',
+              width: '40%',
             }}>
             <Text style={{fontSize: 22, color: '#325f88', fontWeight: '600'}}>
-              Quantity
+              Qty
             </Text>
             <Text style={{fontSize: 22, color: '#325f88', fontWeight: '600'}}>
               Price
@@ -171,14 +182,16 @@ const Cart = ({navigation}: CartNavigatonProp) => {
         {cartItems.map((item: itemProps, index: number) => {
           return (
             <View
-            key={index}
+              key={index}
               style={{
                 flexDirection: 'row',
                 alignItems: 'flex-start',
-                justifyContent: 'space-between',
+                justifyContent: 'space-around',
                 paddingVertical: 10,
+                // width:'100%',
+                // backgroundColor:'pink'
               }}>
-              <Text style={{fontSize: 20,width:220}}>
+              <Text style={{fontSize: 18, width: '50%', color: '#000'}}>
                 {index + 1}. {item.product.name}
               </Text>
               <View
@@ -188,9 +201,12 @@ const Cart = ({navigation}: CartNavigatonProp) => {
                   justifyContent: 'space-between',
                   width: '30%',
                   gap: 10,
+                  // backgroundColor:'yellow'
                 }}>
-                <Text style={{fontSize: 18}}>{item.quantity}</Text>
-                <Text style={{fontSize: 18}}>
+                <Text style={{fontSize: 18, color: '#000'}}>
+                  {item.quantity}
+                </Text>
+                <Text style={{fontSize: 18, color: '#000'}}>
                   {commafy(item.product.cost * item.quantity)}
                 </Text>
               </View>
@@ -202,20 +218,43 @@ const Cart = ({navigation}: CartNavigatonProp) => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingVertical: 10,
+            padding: 10,
+            borderTopColor: '#000',
+            borderTopWidth: 1,
+            // paddingHorizontal:10,
+            // backgroundColor:'pink'
           }}>
-          <Text style={{fontSize: 20}}>Delivery</Text>
-          <Text style={{color: 'darkgreen', fontSize: 18}}>Free</Text>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: '600',
+              color: '#000',
+              width: '60%',
+            }}>
+            Delivery
+          </Text>
+          <Text
+            style={{
+              color: 'darkgreen',
+              fontSize: 18,
+              fontWeight: '600',
+              width: '15%',
+              alignSelf: 'flex-end',
+            }}>
+            Free
+          </Text>
         </View>
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingVertical: 10,
+            padding: 10,
           }}>
-          <Text style={{fontSize: 20}}>Total</Text>
-          <Text style={{color: 'darkgreen', fontSize: 18}}>
+          <Text style={{fontSize: 20, fontWeight: '600', color: '#000'}}>
+            Total
+          </Text>
+          <Text style={{color: 'darkgreen', fontSize: 18, fontWeight: '600'}}>
             ₹{commafy(cartItemsTotal)}
           </Text>
         </View>
@@ -226,8 +265,8 @@ const Cart = ({navigation}: CartNavigatonProp) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerConatianer}>
-        <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          <Ionicons name="menu" size={30} color={'#fff'} />
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Ionicons name="arrow-back-outline" size={30} color={'#fff'} />
         </TouchableOpacity>
         <CustomHeader
           style={{
@@ -239,7 +278,7 @@ const Cart = ({navigation}: CartNavigatonProp) => {
           headerContainerStyle={{
             justifyContent: 'center',
             alignItems: 'flex-start',
-            padding: 10,
+            // padding: 10,
           }}
           headerTitle="Cart"
         />
@@ -250,7 +289,7 @@ const Cart = ({navigation}: CartNavigatonProp) => {
           style={{
             backgroundColor: '#fff',
             // height:'100%',width:'100%',
-            flex:1,
+            flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
             borderTopLeftRadius: 30,
@@ -260,18 +299,17 @@ const Cart = ({navigation}: CartNavigatonProp) => {
             source={require('../../assets/images/emptyCart.jpg')}
             style={{height: 300, width: 300}}
           />
-          <TouchableOpacity 
-          style={{
-            width:120,
-            padding:10,
-            backgroundColor:'#325f88',
-            justifyContent:'center',
-            alignItems:'center',
-            borderRadius:5
+          <TouchableOpacity
+            style={{
+              width: 140,
+              padding: 10,
+              backgroundColor: '#325f88',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 5,
             }}
-            onPress={()=> navigation.navigate('Home')}
-            >
-            <Text style={{color:'#fff',fontSize:20}}>Shop now</Text>
+            onPress={() => navigation.navigate('Home')}>
+            <Text style={{color: '#fff', fontSize: 20}}>Shop now</Text>
           </TouchableOpacity>
         </View>
       ) : (
@@ -280,18 +318,18 @@ const Cart = ({navigation}: CartNavigatonProp) => {
             backgroundColor: '#fff',
             // height: '100%',
             // width: '100%',
-            flex:1,
+            flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
-            paddingTop: 10,
+            padding: 10,
           }}>
           <FlatList
             data={cartItems}
             keyExtractor={item => item.id.toString()}
-            ListHeaderComponent={()=>{
-              return (<View style={{height:20}}></View>)
+            ListHeaderComponent={() => {
+              return <View style={{height: 20}}></View>;
             }}
             showsVerticalScrollIndicator={false}
             ListFooterComponent={CartFooter}
@@ -349,15 +387,25 @@ const Cart = ({navigation}: CartNavigatonProp) => {
             )}
           />
           <View style={styles.bottomBtn}>
-            <Text style={{fontSize:25,alignSelf:'center',paddingLeft:10,fontWeight:'700',color:'#325f88'}}>Checkout</Text>
-            <TouchableOpacity 
-            style={styles.placeOrderBtn}
-            onPress={()=> navigation.navigate('Orders')}
-            >
-              <Text style={{fontSize:20,alignSelf:'center',color:'#fff'}}> ₹{commafy(cartItemsTotal)}</Text>
+            <Text
+              style={{
+                fontSize: 25,
+                alignSelf: 'center',
+                paddingLeft: 10,
+                fontWeight: '700',
+                color: '#325f88',
+              }}>
+              Checkout
+            </Text>
+            <TouchableOpacity
+              style={styles.placeOrderBtn}
+              onPress={() => navigation.navigate('Orders')}>
+              <Text style={{fontSize: 20, alignSelf: 'center', color: '#fff'}}>
+                {' '}
+                ₹{commafy(cartItemsTotal)}
+              </Text>
             </TouchableOpacity>
           </View>
-          
         </View>
       )}
     </SafeAreaView>
@@ -391,6 +439,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     marginVertical: 10,
     flexDirection: 'row',
+    padding: 10,
   },
   cartItem: {
     flexDirection: 'row',
@@ -413,42 +462,50 @@ const styles = StyleSheet.create({
   RightContainer: {},
   itemDetails: {
     flex: 1,
+    paddingLeft: 10,
+    // backgroundColor:'pink',
+    width: 200,
   },
   productName: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
-    padding:10,
+    // padding: 10,
     // width:150
+    color: '#000',
   },
   productPrice: {
     fontSize: 14,
-    color: '#4a4949',
+    color: '#000',
   },
   quantityContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 10,
+    paddingHorizontal: 10,
   },
   productQuantity: {
     fontSize: 20,
     marginHorizontal: 10,
   },
-  bottomBtn:{
+  bottomBtn: {
     // position:'absolute',
     // bottom:0,
-    width:'100%',
+    width: '100%',
     // backgroundColor:'red',
     // padding:20,
-    flexDirection:'row',
-    justifyContent:'space-between'
+    elevation: 4,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#c1d5e4',
   },
-  placeOrderBtn:{
-    backgroundColor:'#325f88',
-    width:120,
-    padding:15,
-    justifyContent:'center',
-    alignItems:'center'
-  }
+  placeOrderBtn: {
+    backgroundColor: '#325f88',
+    width: 120,
+    padding: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+  },
 });
 
 export default Cart;

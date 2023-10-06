@@ -17,8 +17,22 @@ const AddressSlice = createSlice({
         },
         DeleteAddress:(state,action)=>{
             state.address = state.address.filter((element)=>{
-                return element.streetAddress !== action.payload
+                return element.index !== action.payload
             })
+        },
+        EditAddress: (state,action)=>{
+            // console.log(action.payload.index,'🏠🏠🏠🏠🏠🏠🏠🏠Address:',action.payload.address)
+            console.log(state.address,'🏠🏠🏠🏠🏠🏠🏠🏠Address:')
+            state.address = state.address.map((item)=>{
+
+                if( item.index === action.payload.key){
+                    console.log(item,'🏩🏩🏩🏩🏩🏩🏩🏩',action.payload.address)
+                    item = action.payload.address
+                    console.log(item,'THis is the item of Filter')
+                }
+                return item
+            })
+            console.log(state.address,'#*&*#*#&&#')
         },
         DeliveryAddress:(state,action)=>{
             if(action.payload >= 0){
@@ -42,6 +56,6 @@ const AddressSlice = createSlice({
     }
 })
 
-export const {AddAddress,DeleteAddress,DeliveryAddress,EmptyData} = AddressSlice.actions
+export const {AddAddress,DeleteAddress,EditAddress,DeliveryAddress,EmptyData} = AddressSlice.actions
 
 export default AddressSlice.reducer

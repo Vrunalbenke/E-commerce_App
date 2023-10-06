@@ -68,6 +68,7 @@ const CustomSimilarProducts = ({product_id,onPressProductDetail}:CustomSimilarPr
           },
           shadowOpacity: 0.2,
           shadowRadius: 10,
+          elevation:4
         }}
         onPress={()=> (onPressProductDetail(item.id))}
         >
@@ -87,10 +88,10 @@ const CustomSimilarProducts = ({product_id,onPressProductDetail}:CustomSimilarPr
           </View>
 
           <View style={{padding: 10}}>
-            <Text style={{fontSize: 25,fontWeight:"700"}}>
+            <Text style={{fontSize: 25,fontWeight:"700",color:'#000'}}>
               {item.name}
             </Text>
-            <Text style={{fontSize: 20}}>₹{commafy(item.cost)}</Text>
+            <Text style={{fontSize: 20,color:'#000'}}>₹{commafy(item.cost)}</Text>
            
             {StarRating(item.rating)}
           </View>

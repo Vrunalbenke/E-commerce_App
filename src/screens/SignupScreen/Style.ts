@@ -18,9 +18,10 @@ export const styles = StyleSheet.create({
     },
     greeting: {
       fontFamily: font.RobotoC,
-      fontWeight: '500',
+      fontWeight: '600',
       fontSize: 24,
       // letterSpacing: 1,
+      color:"#000"
     },
     SignActionText: {
       fontSize: 16,
@@ -56,4 +57,12 @@ export const styles = StyleSheet.create({
       marginTop: 20,
       // marginBottom:40,
     },
+    BackIcon:{
+      position:'absolute',
+      top:20,
+      left:10,
+      // backgroundColor:'#fff',
+      // padding:10,
+      // borderRadius:20
+    }
   });

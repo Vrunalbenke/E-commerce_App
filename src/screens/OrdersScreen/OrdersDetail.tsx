@@ -70,21 +70,23 @@ const OrdersDetail = ({route, navigation}: OrdersDetailNavigationProp) => {
       </TouchableOpacity> */}
         </View>
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        bounces={false}
+      <View
         style={{
           flex: 1,
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
-          paddingVertical: 30,
+          paddingVertical: 10,
           backgroundColor: '#fff',
-          paddingBottom:550,
+          // paddingBottom:550,
           paddingHorizontal: 10,
           
         }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+        >
         <View style={{width:'100%',alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:25,fontWeight:'700',paddingBottom:20,}}>Order on: <Text>{route.params.orderDate}</Text></Text>
+          <Text style={{fontSize:25,fontWeight:'700',paddingBottom:20,color:'#000'}}>Order on: <Text>{route.params.orderDate}</Text></Text>
         </View>
         <View style={{backgroundColor: color.offWhite, padding: 10}}>
           <View
@@ -101,8 +103,9 @@ const OrdersDetail = ({route, navigation}: OrdersDetailNavigationProp) => {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'flex-end',
+                justifyContent: 'space-between',
                 gap: 10,
+                width:'40%'
               }}>
               <Text style={{fontSize: 22, color: '#325f88', fontWeight: '600'}}>
                 Qty
@@ -130,7 +133,7 @@ const OrdersDetail = ({route, navigation}: OrdersDetailNavigationProp) => {
                     justifyContent: 'space-between',
                     paddingVertical: 10,
                   }}>
-                  <Text style={{fontSize: 20,width:250}}>
+                  <Text style={{fontSize: 20,width:'60%',color:'#000'}}>
                     {index + 1}. {item.prod_name}
                   </Text>
                   <View
@@ -138,11 +141,11 @@ const OrdersDetail = ({route, navigation}: OrdersDetailNavigationProp) => {
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      width: '30%',
+                      width: '35%',
                       gap: 10,
                     }}>
-                    <Text style={{fontSize: 18}}>{item.quantity}</Text>
-                    <Text style={{fontSize: 18}}>
+                    <Text style={{fontSize: 18,color:'#000'}}>{item.quantity}</Text>
+                    <Text style={{fontSize: 18,color:'#000'}}>
                       {commafy(item.total * item.quantity)}
                     </Text>
                   </View>
@@ -157,24 +160,32 @@ const OrdersDetail = ({route, navigation}: OrdersDetailNavigationProp) => {
               justifyContent: 'space-between',
               paddingVertical: 10,
             }}>
-            <Text style={{fontSize: 20}}>Total</Text>
-            <Text style={{color: 'darkgreen', fontSize: 18}}>
+            <Text style={{fontSize: 20,color:'#000',fontWeight:'600'}}>Total</Text>
+            <Text style={{color: 'darkgreen', fontSize: 18,fontWeight:'600'}}>
               ₹{commafy(ProductDetailData.cost)}
             </Text>
           </View>
         </View>
         {ProductDetailData.order_details.map((item, index) => {
           return (
-            <View key={index} style={{marginVertical: 10,flexDirection:'row',gap:10,backgroundColor:color.offWhite,borderRadius:10}}>
+            <View key={index} 
+            style={{
+              marginVertical: 10,
+              flexDirection:'row',
+              gap:10,
+              backgroundColor:color.offWhite,
+              borderRadius:10,
+              padding:10
+              }}>
               <Image
                 source={{uri: item.prod_image}}
-                style={{width: 100, height: 100}}
+                style={{width: 150, height: 150,resizeMode:'contain',alignSelf:'center'}}
               />
               <View style={styles.itemDetails}>
                 <Text style={styles.productName}>{item.prod_name}</Text>
                 <Text style={styles.productPrice}>Price: ₹{commafy(item.total)}</Text>
                 <View>
-                  <Text>Rate this product:</Text>
+                  <Text style={{color:'#000'}}>Rate our product:</Text>
                   <View style={{ flexDirection: 'row' }}>
                   <CustomRating 
                   setState={(rated) => handleRatingChange(item.prod_name, rated)}
@@ -186,7 +197,8 @@ const OrdersDetail = ({route, navigation}: OrdersDetailNavigationProp) => {
             </View>
           );
         })}
-      </ScrollView>      
+      </ScrollView> 
+      </View>     
     </SafeAreaView>
   );
 };
@@ -213,10 +225,11 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 25,
     fontWeight: 'bold',
-    padding:10
+    padding:10,
+    color: '#000000',
   },
   productPrice: {
     fontSize: 20,
-    color: '#4a4949',
+    color: '#000000',
   },
 });

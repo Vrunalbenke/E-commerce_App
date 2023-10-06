@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useAppDispatch, useAppSelector} from '../redux/store';
 import {DeleteAddress} from '../redux/Slice/addressSlice';
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -13,27 +14,31 @@ type AddressProps = {
   state: string;
   postalCode: string;
   country:string;
+  index:number;
 }
 type CustomAddressCardProps = {
+  key:number,
   address:AddressProps;
   order: number;
   index?:number;
   SelectedState?:number;
-  stateFunc:(index:number)=>void;
+  stateFunc?:(index:number)=>void;
+  editAddress?:((place:string,streetAddress:string,city:string,postalCode:string,state:string,country:string)=> void) | undefined;
 };
 
-const CustomAddressCard = ({address,order,index,SelectedState,stateFunc}:CustomAddressCardProps) => {
+const CustomAddressCard = ({address,order,index,SelectedState,stateFunc,editAddress}:CustomAddressCardProps) => {
   const dispatch = useAppDispatch();
   const UserData = useAppSelector(state => state.User.user.data.user_data);
-  // console.log(UserData,'&&&&&&')
   let place = address.place === 'home' ? 'Home' : 'Work';
   const icon =
     address.place === 'home' ? 'home-outline' : 'briefcase-outline';
   
-  // console.log(address, '^^^^^^^^^');
+  useEffect(()=>{
 
-  function handleDelete(streetAddress:string) {
-    dispatch(DeleteAddress(streetAddress));
+  },[editAddress])
+
+  function handleDelete(index:number) {
+    dispatch(DeleteAddress(index));
   }
 
   return (
@@ -45,19 +50,19 @@ const CustomAddressCard = ({address,order,index,SelectedState,stateFunc}:CustomA
               <View
                 style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
                 {/* <MaterialIcons name='work' size={30}/> */}
-                <Ionicons name={icon} size={30} />
-                <Text style={{fontSize: 20, fontWeight: '700'}}>{place}</Text>
+                <Ionicons name={icon} size={30} color={'#000'}/>
+                <Text style={{fontSize: 20, fontWeight: '700',color:'#000'}}>{place}</Text>
               </View>
               <View>
-                <Text style={{fontSize: 18}}>
+                <Text style={{fontSize: 18,color:'#000'}}>
                   {UserData.first_name}{' '}
                   {UserData.last_name}
                 </Text>
-                <Text>+91-{UserData.phone_no}</Text>
+                <Text style={{color:'#000'}}>+91-{UserData.phone_no}</Text>
               </View>
             </View>
             <View style={{marginTop: 5, borderTopWidth: 1}}>
-              <Text style={{padding: 10}}>
+              <Text style={{padding: 10,fontSize:18,color:'#000'}}>
                 {address.streetAddress},{address.city}-
                 {address.postalCode},{address.state}-
                 {address.country}
@@ -72,11 +77,17 @@ const CustomAddressCard = ({address,order,index,SelectedState,stateFunc}:CustomA
                   gap: 10,
                   justifyContent: 'flex-end',
                 }}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                onPress={() => {
+                  if(editAddress){
+                    editAddress(address.place,address.streetAddress,address.city,address.postalCode,address.state,address.country,address.index)
+                  }
+                  }}
+                >
                   <Ionicons name="create-outline" size={25} color={'#325f88'} />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => handleDelete(address.address.streetAddress)}>
+                  onPress={() => handleDelete(address.index)}>
                   <Ionicons name="trash-outline" size={25} color={'#325f88'}/>
                 </TouchableOpacity>
               </View>

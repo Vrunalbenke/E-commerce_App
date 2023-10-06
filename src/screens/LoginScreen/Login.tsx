@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { loginUser } from '../../redux/Slice/registerSlice';
 import Toast from 'react-native-simple-toast';
 import font from '../../Constants/fonts'
+import { AppName } from '../../Constants/string';
 
 const Login = ({navigation}: LoginNavigatonProp) => {
 
@@ -88,13 +89,14 @@ const Login = ({navigation}: LoginNavigatonProp) => {
           style={{
             fontSize: 50,
             fontFamily: font.BebasNB,
+            color:'#325f88'
           }}
           headerContainerStyle={{
             height: '25%',
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          headerTitle="NeoSTORE"
+          headerTitle= {AppName}
         />
         <View style={styles.MidArea}>
           <Text style={styles.greeting}>Welcome !</Text>

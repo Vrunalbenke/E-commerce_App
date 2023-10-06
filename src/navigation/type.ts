@@ -17,7 +17,16 @@ export type RootStackParamList = {
   OrdersList: undefined;
   OrdersDetail: {orderID:number,orderDate:string};
   AddressList: undefined;
-  NewAddress: undefined;
+  NewAddress: {
+    place:string,
+    streetAddress : string,
+    city: string,
+    postalCode : string,
+    state : string,
+    country : string,
+    btnName:string,
+    index:number
+  };
   Profile: undefined;
   EditProfile: undefined;
   ChangePassword: undefined;

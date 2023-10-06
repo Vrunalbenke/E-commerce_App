@@ -44,13 +44,13 @@ const Category = ({route, navigation}: CategoryNavigatonProp) => {
 
   return (
     <SafeAreaView style={styles.root}>
-      <View style={styles.headerConatianer}>
+      <View style={styles.headerContianer}>
         <TouchableOpacity onPress={() => navigation.navigate('FullCategory')}>
           <Ionicons name="arrow-back-outline" size={29} color={'#fff'} />
         </TouchableOpacity>
         <CustomHeader
           style={{
-            paddingTop: 6,
+            // paddingTop: 6,
             fontSize: 30,
             fontFamily: font.BebasNB,
             color: '#fff',
@@ -89,10 +89,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#325f88',
     // backgroundColor: color.offWhite,
   },
-  headerConatianer: {
+  headerContianer: {
     // backgroundColor:'#d4d1d1',
-    // padding: 10,
-    margin: 0,
+    padding: 10,
+    // margin: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

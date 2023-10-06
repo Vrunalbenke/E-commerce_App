@@ -119,6 +119,7 @@ const CustomFlatList = ({
           },
           shadowOpacity: 0.2,
           shadowRadius: 10,
+          elevation:4
         }}
         onPress={()=> (onPress(item.item.id,product_category_id))}
         >
@@ -137,10 +138,10 @@ const CustomFlatList = ({
           </View>
 
           <View style={{padding: 10}}>
-            <Text style={{fontSize: 25,fontWeight:"700"}}>
+            <Text style={{fontSize: 25,fontWeight:"700",color:'#000'}}>
               {item.item.name}
             </Text>
-            <Text style={{fontSize: 20}}>₹{commafy(item.item.cost)}</Text>
+            <Text style={{fontSize: 20,color:'#000'}}>₹{commafy(item.item.cost)}</Text>
            
             {StarRating(item.item.rating)}
           </View>

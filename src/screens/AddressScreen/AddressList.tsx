@@ -20,6 +20,20 @@ const AddressList = ({route, navigation}: AddressListNavigationProp) => {
   console.log(address);
 
   useEffect(() => {}, [address]);
+
+  function editAddress(place:string,streetAddress:string,city:string,postalCode:string,state:string,country:string,index:number){
+    // console.log(streetAddress,city,postalCode,state,country)
+    navigation.navigate('NewAddress', {
+      place:place,
+      streetAddress : streetAddress,
+      city: city,
+      postalCode: postalCode,
+      state:state,
+      country:country,
+      btnName:'Save Address',
+      index:index,
+    })
+  }
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
       <View style={styles.headerContianer}>
@@ -28,7 +42,7 @@ const AddressList = ({route, navigation}: AddressListNavigationProp) => {
         </TouchableOpacity>
         <CustomHeader
           style={{
-            paddingTop: 6,
+            // paddingTop: 6,
             fontSize: 30,
             fontFamily: font.BebasNB,
             color:'#fff'
@@ -43,7 +57,16 @@ const AddressList = ({route, navigation}: AddressListNavigationProp) => {
         <TouchableOpacity
           style={styles.addButton}
           onPress={() => {
-            navigation.navigate('NewAddress');
+            navigation.navigate('NewAddress',{
+                place:'home',
+                streetAddress : '',
+                city: '',
+                postalCode : '',
+                state : '',
+                country : '',
+                btnName:'',
+                index:0,
+            });
           }}>
           <Ionicons name="add-circle-outline" size={45} color="#fff" />
         </TouchableOpacity>
@@ -53,7 +76,7 @@ const AddressList = ({route, navigation}: AddressListNavigationProp) => {
           <ScrollView bounces={false}>
             {address.map((element, index) => {
               return (
-                <CustomAddressCard key={index} address={element} order={0} />
+                <CustomAddressCard key={index} address={element} order={0} editAddress={editAddress} />
               );
             })}
           </ScrollView>
@@ -79,7 +102,7 @@ const styles = StyleSheet.create({
   },
   headerContianer: {
     // backgroundColor:'#d4d1d1',
-    padding: 5,
+    padding: 10,
     margin: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',

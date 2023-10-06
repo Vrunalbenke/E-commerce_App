@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import CustomHeader from '../../components/CustomHeader';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
-import {AddToCart} from '../../redux/Slice/cartSlice';
+import {AddToCart, getCartItem} from '../../redux/Slice/cartSlice';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import font from '../../Constants/fonts';
 import color from '../../Constants/colors';
@@ -26,17 +26,28 @@ const ProductDetail = ({route,navigation}:ProductDetailNavigatonProp) => {
     state => state.Product.ProductDetailData,
   );
   const accessToken = useAppSelector(state => state.Auth.AccessToken);
+  const cartItemList = useAppSelector(state => state.Cart.CartItem.data)
+    console.log(cartItemList,'🛟🛟🛟🛟🛟🛟🛟')
 
-  async function AppendToCart(product_id) {
+
+  async function AppendToCart(product_id:number) {
     const formData = new FormData();
     formData.append('product_id', product_id);
     formData.append('quantity', 1);
 
     try {
       await dispatch(AddToCart({formData, accessToken})).unwrap();
-    } catch (err) {
+    } 
+    catch (err) {
       console.error(err);
     }
+
+      try {
+        await dispatch(getCartItem(accessToken));
+      } 
+      catch (error) {
+        console.log(error);
+      }
   }
 
   async function onPressProductDetail(product_id: number) {
@@ -107,11 +118,13 @@ const ProductDetail = ({route,navigation}:ProductDetailNavigatonProp) => {
     return str.join('.');
 }
 
+  
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
       <View style={styles.headerContianer}>
         <TouchableOpacity onPress={() => navigation.navigate(route.params.backRoute,{
-          product_category_id:route.params.product_category_id
+          product_category_id:route.params.product_category_id,
         })}>
           <Ionicons name="arrow-back-outline" size={29} color={'#fff'} />
         </TouchableOpacity>
@@ -131,15 +144,16 @@ const ProductDetail = ({route,navigation}:ProductDetailNavigatonProp) => {
         />
         <View></View>
       </View>
-      <ScrollView
-      showsVerticalScrollIndicator ={false}
-        style={{
+      <View style={{
           flex: 1,
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
           paddingTop: 30,
           backgroundColor: '#fff',
         }}>
+      <ScrollView
+      showsVerticalScrollIndicator ={false}
+        >
         <ScrollView
           horizontal
           pagingEnabled={true}
@@ -158,7 +172,7 @@ const ProductDetail = ({route,navigation}:ProductDetailNavigatonProp) => {
             {StarRating(ProductDetail.rating)}
           </Text>
           <Text style={styles.productDescription}>
-            <Text style={{fontSize: 18, fontWeight: '500'}}>Description: </Text>
+            <Text style={{fontSize: 18, fontWeight: '500',color:'#000'}}>Description: </Text>
             {ProductDetail.description}
           </Text>
           <Text style={styles.productCost}>Price: ₹{commafy(ProductDetail.cost)}</Text>
@@ -166,7 +180,7 @@ const ProductDetail = ({route,navigation}:ProductDetailNavigatonProp) => {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               onPress={() =>
-                AppendToCart(ProductDetail.product_images[0].product_id)
+                AppendToCart(ProductDetail.id)
               }
               style={styles.button}>
               <Text style={styles.buttonText}>Add to cart</Text>
@@ -184,6 +198,7 @@ const ProductDetail = ({route,navigation}:ProductDetailNavigatonProp) => {
         </View>
         <CustomSimilarProducts product_id={ProductDetail.id} onPressProductDetail={onPressProductDetail} />
       </ScrollView>
+      </View>
     </SafeAreaView>
     
   );
@@ -195,8 +210,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   headerContianer: {
-    // backgroundColor:'#d4d1d1',
-    // padding: 10,
     margin: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -216,6 +229,7 @@ const styles = StyleSheet.create({
   productDescription: {
     fontSize: 16,
     marginBottom: 10,
+    color:'#000'
   },
   imageScrollView: {
     height: 200,
@@ -232,6 +246,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginTop: 5,
+    color:'#000'
   },
   productRating: {
     fontSize: 18,

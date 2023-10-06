@@ -43,6 +43,7 @@ const ForgotPassword = ({navigation}: ForgotPasswordNavigationProp) => {
   async function forgotPass() {
     try {
       await dispatch(getPassword(email)).unwrap();
+      navigation.navigate('Login')
     } catch (err) {
       console.log(err);
     }
@@ -110,7 +111,7 @@ const ForgotPassword = ({navigation}: ForgotPasswordNavigationProp) => {
               }
               error={error}
             />
-            <CustomButton BtnName="Login" onPress={validate} />
+            <CustomButton BtnName="Send Password" onPress={validate} />
           </View>
         </View>
       </View>

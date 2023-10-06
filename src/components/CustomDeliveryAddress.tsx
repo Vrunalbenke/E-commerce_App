@@ -21,7 +21,6 @@ const CustomDeliveryAddress = ({stage}: CustomDeliveryAddressProps) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const [isSelected,setIsSelected]= useState<number>();
-  // console.log('IsSelected',isSelected === undefined)
   function handleSelect(index:number){
     setIsSelected(index)
   }
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#8B4513',
+    backgroundColor: '#1A3851',
     //2b2a2a
   },
   secondContainer: {},
@@ -94,11 +93,11 @@ const styles = StyleSheet.create({
   },
   NextBtn: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 10,
     // shadowColor:'#000',
     // backgroundColor: '#8B4513',
     backgroundColor: '#1A3851',
-    width: '100%',
+    width: '95%',
     borderRadius: 5,
     alignSelf: 'center',
     justifyContent: 'center',

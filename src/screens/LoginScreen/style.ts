@@ -18,9 +18,10 @@ export const styles = StyleSheet.create({
     },
     greeting: {
       fontFamily: font.RobotoC,
-      fontWeight: '500',
+      fontWeight: '600',
       fontSize: 24,
       // letterSpacing: 1,
+      color:'#000'
     },
     loginActionText: {
       fontSize: 16,

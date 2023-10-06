@@ -36,7 +36,7 @@ const CustomToggleButton = ({
         <TouchableOpacity
           style={[
             styles.MaleContainer,
-            {backgroundColor: male ? color.black : color.white},
+            {backgroundColor: male ? '#325f88' : color.white},
           ]}
           onPress={() => onPress('M')}>
           <Text style={[styles.Male, {color: male ? color.white : color.black}]}>
@@ -51,7 +51,7 @@ const CustomToggleButton = ({
         <TouchableOpacity
           style={[
             styles.FemaleContainer,
-            {backgroundColor: female ? color.black : color.white},
+            {backgroundColor: female ? '#325f88' : color.white},
           ]}
           onPress={() => onPress('F')}>
           <Text style={[styles.Female, {color: female ? color.white : color.black}]}>
@@ -76,19 +76,24 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     // height:'10%'
-    paddingBottom: 20,
+    paddingBottom: 10,
+    // backgroundColor:'pink'
   },
-  ToggleTextContainer: {},
+  ToggleTextContainer: {
+    alignItems:'center'
+  },
   ToggleText: {
     fontSize: 20,
     fontFamily: font.RobotoC,
     fontWeight: '400',
     paddingLeft: 10,
     letterSpacing: 1,
+    color:'#000'
   },
   ToggleBtnContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    alignSelf:'center',
     borderWidth: 1,
   },
   MaleContainer: {

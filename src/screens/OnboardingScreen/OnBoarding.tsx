@@ -5,6 +5,7 @@ import Lottie from 'lottie-react-native';
 import {OnBoardingNavigatonProp} from '../../navigation/type';
 import color from '../../Constants/colors'
 import font from '../../Constants/fonts'
+import { AppName } from '../../Constants/string';
 
 const {width, height} = Dimensions.get('window');
 
@@ -44,11 +45,12 @@ const SkipButton = ({...props})=>{
         onDone={() => OnboardingDone()}
         onSkip={() => OnboardingDone()}
         // bottomBarColor="#000"
-        bottomBarHighlight={false}
+        // bottomBarHighlight={false}
         SkipButtonComponent={SkipButton}
         NextButtonComponent={NextButton}
         DoneButtonComponent={DoneButton}
-        titleStyles={{fontFamily:font.RobotoC,fontWeight:'500'}}
+        titleStyles={{fontFamily:font.RobotoC,fontWeight:'600',color:'#000'}}
+        subTitleStyles={{color:'#000',fontSize:16}}
         pages={[
           {
             backgroundColor: color.white ,
@@ -64,7 +66,7 @@ const SkipButton = ({...props})=>{
               </View>
             ),
             title: 'Discover the Perfect Furniture',
-            subtitle: 'Welcome to NeoStore! Get ready to explore a world of exquisite furniture designs that will transform your living spaces. From sleek modern pieces to timeless classics, we have something for every style and budget.',
+            subtitle: `Welcome to ${AppName}! Get ready to explore a world of exquisite furniture designs that will transform your living spaces. From sleek modern pieces to timeless classics, we have something for every style and budget.`,
           },
           {
             backgroundColor: color.white,
@@ -135,7 +137,8 @@ const styles = StyleSheet.create({
     // color:'#000',
     fontFamily: font.RobotoC,
     fontSize:18,
-    fontWeight:'500'
+    fontWeight:'600',
+    color:'#000'
   },
 
   Lottie: {

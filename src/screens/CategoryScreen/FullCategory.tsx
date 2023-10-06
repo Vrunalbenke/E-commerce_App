@@ -18,12 +18,7 @@ import {getProduct, getProductDetail} from '../../redux/Slice/productSlice';
 
 const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
   const fullProductList = useAppSelector(state => state.Product.FullProduct);
-  // fullProductList[0].map((item)=>{
 
-  // console.log(item.name,'🍿🍿🍿🍿🍿🍿🍿🍿🍿🍿🍿')
-  // console.log(item.cost,'🍿🍿🍿🍿🍿🍿🍿🍿🍿🍿🍿')
-  // console.log(item.id,'🍿🍿🍿🍿🍿🍿🍿🍿🍿🍿🍿')
-  // })
   const dispatch = useAppDispatch();
 
 
@@ -136,13 +131,13 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
           </TouchableOpacity>
         </View>
       </View>
-
+        <View style={styles.mainContainer}>
       <ScrollView
-        style={styles.mainContainer}
+        
         showsVerticalScrollIndicator={false}
         bounces={false}>
         {/***********  TABLES  ***********/}
-        <View>
+        <View style={{marginBottom:10}}>
           <View style={[styles.ProductHeaderContainer, {}]}>
             <Text style={styles.ProductCategoryTXT}>Tables</Text>
             <TouchableOpacity
@@ -176,6 +171,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
                     },
                     shadowOpacity: 0.2,
                     shadowRadius: 10,
+                    elevation:4
                   }}
                   onPress={() => onPressProductDetail(item.id, 1)}>
                   <View>
@@ -197,10 +193,10 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
                     </View>
 
                     <View style={{padding: 10}}>
-                      <Text style={{fontSize: 25, fontWeight: '700'}}>
+                      <Text style={{fontSize: 25, fontWeight: '700',color:'#000'}}>
                         {item.name}
                       </Text>
-                      <Text style={{fontSize: 20}}>₹{commafy(item.cost)}</Text>
+                      <Text style={{fontSize: 20,color:'#000'}}>₹{commafy(item.cost)}</Text>
 
                       {StarRating(item.rating)}
                     </View>
@@ -212,7 +208,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
         </View>
 
         {/***********  CHAIR  ***********/}
-        <View>
+        <View style={{marginBottom:10}}>
           <View style={[styles.ProductHeaderContainer, {}]}>
             <Text style={styles.ProductCategoryTXT}>Chair</Text>
             <TouchableOpacity
@@ -226,7 +222,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
             </TouchableOpacity>
           </View>
           <ScrollView
-            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
             bounces={false}
             horizontal>
             {fullProductList[1].map((item, index) => {
@@ -245,6 +241,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
                     },
                     shadowOpacity: 0.2,
                     shadowRadius: 10,
+                    elevation:4
                   }}
                   onPress={() => onPressProductDetail(item.id, 2)}>
                   <View>
@@ -266,10 +263,10 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
                     </View>
 
                     <View style={{padding: 10}}>
-                      <Text style={{fontSize: 25, fontWeight: '700'}}>
+                      <Text style={{fontSize: 25, fontWeight: '700',color:'#000'}}>
                         {item.name}
                       </Text>
-                      <Text style={{fontSize: 20}}>₹{commafy(item.cost)}</Text>
+                      <Text style={{fontSize: 20,color:'#000'}}>₹{commafy(item.cost)}</Text>
 
                       {StarRating(item.rating)}
                     </View>
@@ -281,7 +278,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
         </View>
 
         {/***********  SOFA  ***********/}
-        <View>
+        <View style={{marginBottom:10}}>
           <View style={[styles.ProductHeaderContainer, {}]}>
             <Text style={styles.ProductCategoryTXT}>Sofa</Text>
             <TouchableOpacity
@@ -295,7 +292,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
             </TouchableOpacity>
           </View>
           <ScrollView
-            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
             bounces={false}
             horizontal>
             {fullProductList[2].map((item, index) => {
@@ -314,6 +311,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
                     },
                     shadowOpacity: 0.2,
                     shadowRadius: 10,
+                    elevation:4
                   }}
                   onPress={() => onPressProductDetail(item.id, 3)}>
                   <View>
@@ -335,10 +333,10 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
                     </View>
 
                     <View style={{padding: 10}}>
-                      <Text style={{fontSize: 25, fontWeight: '700'}}>
+                      <Text style={{fontSize: 25, fontWeight: '700',color:'#000'}}>
                         {item.name}
                       </Text>
-                      <Text style={{fontSize: 20}}>₹{commafy(item.cost)}</Text>
+                      <Text style={{fontSize: 20,color:'#000'}}>₹{commafy(item.cost)}</Text>
 
                       {StarRating(item.rating)}
                     </View>
@@ -350,7 +348,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
         </View>
 
         {/***********  BED  ***********/}
-        <View>
+        <View style={{marginBottom:10}}>
           <View style={[styles.ProductHeaderContainer, {}]}>
             <Text style={styles.ProductCategoryTXT}>Bed</Text>
             <TouchableOpacity
@@ -364,7 +362,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
             </TouchableOpacity>
           </View>
           <ScrollView
-            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
             bounces={false}
             horizontal>
             {fullProductList[3].map((item, index) => {
@@ -383,6 +381,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
                     },
                     shadowOpacity: 0.2,
                     shadowRadius: 10,
+                    elevation:4
                   }}
                   onPress={() => onPressProductDetail(item.id, 4)}>
                   <View>
@@ -404,10 +403,10 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
                     </View>
 
                     <View style={{padding: 10}}>
-                      <Text style={{fontSize: 25, fontWeight: '700'}}>
+                      <Text style={{fontSize: 25, fontWeight: '700',color:'#000'}}>
                         {item.name}
                       </Text>
-                      <Text style={{fontSize: 20}}>₹{commafy(item.cost)}</Text>
+                      <Text style={{fontSize: 20,color:'#000'}}>₹{commafy(item.cost)}</Text>
 
                       {StarRating(item.rating)}
                     </View>
@@ -419,6 +418,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
         </View>
 
       </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -452,12 +452,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
+    marginBottom:10,
     backgroundColor: '#f5f5f5',
   },
   ProductCategoryTXT: {
     fontSize: 25,
     fontWeight: '700',
-    // color:'#fff'
+    color:'#000'
   },
   ViewAllTXT: {
     fontSize: 20,

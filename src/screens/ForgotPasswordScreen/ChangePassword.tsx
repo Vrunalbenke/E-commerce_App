@@ -13,6 +13,9 @@ import {ChangePasswordNavigationProp} from '../../navigation/type';
 import CustomButton from '../../components/CustomButton';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { changePassword } from '../../redux/Slice/passwordSlice';
+import CustomHeader from '../../components/CustomHeader';
+import font from '../../Constants/fonts'
+
 
 const ChangePassword = ({navigation}: ChangePasswordNavigationProp) => {
     const dispatch = useAppDispatch();
@@ -101,8 +104,23 @@ const ChangePassword = ({navigation}: ChangePasswordNavigationProp) => {
     <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
       <View style={styles.headerContianer}>
         <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Ionicons name="arrow-back-outline" size={29} />
+          <Ionicons name="arrow-back-outline" size={29} color={'#fff'}/>
         </TouchableOpacity>
+        <CustomHeader
+          style={{
+            // paddingTop: 6,
+            fontSize: 30,
+            fontFamily: font.BebasNB,
+            color: '#fff',
+          }}
+          headerContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            padding: 10,
+          }}
+          headerTitle="Change Password"
+        />
+        <View></View>
       </View>
 
       <View style={styles.MainContainer}>
@@ -110,12 +128,12 @@ const ChangePassword = ({navigation}: ChangePasswordNavigationProp) => {
         source={require('../../assets/images/ResetPassword.png')}
         style={{width:300,height:300}}
         /> */}
-        <View>
-          <Text style={{fontSize: 45, fontWeight: 'bold',   color:'#325f88'}}>
+        <View style={{paddingTop:10}}>
+          {/* <Text style={{fontSize: 45, fontWeight: 'bold',   color:'#325f88'}}>
             Change Password
-          </Text>
-          <Text style={{fontSize: 18, fontWeight: '500', color: '#263238'}}>
-          Much like we sharpen our tools every week for precision, remember to sharpen your online security by changing your password every 3 months. Keep your digital space finely tuned and protected!" 🔧🔐💻
+          </Text> */}
+          <Text style={{fontSize: 20, fontWeight: '600', color: '#263238'}}>
+          Remeber to change your password every 3 months. Keep your digital space finely tuned and protected!" 🔧🔐💻
           </Text>
           <View style={{marginTop: 10}}>
             <View style={styles.LabelInputContainer}>
@@ -170,7 +188,7 @@ const ChangePassword = ({navigation}: ChangePasswordNavigationProp) => {
             </View>
 
             <View style={{marginTop: 20}}>
-              <CustomButton onPress={validate} BtnName="Save Changes" />
+              <CustomButton onPress={validate} BtnName="Change Password" />
             </View>
           </View>
         </View>
@@ -183,9 +201,7 @@ export default ChangePassword;
 
 const styles = StyleSheet.create({
   headerContianer: {
-    // backgroundColor:'#d4d1d1',
-    // padding: 10,
-    marginVertical: 10,
+    padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -208,7 +224,7 @@ const styles = StyleSheet.create({
   },
   InputFeild: {
     backgroundColor: '#f4f3f3',
-    height: 40,
+    height: 50,
     borderRadius: 10,
     paddingHorizontal: 10,
     fontSize: 20,

@@ -44,11 +44,11 @@ const CustomInputField = ({
   }
 
   return (
-    <View style={styles.MainContainer}>
+    <View style={[styles.MainContainer,{marginBottom: error ? 0 :10}]}>
       <Text style={styles.labelStyle}>{label}</Text>
       <View style={styles.TinpIconStyle}>
         <TextInput
-          style={styles.textInputStyle}
+          style={[styles.textInputStyle,{    height: error ? 40 : 50}]}
           secureTextEntry={!hidepass ? !secureTextEntry : secureTextEntry}
           placeholder={placeholder}
           keyboardType={keyboardType}
@@ -78,14 +78,15 @@ export default CustomInputField;
 const styles = StyleSheet.create({
   MainContainer: {
     // backgroundColor:'yellow',
-    marginBottom: 10,
+    
   },
   labelStyle: {
     fontSize: 20,
     fontFamily: font.RobotoC,
-    fontWeight: '400',
+    fontWeight: '500',
     paddingLeft: 10,
     letterSpacing: 1,
+    color:'#000'
   },
   textInputStyle: {
     fontSize: 18,
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     // marginBottom: 15,
-    height: 40,
+
     width: '85%',
     // backgroundColor:'lightblue'
   },
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
     color: color.red,
     fontSize: 16,
     // fontFamily:'Roboto Condensed',
-    alignSelf: 'center',
+    alignSelf: 'flex-start',
   },
   IconContainer: {
     // backgroundColor:'yellow',

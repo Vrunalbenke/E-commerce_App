@@ -6,7 +6,8 @@ import {
   View,
   Modal,
   Image,
-  TextInput
+  TextInput,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -19,7 +20,8 @@ import CustomButton from '../../components/CustomButton';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {getUserDetail, updateUserDetail} from '../../redux/Slice/userSlice';
 import ImagePicker from 'react-native-image-crop-picker';
-import ImageModeModal from 'react-native-modal';
+import AppleCamera from '../../assets/images/Android_Photos_Logo.jpeg'
+import {Button, PaperProvider, Dialog, Portal} from 'react-native-paper';
 
 const EditProfile = ({navigation}: EditProfileNavigationProp) => {
   const dispatch = useAppDispatch();
@@ -31,14 +33,9 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
   const [modal, showModal] = useState(false);
   const [optionModal, setOptionModal] = useState(false);
   const [date, setDate] = useState('');
+  const [visible, setVisible] = React.useState(false);
   const currentDate = new Date();
-  console.log(
-    currentDate.getDate(),
-    ' ',
-    currentDate.getMonth(),
-    ' ',
-    currentDate.getFullYear(),
-  );
+  
   const eligibleDate = `${
     currentDate.getFullYear() - 16
   }-${currentDate.getMonth()}-${currentDate.getDate()}`;
@@ -50,7 +47,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
     last_name: UserStoreData.last_name,
     dob: '',
     phone_no: UserStoreData.phone_no,
-    profile_pic:UserData.user_data.profile_pic,
+    profile_pic: UserData.user_data.profile_pic,
   });
 
   const [error, setError] = useState({
@@ -130,10 +127,18 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
       console.log(error);
     }
   }
+  const showDialog = () => setVisible(true);
+
+  const hideDialog = () => setVisible(false);
+
+  const handlePhotoUpload = async () => {
+    showDialog();
+    console.log('async upload');
+  };
 
   function SelectImage() {
     console.log('first');
-    
+
     ImagePicker.openPicker({
       width: 300,
       height: 400,
@@ -146,7 +151,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
     });
   }
 
-  function ClickImage(){
+  function ClickImage() {
     ImagePicker.openCamera({
       width: 300,
       height: 400,
@@ -160,16 +165,36 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
   }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#d4d1d1'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
+       <PaperProvider>
+        <Portal>
+          <Dialog style={styles.Modal} visible={visible} onDismiss={hideDialog}>
+            <Dialog.Title style={styles.ModalTitle}>Upload Image </Dialog.Title>
+            <Dialog.Content>
+              <Text onPress={ClickImage} style={styles.ModalBtn}>
+                Camera
+              </Text>
+              <Text
+                onPress={SelectImage}
+                style={styles.ModalBtn}>
+                Gallery
+              </Text>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={hideDialog}>Close</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
       <View style={styles.headerConatianer}>
         <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Ionicons name="arrow-back-outline" size={29} />
+          <Ionicons name="arrow-back-outline" size={29} color={'#fff'} />
         </TouchableOpacity>
         <CustomHeader
           style={{
-            // paddingTop: 6,
+            paddingTop: 6,
             fontSize: 30,
             fontFamily: font.BebasNB,
+            color: '#fff',
           }}
           headerContainerStyle={{
             justifyContent: 'center',
@@ -178,9 +203,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
           }}
           headerTitle="Edit Profile"
         />
-        <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
-          <Ionicons name="create-outline" size={29} />
-        </TouchableOpacity>
+        <View></View>
       </View>
 
       <View
@@ -190,46 +213,29 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
           padding: 10,
+          position:'relative'
         }}>
         <View style={styles.EditImage}>
-          {!input.profile_pic ? 
-          (<Image
-            source= {require('../../assets/images/UserImage.jpg')}
-            style={{width: 120, height: 120, borderRadius: 60}}
-          />):
-          (<Image
-            source= {{uri:input.profile_pic}}
-            style={{width: 120, height: 120, borderRadius: 60}}
-          />)
-          }
-          
+          {!input.profile_pic ? (
+            <Image
+              source={require('../../assets/images/UserImage.jpg')}
+              style={{width: 120, height: 120, borderRadius: 60}}
+            />
+          ) : (
+            <Image
+              source={{uri: input.profile_pic}}
+              style={{width: 120, height: 120, borderRadius: 60}}
+            />
+          )}
+
           <TouchableOpacity
             onPress={() => {
-              setOptionModal(!optionModal);
+              console.log('first')
+              handlePhotoUpload()
+              // setOptionModal(!optionModal);
             }}>
             <MaterialIcons name="edit" size={25} style={styles.editIcon} />
           </TouchableOpacity>
-          <ImageModeModal isVisible={optionModal}>
-            <View style={styles.modalContainer}>
-              <TouchableOpacity
-                style={styles.optionContainer}
-                onPress={()=>SelectImage()}
-              >
-                <Text style={styles.optionText}>Select from Gallery</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.optionContainer}
-                onPress={()=>ClickImage()}
-              >
-                <Text style={styles.optionText}>Take a Photo</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.cancelButton}
-                onPress={() => setOptionModal(!optionModal)}>
-                <Text style={styles.cancelButtonText}>Cancel</Text>
-              </TouchableOpacity>
-            </View>
-          </ImageModeModal>
         </View>
         <View style={styles.LabelInputContainer}>
           <Text style={styles.Label}>Email Address</Text>
@@ -336,6 +342,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
           <CustomButton onPress={validate} BtnName="Save Changes" />
         </View>
       </View>
+      </PaperProvider>
     </SafeAreaView>
   );
 };
@@ -350,6 +357,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: 10,
   },
   LabelInputContainer: {
     margin: 10,
@@ -357,10 +365,12 @@ const styles = StyleSheet.create({
   },
   Label: {
     fontSize: 20,
+    color: '#000',
+    fontWeight: '600',
   },
   InputFeild: {
     backgroundColor: '#f4f3f3',
-    height: 40,
+    height: 50,
     borderRadius: 10,
     paddingHorizontal: 10,
     fontSize: 20,
@@ -371,6 +381,7 @@ const styles = StyleSheet.create({
   EditImage: {
     justifyContent: 'center',
     alignItems: 'center',
+    position:'relative'
   },
   editIcon: {
     position: 'absolute',
@@ -378,10 +389,20 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   modalContainer: {
+    position:'absolute',
+    top:'30%',
+    left:'15%',
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: 'pink',
+    width: 300,
+    height: 200,
+    padding:10
+  },
+  PhotosORCamera:{
+    flexDirection:'row',
+    justifyContent:'space-around'
   },
   optionContainer: {
     width: 200,
@@ -389,8 +410,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
+  ModalImage: {
+    height:50,
+    width:50
+  },
   optionText: {
-    fontSize: 16,
+    fontSize: 12,
     textAlign: 'center',
   },
   cancelButton: {
@@ -400,5 +425,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'red',
     textAlign: 'center',
+  },
+  Modal: {
+    backgroundColor: '#a1a1bc',
+  },
+  ModalTitle: {
+    alignSelf: 'center',
+  },
+  ModalBtn: {
+    borderRadius: 10,
+    borderWidth: 1,
+    paddingVertical: 10,
+    marginVertical: 10,
+    alignSelf: 'center',
+    fontSize: 16,
+    paddingHorizontal: 85,
   },
 });

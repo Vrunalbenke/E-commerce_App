@@ -45,7 +45,7 @@ const SkipButton = ({...props})=>{
         onDone={() => OnboardingDone()}
         onSkip={() => OnboardingDone()}
         // bottomBarColor="#000"
-        // bottomBarHighlight={false}
+        bottomBarHighlight={false}
         SkipButtonComponent={SkipButton}
         NextButtonComponent={NextButton}
         DoneButtonComponent={DoneButton}
@@ -56,7 +56,6 @@ const SkipButton = ({...props})=>{
             backgroundColor: color.white ,
             image: (
               <View style={styles.Lottie}>
-                {/* <Text>Hello Lottie</Text> */}
                 <Lottie
                   style={styles.Lottie}
                   source={require('../../assets/Lottie-JSON/bedside-table.lottie.json')}
@@ -72,7 +71,6 @@ const SkipButton = ({...props})=>{
             backgroundColor: color.white,
             image: (
               <View>
-                {/* <Text>Hello Lottie</Text> */}
                 <Lottie
                   style={styles.babyCradle}
                   source={require('../../assets/Lottie-JSON/baby_cradle.lottie.json')}
@@ -88,7 +86,6 @@ const SkipButton = ({...props})=>{
             backgroundColor: color.white,
             image: (
               <View>
-                {/* <Text>Hello Lottie</Text> */}
                 <Lottie
                   style={styles.cupBoard}
                   source={require('../../assets/Lottie-JSON/cupboard.lottie.json')}
@@ -104,7 +101,6 @@ const SkipButton = ({...props})=>{
             backgroundColor: color.white,
             image: (
               <View>
-                {/* <Text>Hello Lottie</Text> */}
                 <Lottie
                   style={styles.diningTable}
                   source={require('../../assets/Lottie-JSON/dining-table.lottie.json')}

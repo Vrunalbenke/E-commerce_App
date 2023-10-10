@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {
   ScrollView,
   View,
@@ -18,7 +18,10 @@ import color from '../../Constants/colors';
 import CustomSimilarProducts from '../../components/CustomSimilarProducts';
 import { getProductDetail } from '../../redux/Slice/productSlice';
 import { ProductDetailNavigatonProp } from '../../navigation/type';
+import Lottie from 'lottie-react-native';
 const windowWidth = Dimensions.get('window').width;
+
+const {width,height} = Dimensions.get('screen')
 
 const ProductDetail = ({route,navigation}:ProductDetailNavigatonProp) => {
   const dispatch = useAppDispatch();
@@ -28,6 +31,7 @@ const ProductDetail = ({route,navigation}:ProductDetailNavigatonProp) => {
   const accessToken = useAppSelector(state => state.Auth.AccessToken);
   const cartItemList = useAppSelector(state => state.Cart.CartItem.data)
     console.log(cartItemList,'🛟🛟🛟🛟🛟🛟🛟')
+    const [isLoading,setIsloading] = useState(false)
 
 
   async function AppendToCart(product_id:number) {
@@ -52,6 +56,7 @@ const ProductDetail = ({route,navigation}:ProductDetailNavigatonProp) => {
 
   async function onPressProductDetail(product_id: number) {
     try {
+      setIsloading(true)
       const productDetailAPIData = await dispatch(
         getProductDetail(product_id),
       ).unwrap();
@@ -59,6 +64,7 @@ const ProductDetail = ({route,navigation}:ProductDetailNavigatonProp) => {
         product_category_id:route.params.product_category_id,
         backRoute:route.params.backRoute,
       });
+      setIsloading(false)
     } catch (err) {
       console.log(err);
     }
@@ -151,6 +157,14 @@ const ProductDetail = ({route,navigation}:ProductDetailNavigatonProp) => {
           paddingTop: 30,
           backgroundColor: '#fff',
         }}>
+      {isLoading ? (
+        <Lottie
+        style={styles.Loader}
+        source={require('../../assets/Lottie-JSON/furniture_loader.json')}
+        autoPlay
+        loop
+      />
+      ) :(
       <ScrollView
       showsVerticalScrollIndicator ={false}
         >
@@ -197,7 +211,7 @@ const ProductDetail = ({route,navigation}:ProductDetailNavigatonProp) => {
           </View>
         </View>
         <CustomSimilarProducts product_id={ProductDetail.id} onPressProductDetail={onPressProductDetail} />
-      </ScrollView>
+      </ScrollView>)}
       </View>
     </SafeAreaView>
     
@@ -217,6 +231,10 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     flex: 1,
+  },
+  Loader: {
+    width: width,
+    height: width,
   },
   productContainer: {
     padding: 20,

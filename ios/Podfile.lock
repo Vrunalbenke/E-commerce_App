@@ -383,6 +383,8 @@ PODS:
   - React-jsinspector (0.72.4)
   - React-logger (0.72.4):
     - glog
+  - react-native-date-picker (4.3.3):
+    - React-Core
   - react-native-maps (1.7.1):
     - React-Core
   - react-native-mmkv (2.10.2):
@@ -517,7 +519,7 @@ PODS:
     - React
   - RNCPicker (2.5.1):
     - React-Core
-  - RNGestureHandler (2.12.1):
+  - RNGestureHandler (2.13.1):
     - React-Core
   - RNImageCropPicker (0.40.0):
     - React-Core
@@ -560,6 +562,13 @@ PODS:
   - RNScreens (3.25.0):
     - React-Core
     - React-RCTImage
+  - RNSound (0.11.2):
+    - React-Core
+    - RNSound/Core (= 0.11.2)
+  - RNSound/Core (0.11.2):
+    - React-Core
+  - RNSVG (13.14.0):
+    - React-Core
   - SocketRocket (0.6.1)
   - Toast (4.0.0)
   - TOCropViewController (2.6.1)
@@ -614,6 +623,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -644,6 +654,8 @@ DEPENDENCIES:
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSound (from `../node_modules/react-native-sound`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -715,6 +727,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-date-picker:
+    :path: "../node_modules/react-native-date-picker"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   react-native-mmkv:
@@ -775,6 +789,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSound:
+    :path: "../node_modules/react-native-sound"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -817,6 +835,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: c7f826e40fa9cab5d37cab6130b1af237332b594
   React-jsinspector: aaed4cf551c4a1c98092436518c2d267b13a673f
   React-logger: da1ebe05ae06eb6db4b162202faeafac4b435e77
+  react-native-date-picker: 1d61c76315098a6ad4c643a356f005916c7d4875
   react-native-maps: 667f9b975549c6fa9b1631bf859440f68ebd3b8f
   react-native-mmkv: 9ae7ca3977e8ef48dbf7f066974eb844c20b5fd7
   react-native-safe-area-context: 7aa8e6d9d0f3100a820efb1a98af68aa747f9284
@@ -843,10 +862,12 @@ SPEC CHECKSUMS:
   RNCCheckbox: 75255b03e604bbcc26411eb31c4cbe3e3865f538
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPicker: 529d564911e93598cc399b56cc0769ce3675f8c8
-  RNGestureHandler: c0d04458598fcb26052494ae23dda8f8f5162b13
+  RNGestureHandler: 38aa38413896620338948fbb5c90579a7b1c3fde
   RNImageCropPicker: 486e2f7e2b0461ce24321f751410dce1b3b49e6d
   RNReanimated: fd0dc9a5889bfac6c45a922b26c902dc6185b4dc
   RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa
+  RNSound: 6c156f925295bdc83e8e422e7d8b38d33bc71852
+  RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863

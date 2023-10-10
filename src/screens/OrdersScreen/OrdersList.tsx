@@ -6,8 +6,10 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
+  Dimensions,
+  Modal,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomHeader from '../../components/CustomHeader';
@@ -15,6 +17,9 @@ import font from '../../Constants/fonts';
 import color from '../../Constants/colors';
 import {OrdersListNavigationProp} from '../../navigation/type';
 import {getOrderDetail} from '../../redux/Slice/orderSlice';
+import LottieView from 'lottie-react-native';
+
+const {width, height} = Dimensions.get('screen');
 
 const OrdersList = ({navigation}: OrdersListNavigationProp) => {
   const orderList = useAppSelector(state => state.Order.orderList);
@@ -22,6 +27,7 @@ const OrdersList = ({navigation}: OrdersListNavigationProp) => {
 
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector(state => state.Auth.AccessToken);
+  const [isLoading, setIsloading] = useState(false);
 
   async function ProductDetails(orderID: number) {
     try {
@@ -61,7 +67,7 @@ const OrdersList = ({navigation}: OrdersListNavigationProp) => {
           headerContainerStyle={{
             justifyContent: 'center',
             alignItems: 'flex-start',
-            padding: 10,
+            // padding: 10,
           }}
           headerTitle="Orders"
         />
@@ -106,22 +112,27 @@ const OrdersList = ({navigation}: OrdersListNavigationProp) => {
                   }}
                 />
                 <View>
-                  <Text style={{fontSize: 25, fontWeight: '700',color:'#000'}}>
+                  <Text
+                    style={{fontSize: 25, fontWeight: '700', color: '#000'}}>
                     Order ID - #{item.id}
                   </Text>
-                  <Text style={{fontSize: 18,color:'#000'}}>
+                  <Text style={{fontSize: 18, color: '#000'}}>
                     Price: ₹{commafy(item.cost)}
                   </Text>
                 </View>
-                
+
                 <TouchableOpacity
-                  style={{alignSelf: 'flex-end',}}
+                  style={{alignSelf: 'flex-end'}}
                   onPress={() => {
                     ProductDetails(item.id);
-                    navigation.navigate('OrdersDetail', {
-                      orderID: item.id,
-                      orderDate: item.created,
-                    });
+                    setIsloading(true);
+                    setTimeout(() => {
+                      setIsloading(false);
+                      navigation.navigate('OrdersDetail', {
+                        orderID: item.id,
+                        orderDate: item.created,
+                      });
+                    }, 1500);
                   }}>
                   <Ionicons
                     name="chevron-forward-sharp"
@@ -134,6 +145,16 @@ const OrdersList = ({navigation}: OrdersListNavigationProp) => {
             );
           })}
         </ScrollView>
+        <Modal visible={isLoading} animationType="fade" transparent={true}>
+          <View style={styles.modalContainer}>
+            <LottieView
+              style={styles.Loader}
+              source={require('../../assets/Lottie-JSON/logoutLoader.json')}
+              autoPlay
+              loop
+            />
+          </View>
+        </Modal>
       </View>
     </SafeAreaView>
   );
@@ -144,7 +165,8 @@ export default OrdersList;
 const styles = StyleSheet.create({
   headerConatianer: {
     flexDirection: 'row',
-    height: '10%',
+    // height: '10%',
+    padding:10,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
@@ -154,5 +176,15 @@ const styles = StyleSheet.create({
   headerRightConatianer: {
     flexDirection: 'row',
     paddingRight: 30,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 100,
+  },
+  Loader: {
+    width: width * 0.15,
+    height: width * 0.15,
   },
 });

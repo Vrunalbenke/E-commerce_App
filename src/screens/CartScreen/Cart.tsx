@@ -42,13 +42,14 @@ const Cart = ({navigation}: CartNavigatonProp) => {
   const cartItemsTotal = useAppSelector(state => state.Cart.CartItem.total);
   const editStatus = useAppSelector(state => state.Cart.EditStatus);
   const deletedItem = useAppSelector(state => state.Cart.DeleteItem);
-  console.log('☄️☄️☄️☄️☄️☄️☄️☄️☄️', editStatus);
-  console.log('☄️☄️☄️☄️☄️☄️☄️☄️☄️', cartItems, '☄️☄️☄️☄️☄️☄️☄️☄️☄️');
-  console.log('rendered');
-  console.log(cartItems);
+  // console.log('☄️☄️☄️☄️☄️☄️☄️☄️☄️', editStatus);
+  // console.log('☄️☄️☄️☄️☄️☄️☄️☄️☄️', cartItems, '☄️☄️☄️☄️☄️☄️☄️☄️☄️');
+  // console.log('rendered');
+  // console.log(cartItems);
 
   useEffect(() => {
     getCartData();
+    console.log('USEEFFECT CALLED')
   }, [editStatus, deletedItem]);
 
   async function getCartData() {
@@ -126,7 +127,7 @@ const Cart = ({navigation}: CartNavigatonProp) => {
   };
 
   function commafy(num: number) {
-    var str = num.toString().split('.');
+    var str = num?.toString().split('.');
     if (str[0].length >= 4) {
       str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
     }
@@ -327,7 +328,7 @@ const Cart = ({navigation}: CartNavigatonProp) => {
           }}>
           <FlatList
             data={cartItems}
-            keyExtractor={item => item.id.toString()}
+            keyExtractor={item => item?.id?.toString()}
             ListHeaderComponent={() => {
               return <View style={{height: 20}}></View>;
             }}

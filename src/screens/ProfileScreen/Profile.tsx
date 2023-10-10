@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   Text,
   View,
+  Modal,
+  Dimensions,
 } from 'react-native';
 import React, {useState} from 'react';
 import CustomHeader from '../../components/CustomHeader';
@@ -17,16 +19,22 @@ import { logout } from '../../redux/Slice/registerSlice';
 import { EmptyData } from '../../redux/Slice/addressSlice';
 import font from '../../Constants/fonts'
 import { CoinName, MemberShip } from '../../Constants/string';
+import LottieView from 'lottie-react-native';
+
+
+const {width,height} = Dimensions.get('screen')
 
 const Profile = ({navigation}: ProfileNavigationProp) => {
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector(state => state.Auth.AccessToken);
   const UserData = useAppSelector(state => state.User.user.data);
   const totalOrders = useAppSelector(state => state.Order.orderList)
-  console.log(totalOrders.data,'⛅️⛅️⛅️⛅️⛅️⛅️⛅️⛅️⛅️⛅️')
   const address = useAppSelector(state => state.Address.address)
   const [open, setOpen] = useState(false);
   const [cfmLogout, setCfmLogout] = useState(false);
+  const [isLoading,setIsloading] = useState(false)
+
+
   function CalNeoCoin(){
      const neocoins = totalOrders.data.reduce((acc,curr)=>{
         return acc = acc+curr.cost
@@ -36,26 +44,28 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
   }
 
   function LogoutUser() {
+    setIsloading(true)
     console.log('Logged out');
-    // dispatch(logout(AuthData.length))
+    setCfmLogout(false)
     dispatch(logout(undefined));
     dispatch(EmptyData([]))
     console.log('Home data,AuthData is Popped:--😋#😋', accessToken);
-    navigation.reset({
-      index: 0,
-      routes: [
-        {
-          name: 'Login',
-        },
-      ],
-    })
+    // navigation.navigate('Login')
+    setTimeout(() => {
+      setIsloading(false)
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Login'}],
+      }
+      )
+    }, 2000);
   }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
       <View style={styles.headerContianer}>
-        <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          <Ionicons name="menu" size={29} style={{color:'#ffffff'}}/>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Ionicons name="arrow-back-outline" size={29} style={{color:'#ffffff'}}/>
         </TouchableOpacity>
         <CustomHeader
           style={{
@@ -94,7 +104,6 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
           <View>
             {UserData?.user_data.profile_pic ? (
               <Image
-              // source={require('../../assets/images/UserImage.jpg')}
               source={{uri:UserData?.user_data.profile_pic}}
               style={{width: 120, height: 120, borderRadius: 60}}
             />
@@ -105,22 +114,16 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
               />
             )}
           
-          {/* <TouchableOpacity onPress={()=>console.log('I was clicked')}>
-          <MaterialIcons name='edit' size={25} style={styles.editIcon}/>
-          </TouchableOpacity> */}
           </View>
           
           <View style={{
-            // backgroundColor:'pink'
           }}>
             <Text style={styles.name}>
               {UserData?.user_data.first_name} {UserData?.user_data.last_name}
             </Text>
             {address.length > 0 && 
             <View>
-              <Text style={[styles.member,{width:250}]}>{address[0]?.streetAddress},{address[0]?.city}-{address[0]?.postalCode},{address[0]?.state},{address[0]?.country}</Text>
-              {/* <Text style={styles.member}></Text>
-              <Text style={styles.member}></Text> */}
+              <Text style={[styles.member,{width:'40%'}]}>{address[0]?.streetAddress},{address[0]?.city}-{address[0]?.postalCode},{address[0]?.state},{address[0]?.country}</Text>
             </View>}
           </View>
         </View>
@@ -156,7 +159,6 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
                 source={require('../../assets/images/Neocoins.png')}
                 style={{width: 30, height: 30}}
               />
-              {/* <Text style={{fontSize: 20}}>{Math.floor(Math.random()*1000)}</Text> */}
               <Text style={{fontSize: 20,color:'#000'}}>{CalNeoCoin()}</Text>
             </View>
             <View
@@ -164,7 +166,6 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
                 paddingLeft: 10,
                 marginTop: 5,
                 flexDirection: 'row',
-                // backgroundColor: 'pink',
                 alignItems: 'flex-end',
                 gap: 2,
               }}>
@@ -173,7 +174,6 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
                 visible={open}
                 onOpen={() => setOpen(true)}
                 onClose={() => setOpen(false)}
-                // ModalComponent={Modal}
                 backgroundColor={'#325f88'}
                 width={300}
                 height={60}
@@ -262,45 +262,49 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
           </TouchableOpacity>
         </View>
       </View>
-      {cfmLogout && (
-        <View style={styles.modalContainer}>
-          <View
-            style={{
-              backgroundColor: '#3498DB',
-              padding: 20,
-              borderRadius: 10,
-              
-            }}>
-            <Text style={{fontSize: 20,color:"#fff",marginBottom:30}}>
-              Are you sure you want to log out?
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-              }}>
-              <TouchableOpacity
+      <Modal visible={cfmLogout} animationType="fade" transparent={true}>
+          <View style={styles.modalContainer}>
+            <View style={styles.Modal}>
+              <Text style={{fontSize: 20, color: '#fff', marginBottom: 30}}>
+                Are you sure you want to log out?
+              </Text>
+              <View
                 style={{
-                  backgroundColor: '#fff',
-                  padding: 10,
-                  borderRadius: 5,
-                }}
-                onPress={() => setCfmLogout(false)}>
-                <Text style={{fontSize: 18, color: '#000'}}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#fff',
-                  padding: 10,
-                  borderRadius: 5,
-                }}
-                onPress={LogoutUser}>
-                <Text style={{fontSize: 18, color: '#000'}}>Confirm</Text>
-              </TouchableOpacity>
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                }}>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#fff',
+                    padding: 10,
+                    borderRadius: 5,
+                  }}
+                  onPress={() => setCfmLogout(false)}>
+                  <Text style={{fontSize: 18, color: '#000'}}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#fff',
+                    padding: 10,
+                    borderRadius: 5,
+                  }}
+                  onPress={LogoutUser}>
+                  <Text style={{fontSize: 18, color: '#000'}}>Confirm</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      )}
+        </Modal>
+        <Modal visible={isLoading} animationType="fade" transparent={true}>
+        <View style={styles.modalContainer}>
+          <LottieView
+          style={styles.Loader}
+          source={require('../../assets/Lottie-JSON/logoutLoader.json')}
+          autoPlay
+          loop
+          />
+          </View>
+          </Modal>
     </SafeAreaView>
   );
 };
@@ -316,12 +320,10 @@ const styles = StyleSheet.create({
   },
   SecondContainer: {
     padding: 10,
-    // height:'100%',
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     gap: 20,
-    // backgroundColor:'yellow'
   },
   name: {
     fontSize: 26,
@@ -329,31 +331,32 @@ const styles = StyleSheet.create({
   },
   member: {
     paddingLeft: 10,
-    // width:200,
     fontSize:16,
     color:'#000'
   },
   thirdContiner: {
     paddingHorizontal: 20,
-    // flexDirection:'row'
     gap: 15,
   },
   editIcon: {
-    // backgroundColor: '#ccc',
-    // color:'#d42e2e',
     position: 'absolute',
     right: 0,
     bottom: 0,
    },
    modalContainer: {
-    position: 'absolute',
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background for modal
     justifyContent: 'center',
     alignItems: 'center',
-    top: '40%',
-    left: '10%',
+    height:100
+  },
+  Modal:{
+    width:"85%",
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    padding: 20,
     borderRadius: 10,
   },
-   
+  Loader:{
+    width:width*0.15,
+    height:width*0.15,
+  }
 });

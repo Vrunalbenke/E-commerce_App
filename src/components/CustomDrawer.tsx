@@ -1,44 +1,37 @@
 import {
-  ImageBackground,
   Image,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
+  Modal,
+  Dimensions,
 } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-} from '@react-navigation/drawer';
 import {useAppDispatch, useAppSelector} from '../redux/store';
 import {logout} from '../redux/Slice/registerSlice';
-import {CustomDrawerNavigationProp} from '../navigation/type';
 import color from '../../src/Constants/colors';
 import font from '../../src/Constants/fonts';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {EmptyData} from '../redux/Slice/addressSlice';
-import {DrawerActions} from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
+import { getOrderList } from '../redux/Slice/orderSlice';
 
-const CustomDrawer = (
-  props: React.ComponentProps<typeof DrawerItemList>,
-  {navigation}: CustomDrawerNavigationProp,
-) => {
+
+// props: React.ComponentProps<typeof DrawerItemList>,
+// {navigation}: CustomDrawerNavigationProp,
+
+const {width,height} = Dimensions.get('screen')
+const CustomDrawer = () => {
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector(state => state.Auth.AccessToken);
   const UserData = useAppSelector(state => state.User.user.data);
-  
+
   const [cfmLogout, setCfmLogout] = useState(false);
+  const [isLoading,setIsloading] = useState(false)
   const [icon, setIcon] = useState('chevron-down-outline');
   const [ddMenu, setDDMenu] = useState(false);
-  const [pressed, setPressed] = useState({
-    Home: true,
-    Category: false,
-    Profile: false,
-    Orders: false,
-    Cart: false,
-  });
 
   const categoryName = [
     {name: 'Table', icon: 'table-bar', route: 1},
@@ -47,25 +40,36 @@ const CustomDrawer = (
     {name: 'Bed', icon: 'king-bed', route: 4},
   ];
 
-  function LogoutUser() {
+  async function getOrderListAndDetail() {
+    try {
+      await dispatch(getOrderList({accessToken})).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function LogoutUser() {
+    setCfmLogout(false)
+    setIsloading(true)
     console.log('Logged out');
-    // dispatch(logout(AuthData.length))
-    dispatch(logout(undefined));
+    dispatch(logout([]));
     dispatch(EmptyData([]));
     console.log('Home data,AuthData is Popped:--😋#😋', accessToken);
     props.navigation.closeDrawer();
-    props.navigation.reset({
-      index: 0,
-      routes: [
-        {
-          name: 'Login',
-        },
-      ],
-    });
+    setTimeout(() => {
+      setIsloading(false)
+      props.navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'Login',
+          },
+        ],
+      });
+    }, 2000);
   }
 
   function CategoryRoute(id: number) {
-    // console.log(id);
     props.navigation.navigate('Category', {
       product_category_id: id,
       route: 'Home',
@@ -88,27 +92,13 @@ const CustomDrawer = (
     }
   }
   return (
-    <View style={{flex: 1, backgroundColor: color.offWhite}}>
-      {/* <DrawerContentScrollView {...props}> */}
-      {/* <ImageBackground
-          source={require('../assets/images/DrawerImagesBG1.jpg')}
-          resizeMode={'cover'}
-          style={styles.BGImage}>
-            {UserData ?
-            <Image
-          source={{uri:UserData?.user_data.profile_pic}}
-          style={styles.UserImage}
-        />:
-        <Image
-        source={require('../assets/images/UserImage.jpg')}
-        style={styles.UserImage}
-        />
-      } */}
+    <View
+      style={{flex: 1, backgroundColor: color.offWhite, position: 'relative'}}>
 
       <View style={styles.BGImage}>
         {UserData ? (
           <Image
-            source={{uri: UserData?.user_data.profile_pic}}
+            source={{uri: UserData?.user_data?.profile_pic}}
             style={styles.UserImage}
           />
         ) : (
@@ -117,46 +107,36 @@ const CustomDrawer = (
             style={styles.UserImage}
           />
         )}
-        <Text style={{color: color.white, fontSize: 20}}>Vrunal Benke</Text>
+        
+        <View style={{
+          // alignItems:'center'
+        }}>
+          <Text style={{color: color.white, fontSize: 22,fontWeight:'600'}}>{UserData?.user_data.first_name} {UserData?.user_data.last_name}</Text>
+        <Text style={{color: color.white, fontSize: 16}}>{UserData?.user_data?.phone_no}</Text>
+        <Text style={{color: color.white, fontSize: 16}}>{UserData?.user_data?.email}</Text>
+        </View>
       </View>
-      <Text></Text>
-
-      {/* </ImageBackground> */}
 
       {/* ************HOME*********** */}
       <View
-        style={
-          pressed.Home
-            ? [
-                styles.CategoryDDM,
-                {backgroundColor: '#325f88', borderRadius: 10},
-              ]
-            : styles.CategoryDDM
-        }>
+        style={styles.CategoryDDM}
+        >
         <TouchableOpacity
           onPress={() => {
             props.navigation.navigate('Home');
-            setPressed({
-              Home: true,
-              Category: false,
-              Profile: false,
-              Orders: false,
-              Cart: false,
-            });
+            
           }}
           style={styles.DDMTOPicon}>
           <View style={styles.CategoryDDMLeftContainer}>
             <MaterialIcons
               name="home"
               size={30}
-              style={pressed.Home ? {color: 'white'} : {color: '#325f88'}}
+              style={{color: '#325f88'}}
             />
             <Text
-              style={
-                pressed.Home
-                  ? {color: 'white', fontSize: 18}
-                  : {color: 'black', fontSize: 18}
-              }>
+              
+              style={{color:'#000',fontSize: 18}}
+              >
               Home
             </Text>
           </View>
@@ -168,13 +148,7 @@ const CustomDrawer = (
         <TouchableOpacity
           onPress={() => {
             props.navigation.navigate('FullCategory');
-            setPressed({
-              Home: false,
-              Category: true,
-              Profile: false,
-              Orders: false,
-              Cart: false,
-            });
+            
           }}
           style={styles.DDMTOPicon}>
           <View style={styles.CategoryDDMLeftContainer}>
@@ -207,39 +181,27 @@ const CustomDrawer = (
 
       {/* ************PROFILE*********** */}
       <View
-        style={
-          pressed.Profile
-            ? [
-                styles.CategoryDDM,
-                {backgroundColor: '#325f88', borderRadius: 10},
-              ]
-            : styles.CategoryDDM
-        }>
+        style={styles.CategoryDDM}
+        >
         <TouchableOpacity
           onPress={() => {
             props.navigation.navigate('Profile');
-            setPressed({
-              Home: false,
-              Category: false,
-              Profile: true,
-              Orders: false,
-              Cart: false,
-            });
           }}
           style={styles.DDMTOPicon}>
           <View style={styles.CategoryDDMLeftContainer}>
             <MaterialIcons
               name="person"
               size={30}
-              style={pressed.Profile ? {color: 'white'} : {color: '#325f88'}}
+              style={{color: '#325f88'}}
             />
 
             <Text
-              style={
-                pressed.Profile
-                  ? {color: 'white', fontSize: 18}
-                  : {color: 'black', fontSize: 18}
-              }>
+              
+              style={{
+                color:'#000',
+                fontSize:18
+              }}
+              >
               Profile
             </Text>
           </View>
@@ -248,38 +210,24 @@ const CustomDrawer = (
 
       {/* ************CARTS*********** */}
       <View
-        style={
-          pressed.Cart
-            ? [
-                styles.CategoryDDM,
-                {backgroundColor: '#325f88', borderRadius: 10},
-              ]
-            : styles.CategoryDDM
-        }>
+        style={styles.CategoryDDM}
+        >
         <TouchableOpacity
           onPress={() => {
+            getOrderListAndDetail();
             props.navigation.navigate('Cart');
-            setPressed({
-              Home: false,
-              Category: false,
-              Profile: false,
-              Orders: false,
-              Cart: true,
-            });
+            
           }}
           style={styles.DDMTOPicon}>
           <View style={styles.CategoryDDMLeftContainer}>
             <MaterialIcons
               name="shopping-cart"
               size={30}
-              style={pressed.Cart ? {color: 'white'} : {color: '#325f88'}}
+              style={{color: '#325f88'}}
             />
             <Text
-              style={
-                pressed.Cart
-                  ? {color: 'white', fontSize: 18}
-                  : {color: 'black', fontSize: 18}
-              }>
+              style={{color:'#000',fontSize:18}}
+              >
               Cart
             </Text>
           </View>
@@ -288,38 +236,22 @@ const CustomDrawer = (
 
       {/* ************ORDERS*********** */}
       <View
-        style={
-          pressed.Orders
-            ? [
-                styles.CategoryDDM,
-                {backgroundColor: '#325f88', borderRadius: 10},
-              ]
-            : [styles.CategoryDDM]
-        }>
+        style={styles.CategoryDDM}
+        >
         <TouchableOpacity
           onPress={() => {
             props.navigation.navigate('OrdersList');
-            setPressed({
-              Home: false,
-              Category: false,
-              Profile: false,
-              Orders: true,
-              Cart: false,
-            });
           }}
           style={styles.DDMTOPicon}>
           <View style={styles.CategoryDDMLeftContainer}>
             <MaterialIcons
               name="shopping-bag"
               size={30}
-              style={pressed.Orders ? {color: 'white'} : {color: '#325f88'}}
+              style={{color: '#325f88'}}
             />
             <Text
-              style={
-                pressed.Orders
-                  ? {color: 'white', fontSize: 18}
-                  : {color: 'black', fontSize: 18}
-              }>
+              style={{color:'#000',fontSize:18}}
+              >
               Orders
             </Text>
           </View>
@@ -329,7 +261,6 @@ const CustomDrawer = (
       <View style={styles.CategoryDDM}>
         <TouchableOpacity
           onPress={() => {
-            // props.navigation.dispatch(DrawerActions.closeDrawer());
             setCfmLogout(true);
           }}>
           <View style={styles.CategoryDDMLeftContainer}>
@@ -338,7 +269,6 @@ const CustomDrawer = (
               style={{
                 fontSize: 18,
                 fontFamily: font.RobotoC,
-                // marginLeft: 5,
                 color: 'red',
               }}>
               Logout
@@ -346,80 +276,53 @@ const CustomDrawer = (
           </View>
         </TouchableOpacity>
       </View>
-      {/* </DrawerContentScrollView> */}
+
       {cfmLogout && (
-        <View style={styles.modalContainer}>
-          <View
-            style={{
-              backgroundColor: '#3498DB',
-              padding: 20,
-              borderRadius: 10,
-              
-            }}>
-            <Text style={{fontSize: 20,color:"#fff",marginBottom:30}}>
-              Are you sure you want to log out?
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-              }}>
-              <TouchableOpacity
+        <Modal visible={cfmLogout} animationType="fade" transparent={true}>
+          <View style={styles.modalContainer}>
+            <View style={styles.Modal}>
+              <Text style={{fontSize: 20, color: '#fff', marginBottom: 30}}>
+                Are you sure you want to log out?
+              </Text>
+              <View
                 style={{
-                  backgroundColor: '#fff',
-                  padding: 10,
-                  borderRadius: 5,
-                }}
-                onPress={() => setCfmLogout(false)}>
-                <Text style={{fontSize: 18, color: '#000'}}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#fff',
-                  padding: 10,
-                  borderRadius: 5,
-                }}
-                onPress={LogoutUser}>
-                <Text style={{fontSize: 18, color: '#000'}}>Confirm</Text>
-              </TouchableOpacity>
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                }}>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#fff',
+                    padding: 10,
+                    borderRadius: 5,
+                  }}
+                  onPress={() => setCfmLogout(false)}>
+                  <Text style={{fontSize: 18, color: '#000'}}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#fff',
+                    padding: 10,
+                    borderRadius: 5,
+                  }}
+                  onPress={LogoutUser}>
+                  <Text style={{fontSize: 18, color: '#000'}}>Confirm</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
+        </Modal>
+        
       )}
-      {/* <View
-        style={{
-          paddingHorizontal: 15,
-          paddingVertical: 10,
-          borderTopWidth: 1,
-          borderTopColor: color.offBlack,
-        }}>
-        <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Ionicons name="share-social-outline" size={22} />
-            <Text
-              style={{
-                fontSize: 15,
-                fontFamily: font.RobotoC,
-                marginLeft: 5,
-              }}>
-              Refer a Friend
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={LogoutUser} style={{paddingVertical: 10}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <MaterialIcons name="logout" size={25} />
-            <Text
-              style={{
-                fontSize: 15,
-                fontFamily: font.RobotoC,
-                marginLeft: 5,
-              }}>
-              Logout
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View> */}
+      <Modal visible={isLoading} animationType="fade" transparent={true}>
+        <View style={styles.modalContainer}>
+          <LottieView
+          style={styles.Loader}
+          source={require('../assets/Lottie-JSON/logoutLoader.json')}
+          autoPlay
+          loop
+          />
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -428,12 +331,14 @@ export default CustomDrawer;
 
 const styles = StyleSheet.create({
   BGImage: {
-    padding: 20,
-    // width:'120%',
-    height: 200,
+    paddingTop: 30,
+    paddingBottom: 10,
+    paddingHorizontal:20,
+    width:'100%',
+    height: 220,
     resizeMode: 'contain',
-    backgroundColor: '#455e77',
-    flexDirection: 'row',
+    backgroundColor: '#325f88',
+    flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     gap: 10,
@@ -442,7 +347,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    // alignSelf: 'center',
   },
   BottomContainer: {
     padding: 20,
@@ -469,21 +373,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    // borderRadius: 5,
   },
   DDMTOPicon: {
     paddingRight: 10,
-    // borderRadius: 5,
   },
   modalContainer: {
-    position: 'absolute',
     flex: 1,
-    // backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background for modal
     justifyContent: 'center',
     alignItems: 'center',
-    top: '40%',
-    left: '15%',
-    borderRadius: 10,
-    width:330
+    height:100
   },
+  Modal:{
+    width:"80%",
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    padding: 20,
+    borderRadius: 10,
+  },
+  Loader:{
+    width:width*0.15,
+    height:width*0.15,
+  }
 });

@@ -6,6 +6,8 @@ import {
   Text,
   View,
   TextInput,
+  Dimensions,
+  Modal,
 } from 'react-native';
 import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -20,13 +22,16 @@ import RadioForm, {
   RadioButtonLabel,
 } from 'react-native-simple-radio-button';
 import CustomButton from '../../components/CustomButton';
+import LottieView from 'lottie-react-native';
+
+const {width,height} = Dimensions.get('screen')
 
 const NewAddress = ({route,navigation}: NewAddressNavigationProp) => {
   const dispatch = useAppDispatch();
   const [countryData, setCountryData] = useState([]);
   const [view,setView] = useState(true)
-  const {place,streetAddress,city,postalCode,state,country,btnName,index} = route.params
-
+  const {place,streetAddress,city,postalCode,state,country,btnName,index} = route?.params
+  const [isLoading,setIsloading] = useState(false)
 
 
   console.log(streetAddress,city,postalCode,state,country,btnName,index)
@@ -52,9 +57,9 @@ const NewAddress = ({route,navigation}: NewAddressNavigationProp) => {
     postalCode: '',
   });
 
-  useEffect(()=>{
+  // useEffect(()=>{
 
-  },[btnName])
+  // },[btnName])
 
   useEffect(() => {
     var config = {
@@ -132,9 +137,10 @@ const NewAddress = ({route,navigation}: NewAddressNavigationProp) => {
   }
 
   function loggedIN() {
+    setIsloading(true)
     const address = {
       index:input.randomIndex,
-      place: input.place,
+      place: input?.place,
       streetAddress: input.streetAddress,
       city: input.city,
       postalCode: input.postalCode,
@@ -149,16 +155,20 @@ const NewAddress = ({route,navigation}: NewAddressNavigationProp) => {
     else{
       dispatch(AddAddress(address));
     }
-    setInput({
-      streetAddress: '',
-      city: '',
-      state: '',
-      place: 'home',
-      country: '',
-      postalCode: '',
-      randomIndex:Math.floor(Math.random() * 100000),
-    });
+    
+    setTimeout(() => {
+      setIsloading(false)
+      setInput({
+        streetAddress: '',
+        city: '',
+        state: '',
+        place: 'home',
+        country: '',
+        postalCode: '',
+        randomIndex:Math.floor(Math.random() * 100000),
+      });
     navigation.navigate('AddressList');
+    }, 1000);
     
   }
 
@@ -203,12 +213,12 @@ const NewAddress = ({route,navigation}: NewAddressNavigationProp) => {
                 <RadioButtonInput
                   obj={obj}
                   index={i}
-                  isSelected={obj.value === input.place}
+                  isSelected={obj.value === input?.place}
                   onPress={value => handleOnChange('place', value)}
                   borderWidth={2}
                   buttonInnerColor={'#325f88'}
                   buttonOuterColor={
-                    obj.value === input.place ? '#000000' : '#000'
+                    obj.value === input?.place ? '#000000' : '#000'
                   }
                   buttonSize={20}
                   buttonOuterSize={30}
@@ -365,6 +375,16 @@ const NewAddress = ({route,navigation}: NewAddressNavigationProp) => {
         <View style={{marginTop: 20}}>
           <CustomButton onPress={validate} BtnName={btnName ? btnName : "Add address"} />
         </View>
+        <Modal visible={isLoading} animationType="fade" transparent={true}>
+        <View style={styles.modalContainer}>
+          <LottieView
+          style={styles.Loader}
+          source={require('../../assets/Lottie-JSON/logoutLoader.json')}
+          autoPlay
+          loop
+          />
+          </View>
+          </Modal>
       </View>
     </SafeAreaView>
   );
@@ -437,6 +457,16 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height:100
+  },
+  Loader:{
+    width:width *0.15,
+    height:width *0.15,
+  }
 });
 
 

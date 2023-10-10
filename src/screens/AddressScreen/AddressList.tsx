@@ -73,7 +73,10 @@ const AddressList = ({route, navigation}: AddressListNavigationProp) => {
       </View>
       <View style={styles.mainContainer}>
         {address.length > 0 ? (
-          <ScrollView bounces={false}>
+          <ScrollView 
+          showsVerticalScrollIndicator={false}
+          bounces={false}
+          >
             {address.map((element, index) => {
               return (
                 <CustomAddressCard key={index} address={element} order={0} editAddress={editAddress} />

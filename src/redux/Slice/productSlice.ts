@@ -40,6 +40,7 @@ export const getFullProduct = createAsyncThunk(
   'products/getFullProductList',
   async (_,thunkAPI) => {
     try {
+      initialState.isLoading = true
       let FullProductAPIData = [];
       for(let i = 1; i < 5;i++){
         const url  = `${baseURL}/products/getList?product_category_id=${i}`
@@ -130,21 +131,16 @@ const ProductSlice = createSlice({
         );
       })
       .addCase(getProduct.fulfilled, (state, action) => {
-        // state.ProductData.splice(0,state.ProductData.length)
-        // state.ProductData.pop()
-        // state.ProductData.push(action.payload)
-        // state.isLoading = false
         state.ProductData = action.payload;
-        // console.log('Product slicer log', state.ProductData);
       })
       .addCase(getProductDetail.fulfilled, (state, action) => {
-        // state.ProductData.splice(0,state.ProductData.length)
         state.ProductDetailData = action.payload;
       })
       .addCase(setProductRating.fulfilled, (state, action) => {
         state.ProductRating = action.payload;
       })
       .addCase(getFullProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.FullProduct = action.payload;
       });
   },

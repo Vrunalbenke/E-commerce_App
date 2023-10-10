@@ -33,9 +33,9 @@ const CustomAddressCard = ({address,order,index,SelectedState,stateFunc,editAddr
   const icon =
     address.place === 'home' ? 'home-outline' : 'briefcase-outline';
   
-  useEffect(()=>{
+  // useEffect(()=>{
 
-  },[editAddress])
+  // },[editAddress])
 
   function handleDelete(index:number) {
     dispatch(DeleteAddress(index));

@@ -85,14 +85,14 @@ const ForgotPassword = ({navigation}: ForgotPasswordNavigationProp) => {
         style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}}>
         <Image
           source={require('../../assets/images/ForgotPassword.png')}
-          style={{width: 300, height: 300}}
+          style={{width: 250, height: 250}}
         />
         <View>
           <View style={{alignItems: 'flex-start'}}>
-            <Text style={{fontSize: 45, fontWeight: 'bold', color: '#263238'}}>
+            <Text style={{fontSize: 40, fontWeight: 'bold', color: '#263238'}}>
               Forgot{' '}
             </Text>
-            <Text style={{fontSize: 45, fontWeight: 'bold', color: '#263238'}}>
+            <Text style={{fontSize: 40, fontWeight: 'bold', color: '#263238'}}>
               Password?
             </Text>
             <Text style={{fontSize: 20, fontWeight: '500', color: '#263238'}}>

@@ -35,11 +35,6 @@ const Navigation = () => {
 
   return (
     <NavigationContainer>
-      {/* {LoginData ? 
-      (<AppStack />)
-      :
-      (<AuthStack route={isAuthenticated()}/>)
-      } */}
       <AuthStack route={isAuthenticated()}/>
     </NavigationContainer>
   );

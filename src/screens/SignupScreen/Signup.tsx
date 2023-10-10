@@ -16,12 +16,12 @@ import CheckBox from '@react-native-community/checkbox';
 import CustomButton from '../../components/CustomButton';
 import CustomToggleButton from '../../components/CustomToggleButton';
 import {SignupNavigatonProp} from '../../navigation/type';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { registerUser } from '../../redux/Slice/registerSlice';
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import color from '../../Constants/colors'
-import font from '../../Constants/fonts'
-import { AppName } from '../../Constants/string';
+import {useAppDispatch, useAppSelector} from '../../redux/store';
+import {registerUser} from '../../redux/Slice/registerSlice';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import color from '../../Constants/colors';
+import font from '../../Constants/fonts';
+import {AppName} from '../../Constants/string';
 
 export type errorsProps = {
   first_name: string;
@@ -33,9 +33,10 @@ export type errorsProps = {
 };
 
 const Signup = ({navigation}: SignupNavigatonProp) => {
-
-const dispatch = useAppDispatch();
-const AuthData = useAppSelector(state => {state.Auth.AccessToken})
+  const dispatch = useAppDispatch();
+  const AuthData = useAppSelector(state => {
+    state.Auth.AccessToken;
+  });
 
   const [inputs, setInputs] = useState<errorsProps>({
     first_name: '',
@@ -60,7 +61,7 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
   const [checkBox, setCheckBox] = useState(false);
   const [gender, setGender] = useState<string>('');
 
-  useEffect(() => {}, [gender]);
+  // useEffect(() => {}, [gender]);
 
   function validate() {
     Keyboard.dismiss();
@@ -69,7 +70,7 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
     let valid = true;
 
     if (!inputs.first_name) {
-      handleError('first_name', 'Please input Firstname');
+      handleError('first_name', 'Firstname required');
       valid = false;
     } else if (!inputs.first_name.match(/^[A-Za-z\s'-]+$/)) {
       handleError('first_name', 'Please input valid Firstname');
@@ -77,7 +78,7 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
     }
 
     if (!inputs.last_name) {
-      handleError('last_name', 'Please input Lastname');
+      handleError('last_name', 'Lastname required');
       valid = false;
     } else if (!inputs.last_name.match(/^[A-Za-z\s'-]+$/)) {
       handleError('last_name', 'Please input valid Lastname');
@@ -85,7 +86,7 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
     }
 
     if (!inputs.email) {
-      handleError('email', 'Please input email');
+      handleError('email', 'Email required');
       valid = false;
     } else if (
       !inputs.email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
@@ -95,7 +96,7 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
     }
 
     if (!inputs.phone) {
-      handleError('phone', 'Please input Phone number');
+      handleError('phone', 'Phone number required');
       valid = false;
     } else if (!inputs.phone.match(/^\d{10}$/)) {
       handleError('phone', 'Please input valid Phone number');
@@ -103,7 +104,7 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
     }
 
     if (!inputs.password) {
-      handleError('password', 'Please input password');
+      handleError('password', 'Password required');
       valid = false;
     } else if (
       !inputs.password.match(
@@ -115,7 +116,7 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
     }
 
     if (!inputs.confirmPassword) {
-      handleError('password', 'Please input Confirm Password');
+      // handleError('confirmPassword', 'Confirm Password required');
       valid = false;
     } else if (inputs.password !== inputs.confirmPassword) {
       handleError(
@@ -143,26 +144,25 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
   async function register() {
     let formData = new FormData();
 
-    formData.append('first_name',inputs.first_name)
-    formData.append('last_name',inputs.last_name)
-    formData.append('email',inputs.email)
-    formData.append('password',inputs.password)
-    formData.append('confirm_password',inputs.confirmPassword)
-    formData.append('gender',gender)
-    formData.append('phone_no',inputs.phone)
-    
-    try{
-      const data = await dispatch(registerUser(formData)).unwrap()
-      console.log('Success ',data)
+    formData.append('first_name', inputs.first_name);
+    formData.append('last_name', inputs.last_name);
+    formData.append('email', inputs.email);
+    formData.append('password', inputs.password);
+    formData.append('confirm_password', inputs.confirmPassword);
+    formData.append('gender', gender);
+    formData.append('phone_no', inputs.phone);
+
+    try {
+      const data = await dispatch(registerUser(formData)).unwrap();
+      console.log('Success ', data);
       navigation.navigate('Login');
-    }
-    catch{
-      console.log('error is catched!')
+    } catch {
+      console.log('error is catched!');
     }
   }
 
   function handleOnChange(text: string, input: string) {
-    console.log(text)
+    console.log(text);
     setInputs(preState => ({...preState, [input]: text}));
   }
 
@@ -172,7 +172,7 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
 
   function HandleGender(mf: string) {
     setGender(mf);
-    handleError(gender,null)
+    handleError(gender, null);
   }
 
   function ValidateCheckBox() {
@@ -191,14 +191,14 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
               style={{
                 fontSize: 50,
                 fontFamily: font.BebasNB,
-                color:'#325f88'
+                color: '#325f88',
               }}
               headerContainerStyle={{
                 height: '25%',
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              headerTitle= {AppName}
+              headerTitle={AppName}
             />
             <View style={styles.MidArea}>
               <Text style={styles.greeting}>Register</Text>
@@ -237,7 +237,9 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
               icon={false}
               error={errors.email}
               onFocus={() => handleError('email', null)}
-              onChangeText={(text: string) => handleOnChange((text.toLowerCase()), 'email')}
+              onChangeText={(text: string) =>
+                handleOnChange(text.toLowerCase(), 'email')
+              }
 
               // regexFuncName={EmailValidator}
             />
@@ -294,8 +296,8 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
                   onValueChange={ValidateCheckBox}
                   lineWidth={1}
                   boxType={'square'}
-                  onCheckColor= {color.white}
-                  onFillColor={color.black}
+                  onCheckColor={color.white}
+                  onFillColor={'#325f88'}
                   onTintColor={color.black}
                   animationDuration={0.3}
                   onAnimationType={'stroke'}
@@ -312,13 +314,12 @@ const AuthData = useAppSelector(state => {state.Auth.AccessToken})
 
             <CustomButton onPress={validate} BtnName="Register" />
           </View>
-          <TouchableOpacity 
-          style={styles.BackIcon}
-          onPress={()=>{
-            navigation.navigate('Login')
-          }}
-          >
-            <Ionicons name='arrow-back-outline' size={30} />
+          <TouchableOpacity
+            style={styles.BackIcon}
+            onPress={() => {
+              navigation.navigate('Login');
+            }}>
+            <Ionicons name="arrow-back-outline" size={30} />
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>

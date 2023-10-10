@@ -34,7 +34,7 @@ type itemProps = {
   modified: string;
   product_images: string;
 };
-const {width, height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('screen');
 const CustomFlatList = ({
   product_category_id,
   onPress,
@@ -54,7 +54,10 @@ const CustomFlatList = ({
       // console.log('LOGGGGGGGGGGGGG');
       const val = await dispatch(getProduct(product_category_id)).unwrap();
       // console.log(val);
-      setIsloading(false);
+      setTimeout(() => {
+        setIsloading(false);
+      }, 3000);
+      
     } catch (error) {
       setIsloading(false);
       console.log(error);
@@ -66,7 +69,6 @@ const CustomFlatList = ({
     return () => {
       dispatch(EmptyProductData([]));
       ProductData = [];
-      // console.log('🐵🐵🐵🐵🐵🐵🐵', ProductData);
     };
   }, [product_category_id]);
 
@@ -177,7 +179,7 @@ export default CustomFlatList;
 
 const styles = StyleSheet.create({
   Loader: {
-    width: width * 0.9,
+    width: width,
     height: width,
   },
 });

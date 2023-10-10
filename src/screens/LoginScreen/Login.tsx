@@ -52,12 +52,12 @@ const Login = ({navigation}: LoginNavigatonProp) => {
     let valid = true
 
     if(inputs.email.trim() === ''){
-      handleError('email','Please input email')
+      handleError('email','Email required')
       valid = false
     }
 
     if(inputs.password.trim() === ''){
-      handleError('email','Please input password')
+      handleError('password','Password required')
       valid = false
     }
 

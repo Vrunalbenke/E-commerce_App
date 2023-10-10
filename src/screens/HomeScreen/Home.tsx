@@ -1,30 +1,25 @@
 import {
-  ImageBackground,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Dimensions,
+  Image,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
-import {logout} from '../../redux/Slice/registerSlice';
 import {HomeNavigatonProp} from '../../navigation/type';
-import CustomCarouselSlider from '../../components/CustomCarouselSlider';
 import CustomHeader from '../../components/CustomHeader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import font from '../../Constants/fonts';
 import {getUserDetail} from '../../redux/Slice/userSlice';
-import {getOrderList} from '../../redux/Slice/orderSlice';
 import {getCartItem} from '../../redux/Slice/cartSlice';
-import {getFullProduct} from '../../redux/Slice/productSlice';
 import {AppName} from '../../Constants/string'
+import CustomCarouselSlider from '../../components/CustomCarouselSlider';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const {height,width} = Dimensions.get('window');
 const Home = ({navigation}: HomeNavigatonProp) => {
   const accessToken = useAppSelector(state => state.Auth.AccessToken);
   console.log('Home data:--😋😋😋', accessToken);
@@ -32,32 +27,14 @@ const Home = ({navigation}: HomeNavigatonProp) => {
 
   useEffect(() => {
     getUserData();
-    getOrderListAndDetail();
-    getCartData();
-    getFullProductList();
   }, []);
 
-  async function getFullProductList() {
-    try {
-      const val = await dispatch(getFullProduct()).unwrap();
-      console.log('All Category called');
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  
 
   async function getUserData() {
     try {
       const userdata = await dispatch(getUserDetail(accessToken)).unwrap();
       console.log('Profile called');
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function getOrderListAndDetail() {
-    try {
-      await dispatch(getOrderList({accessToken})).unwrap();
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +57,6 @@ const Home = ({navigation}: HomeNavigatonProp) => {
   }
   return (
     <SafeAreaView style={{flex: 1, height: '100%', backgroundColor: '#325f88'}}>
-      <StatusBar backgroundColor="#000" barStyle={'light-content'} />
       <View style={styles.headerConatianer}>
         <TouchableOpacity
           style={styles.IconContainer}
@@ -104,7 +80,9 @@ const Home = ({navigation}: HomeNavigatonProp) => {
         <View style={styles.headerRightConatianer}>
           <TouchableOpacity
             style={styles.IconContainer}
-            onPress={() => navigation.navigate('Cart')}>
+            onPress={() => {
+              getCartData();
+              navigation.navigate('Cart')}}>
             <Ionicons name="cart" size={30} color={'#fff'} />
           </TouchableOpacity>
         </View>
@@ -117,9 +95,9 @@ const Home = ({navigation}: HomeNavigatonProp) => {
           borderTopRightRadius: 30,
           paddingTop: 30,
           backgroundColor: '#fff',
-          // overflow: 'visible',
         }}>
-        <CustomCarouselSlider />
+        {/* <CustomCarouselSlider /> */}
+        
 
         <View style={styles.CategoryContainer}>
           <Text
@@ -128,58 +106,45 @@ const Home = ({navigation}: HomeNavigatonProp) => {
           </Text>
 
           <TouchableOpacity
-            style={{width: windowWidth * 0.8, height: windowWidth * 0.8}}
+            style={{width: width * 0.8, height: width * 0.8}}
             onPress={() => CategoryRoute(1)}>
-            <ImageBackground
+            <Image
               source={require('../../assets/images/Tables.png')}
               style={styles.CategoryBGI}
-              imageStyle={{
-                borderRadius: 20,
-                resizeMode: 'contain',
-              }}></ImageBackground>
+              />
           </TouchableOpacity>
 
           <TouchableOpacity
             style={{
-              width: windowWidth * 0.8,
-              height: windowWidth * 0.5,
+              width: width * 0.8,
+              height: width * 0.5,
               backgroundColor: '#fff',
             }}
             onPress={() => CategoryRoute(3)}>
-            <ImageBackground
+            <Image
               source={require('../../assets/images/Sofas.png')}
               style={styles.CategoryBGI}
-              imageStyle={{
-                borderRadius: 30,
-                resizeMode: 'contain',
-              }}></ImageBackground>
+              />
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={{width: windowWidth * 0.5, height: windowWidth * 0.8}}
+            style={{width: width * 0.5, height: width * 0.8}}
             onPress={() => CategoryRoute(2)}>
-            <ImageBackground
+            <Image
               source={require('../../assets/images/Chairs.png')}
               style={styles.CategoryBGI}
-              imageStyle={{
-                borderRadius: 20,
-                resizeMode: 'contain',
-              }}></ImageBackground>
+              />
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={{width: windowWidth * 0.8, height: windowWidth * 0.8}}
+            style={{width: width * 0.8, height: width * 0.8}}
             onPress={() => CategoryRoute(4)}>
-            <ImageBackground
+            <Image
               source={require('../../assets/images/Beds.png')}
               style={[styles.CategoryBGI]}
-              imageStyle={{
-                borderRadius: 20,
-                resizeMode: 'contain',
-              }}></ImageBackground>
+              />
           </TouchableOpacity>
         </View>
-        {/* <CustomButton onPress={LogoutUser} BtnName="logout" /> */}
       </ScrollView>
     </SafeAreaView>
   );
@@ -190,9 +155,6 @@ export default Home;
 const styles = StyleSheet.create({
   headerConatianer: {
     flexDirection: 'row',
-    // backgroundColor: '#f4f4f4',
-    // backgroundColor: '#d4d1d1',
-    // height: '10%',
     padding: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -205,8 +167,7 @@ const styles = StyleSheet.create({
   },
 
   CategoryContainer: {
-    width: windowWidth,
-    // backgroundColor:color.black,
+    width: width,
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -236,7 +197,9 @@ const styles = StyleSheet.create({
   CategoryBGI: {
     width: '100%',
     height: '100%',
-    resizeMode: 'cover',
+    // resizeMode: 'cover',
+    borderRadius: 20,
+    resizeMode: 'contain',
   },
   CategoryTitle: {
     fontSize: 18,

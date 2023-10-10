@@ -4,14 +4,15 @@ import Carousel from 'react-native-reanimated-carousel';
 import Video from 'react-native-video';
 
 const CustomCarouselSlider = () => {
-  const width = Dimensions.get('window').width;
+  const {width, height} = Dimensions.get('screen');
   const data = [
     require('../assets/video/video1.mp4'),
     require('../assets/images/CarouselImage1.png'),
     require('../assets/images/CarouselImage2.png'),
     require('../assets/images/CarouselImage3.png'),
   ];
-  let count = 1;
+
+
   return (
     <View style={{flex: 1}}>
       <Carousel
@@ -27,16 +28,13 @@ const CustomCarouselSlider = () => {
             key={index}
             style={{
               flex: 1,
-              // borderWidth: 1,
               justifyContent: 'center',
               padding: 2,
-              borderTopLeftRadius: 30,
-              borderTopRightRadius: 30,
             }}>
             {/* <Image style={{width: '100%', height: '100%'}} source={item} /> */}
             {index === 0 ? (
               <Video
-                source={item}
+                source={{uri:item}}
                 style={{width: '100%', height: '100%'}}
                 resizeMode="cover"
                 repeat={true}

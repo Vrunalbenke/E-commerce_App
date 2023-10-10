@@ -6,12 +6,12 @@ import {
   FlatList,
   ScrollView,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useAppDispatch, useAppSelector} from '../redux/store';
 import CustomAddressCard from './CustomAddressCard';
 import {useNavigation} from '@react-navigation/native';
-import { DeliveryAddress } from '../redux/Slice/addressSlice';
+import {DeliveryAddress} from '../redux/Slice/addressSlice';
 
 type CustomDeliveryAddressProps = {
   stage: (index: number) => void;
@@ -20,14 +20,14 @@ const CustomDeliveryAddress = ({stage}: CustomDeliveryAddressProps) => {
   const AddressArray = useAppSelector(state => state.Address.address);
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-  const [isSelected,setIsSelected]= useState<number>();
-  function handleSelect(index:number){
-    setIsSelected(index)
+  const [isSelected, setIsSelected] = useState<number>();
+  function handleSelect(index: number) {
+    setIsSelected(index);
   }
 
-  function getAddressIndex(index:number){
-    stage(2)
-    dispatch(DeliveryAddress(index))
+  function getAddressIndex(index: number) {
+    stage(2);
+    dispatch(DeliveryAddress(index));
   }
   return (
     <View style={{flex: 1}}>
@@ -47,16 +47,30 @@ const CustomDeliveryAddress = ({stage}: CustomDeliveryAddressProps) => {
         </TouchableOpacity>
       </View>
       <View style={styles.secondContainer}>
-        <ScrollView style={{height: 300}} bounces={false}>
+        <ScrollView
+          style={{height: 350}}
+          bounces={false}
+          showsVerticalScrollIndicator={false}>
           {AddressArray.map((element, index) => {
             return (
-              <CustomAddressCard key={index} index={index} stateFunc={()=>handleSelect(index)} SelectedState={isSelected} address={element} order={1} />
+              <CustomAddressCard
+                key={index}
+                index={index}
+                stateFunc={() => handleSelect(index)}
+                SelectedState={isSelected}
+                address={element}
+                order={1}
+              />
             );
           })}
         </ScrollView>
+        {/* <View></View> */}
       </View>
       {/* <View style={styles.NextBtnContainer}> */}
-      <TouchableOpacity style={styles.NextBtn} disabled={isSelected === undefined} onPress={() => getAddressIndex(isSelected)} >
+      <TouchableOpacity
+        style={styles.NextBtn}
+        disabled={isSelected === undefined}
+        onPress={() => getAddressIndex(isSelected)}>
         <Text style={{fontSize: 25, color: '#fff'}}>Proceed to Payment</Text>
       </TouchableOpacity>
       {/* </View> */}
@@ -73,7 +87,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 23,
     fontWeight: '700',
-    color:'#325f88'
+    color: '#325f88',
   },
   TOPContainer: {
     marginTop: 20,
@@ -87,7 +101,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#1A3851',
     //2b2a2a
   },
-  secondContainer: {},
+  secondContainer: {
+    // flex: 1,
+    // paddingBottom:10
+  },
   NextBtnContainer: {
     // paddingTop:10,
   },

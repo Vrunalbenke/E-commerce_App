@@ -45,7 +45,7 @@ const Category = ({route, navigation}: CategoryNavigatonProp) => {
   return (
     <SafeAreaView style={styles.root}>
       <View style={styles.headerContianer}>
-        <TouchableOpacity onPress={() => navigation.navigate('FullCategory')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <Ionicons name="arrow-back-outline" size={29} color={'#fff'} />
         </TouchableOpacity>
         <CustomHeader

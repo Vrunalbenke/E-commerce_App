@@ -6,6 +6,8 @@ import {
   View,
   Image,
   TextInput,
+  Dimensions,
+  Modal,
 } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -15,11 +17,14 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { changePassword } from '../../redux/Slice/passwordSlice';
 import CustomHeader from '../../components/CustomHeader';
 import font from '../../Constants/fonts'
+import LottieView from 'lottie-react-native';
 
-
+const {width,height} = Dimensions.get('screen')
 const ChangePassword = ({navigation}: ChangePasswordNavigationProp) => {
     const dispatch = useAppDispatch();
     const accessToken = useAppSelector(state => state.Auth.AccessToken);
+    const [isLoading,setIsloading] = useState(false)
+
   const [input, setInput] = useState({
     old_password: '',
     password: '',
@@ -43,7 +48,7 @@ const ChangePassword = ({navigation}: ChangePasswordNavigationProp) => {
 
   function validate() {
     let valid = true;
-
+    setIsloading(true)
 
     if (!input.old_password) {
         handleError('old_password', 'Please input password');
@@ -93,6 +98,7 @@ const ChangePassword = ({navigation}: ChangePasswordNavigationProp) => {
     try {
         await dispatch(changePassword({formData, accessToken})).unwrap();
         // await dispatch(getUserDetail(accessToken)).unwrap();
+        setIsloading(false)
       console.log('Change password successfully');
       navigation.navigate('Profile');
     } catch (error) {
@@ -192,6 +198,16 @@ const ChangePassword = ({navigation}: ChangePasswordNavigationProp) => {
             </View>
           </View>
         </View>
+        <Modal visible={isLoading} animationType="fade" transparent={true}>
+        <View style={styles.modalContainer}>
+          <LottieView
+          style={styles.Loader}
+          source={require('../../assets/Lottie-JSON/logoutLoader.json')}
+          autoPlay
+          loop
+          />
+          </View>
+          </Modal>
       </View>
     </SafeAreaView>
   );
@@ -232,4 +248,14 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height:100
+  },
+  Loader:{
+    width:width*0.15,
+    height:width*0.15,
+  }
 });

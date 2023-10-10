@@ -6,32 +6,48 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomHeader from '../../components/CustomHeader';
 import font from '../../Constants/fonts';
 import {FullCategoryNavigatonProp} from '../../navigation/type';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import color from '../../Constants/colors';
-import {getProduct, getProductDetail} from '../../redux/Slice/productSlice';
+import {getFullProduct, getProduct, getProductDetail} from '../../redux/Slice/productSlice';
+import Lottie from 'lottie-react-native';
 
+const {width, height} = Dimensions.get('screen');
 const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
   const fullProductList = useAppSelector(state => state.Product.FullProduct);
-
   const dispatch = useAppDispatch();
+  const [isloading,setIsloading] = useState(false);
 
+  useEffect(()=>{
+    getFullProductList()
+  },[])
+
+  async function getFullProductList() {
+    try {
+      setIsloading(true)
+      const val = await dispatch(getFullProduct()).unwrap();
+      console.log('All Category called');
+      setTimeout(()=>{
+        setIsloading(false)
+      },3000)
+    } catch (error) {
+      console.log(error);
+      setIsloading(false)
+    }
+  }
 
   async function onPressProductDetail(
     product_id: number,
     product_category_id: number,
   ) {
     try {
-      const val = await dispatch(getProduct(product_category_id)).unwrap();
-    } catch (error) {
-      console.log(error);
-    }
-    try {
+      setIsloading(true)
       const productDetailAPIData = await dispatch(
         getProductDetail(product_id),
       ).unwrap();
@@ -40,6 +56,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
         backRoute:'FullCategory',
         product_category_id:product_category_id
       });
+      setIsloading(false)
     } catch (err) {
       console.log(err);
     }
@@ -132,6 +149,14 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
         </View>
       </View>
         <View style={styles.mainContainer}>
+        {isloading ? (
+        <Lottie
+          style={styles.Loader}
+          source={require('../../assets/Lottie-JSON/furniture_loader.json')}
+          autoPlay
+          loop
+        />
+      ) : (
       <ScrollView
         
         showsVerticalScrollIndicator={false}
@@ -418,6 +443,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
         </View>
 
       </ScrollView>
+      )}
       </View>
     </SafeAreaView>
   );
@@ -464,5 +490,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     color: '#3498DB',
+  },
+  Loader: {
+    width: width,
+    height: width,
   },
 });

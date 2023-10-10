@@ -14,7 +14,6 @@ import font from '../../Constants/fonts';
 import CustomDeliveryAddress from '../../components/CustomDeliveryAddress';
 import CustomPayment from '../../components/CustomPayment';
 import CustomPlacedOrder from '../../components/CustomPlacedOrder';
-import { getOrderList } from '../../redux/Slice/orderSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 
 
@@ -29,23 +28,23 @@ const Orders = ({navigation}: OrdersNavigationProp) => {
  * 
  */
 
-async function getOrderListAndDetail(){
-  try{ 
-   await dispatch(getOrderList({accessToken})).unwrap();
-   // await dispatch(getOrderDetail({}))
-   }
-   catch(error){
-       console.log(error)
-   }
-  }
+// async function getOrderListAndDetail(){
+//   try{ 
+//    await dispatch(getOrderList({accessToken})).unwrap();
+//    // await dispatch(getOrderDetail({}))
+//    }
+//    catch(error){
+//        console.log(error)
+//    }
+//   }
 
   function ChangeStage(index:number){
     setStage(index)
   }
 
-  useEffect(()=>{
-    getOrderListAndDetail()
-  },[order])
+  // useEffect(()=>{
+  //   getOrderListAndDetail()
+  // },[order])
   
   function NavigationRoute(){
     if(stage  === 1){
@@ -60,11 +59,6 @@ async function getOrderListAndDetail(){
   }
 
 
-  function bgColor(){
-    if(stage === 3){
-      return '#b7b8c9'
-    }
-  }
   const headerTitle = `Checkout(${stage}/3)`
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#325f88'}}>
@@ -97,13 +91,7 @@ async function getOrderListAndDetail(){
                   <MaterialIcons name={stage > 1 ? 'check-circle' : 'radio-button-checked'} size={25} 
                   style={{
                     color: stage === 1 ?'#3498DB':'#fff',
-                    // shadowColor:stage === 1 ?'#ff00d4':'',
-                    // shadowOffset:{
-                    //   width:1,
-                    //   height:1
-                    // },
-                    // shadowOpacity:stage === 1 ?0.9:0,
-                    // shadowRadius:stage === 1 ? 10 : 0,
+                    
                     }}/>
                   <Text style={{color:'#fff'}}>- - - - - - - - -</Text>
                 </View>
@@ -111,13 +99,6 @@ async function getOrderListAndDetail(){
                   <MaterialIcons name={stage > 2 ? 'check-circle' : 'radio-button-checked'} size={25}
                   style={{
                     color: stage === 2 ?'#3498DB':'#fff',
-                    // shadowColor:stage === 2 ?'#ff00d4':'',
-                    // shadowOffset:{
-                    //   width:1,
-                    //   height:1
-                    // },
-                    // shadowOpacity:stage === 2 ?0.9:0,
-                    // shadowRadius:stage === 2 ? 10 : 0,
                     }}/>
                   <Text style={{color:'#fff'}}>- - - - - - - - -</Text>
                 </View>
@@ -125,13 +106,6 @@ async function getOrderListAndDetail(){
                   <MaterialIcons name={stage > 2 ? 'check-circle' : 'radio-button-checked'} size={25}
                   style={{
                     color:'#fff',
-                    // shadowColor:stage === 3 ?'#ff00d4':'',
-                    // shadowOffset:{
-                    //   width:1,
-                    //   height:1
-                    // },
-                    // shadowOpacity:stage === 3 ?0.9:0,
-                    // shadowRadius:stage === 3 ? 10 : 0,
                     }}/>
                 </View>
             </View>

@@ -1,18 +1,38 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, Image,Dimensions, TouchableOpacity, Modal} from 'react-native';
 import React, {useState} from 'react';
 import LottieView from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
+import { getOrderList } from '../redux/Slice/orderSlice';
+import { useAppDispatch } from '../redux/store';
 
+
+const {width,height} = Dimensions.get('screen')
 type CustomPaymentProps = {
   stage: (index: number) => void;
 };
 
 const CustomPlacedOrder = ({stage}: CustomPaymentProps) => {
   const [animation, setAnimation] = useState(true);
+  const [isLoading,setIsloading] = useState(false)
+  const accessToken = useAppSelector(state => state.Auth.AccessToken);
+  const dispatch = useAppDispatch()
   const navigation = useNavigation();
   setTimeout(() => {
     setAnimation(false);
   }, 7000);
+
+
+  async function getOrderListAndDetail(){
+    try{ 
+     await dispatch(getOrderList({accessToken})).unwrap();
+     // await dispatch(getOrderDetail({}))
+     }
+     catch(error){
+         console.log(error)
+     }
+    }
+
+
   return (
     <View style={{flex: 1, width: '100%'}}>
       {animation ? (
@@ -42,21 +62,42 @@ const CustomPlacedOrder = ({stage}: CustomPaymentProps) => {
           <View style={styles.BtnContainer}>
             <TouchableOpacity style={styles.TOPContainer} 
             onPress={()=> {
-              navigation.navigate('Home')
-              stage(1)
+              setIsloading(true)
+              setTimeout(() => {
+                setIsloading(false)
+                navigation.navigate('Home')
+                getOrderListAndDetail()
+                stage(1)
+              }, 500);
               } }>
               <Text style={{color:'#ffffff',fontSize:18}}>Continue Shopping</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.TOPContainer}
             onPress={()=> {
-              navigation.navigate('Orders')
-              stage(1)
+              setIsloading(true)
+              setTimeout(() => {
+                setIsloading(false)
+                navigation.navigate('OrdersList')
+                getOrderListAndDetail()
+                stage(1)
+              }, 2000);
+              
               } }>
               <Text style={{color:'#ffffff',fontSize:18}}>Track Order</Text>
             </TouchableOpacity>
           </View>
         </View>
       )}
+      <Modal visible={isLoading} animationType="fade" transparent={true}>
+        <View style={styles.modalContainer}>
+          <LottieView
+          style={styles.Loader}
+          source={require('../assets/Lottie-JSON/logoutLoader.json')}
+          autoPlay
+          loop
+          />
+          </View>
+          </Modal>
     </View>
   );
 };
@@ -111,4 +152,13 @@ const styles = StyleSheet.create({
     backgroundColor:'#1A3851',
     borderRadius:5
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  Loader:{
+    width:width*0.15,
+    height:width*0.15
+  }
 });

@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  Dimensions,
   Modal,
   Image,
   TextInput,
@@ -15,13 +16,15 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {EditProfileNavigationProp} from '../../navigation/type';
 import CustomHeader from '../../components/CustomHeader';
 import font from '../../Constants/fonts';
-import {Calendar} from 'react-native-calendars';
+import DatePicker from 'react-native-date-picker';
 import CustomButton from '../../components/CustomButton';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {getUserDetail, updateUserDetail} from '../../redux/Slice/userSlice';
 import ImagePicker from 'react-native-image-crop-picker';
-import AppleCamera from '../../assets/images/Android_Photos_Logo.jpeg'
 import {Button, PaperProvider, Dialog, Portal} from 'react-native-paper';
+import LottieView from 'lottie-react-native';
+
+const {width,height} = Dimensions.get('screen')
 
 const EditProfile = ({navigation}: EditProfileNavigationProp) => {
   const dispatch = useAppDispatch();
@@ -34,6 +37,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
   const [optionModal, setOptionModal] = useState(false);
   const [date, setDate] = useState('');
   const [visible, setVisible] = React.useState(false);
+  const [isLoading,setIsloading] = useState(false)
   const currentDate = new Date();
   
   const eligibleDate = `${
@@ -45,7 +49,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
     email: UserStoreData.email,
     first_name: UserStoreData.first_name,
     last_name: UserStoreData.last_name,
-    dob: '',
+    dob: UserStoreData.dob,
     phone_no: UserStoreData.phone_no,
     profile_pic: UserData.user_data.profile_pic,
   });
@@ -69,7 +73,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
 
   function validate() {
     let valid = true;
-
+    setIsloading(true)
     if (input.email.trim() === '') {
       handleError('email', 'Please input email');
       valid = false;
@@ -121,8 +125,12 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
     try {
       await dispatch(updateUserDetail({formData, accessToken})).unwrap();
       await dispatch(getUserDetail(accessToken)).unwrap();
-      console.log('Update detail successfully');
+
+      setTimeout(() => {
+        setIsloading(false)
       navigation.navigate('Profile');
+      console.log('Update detail successfully');
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
@@ -191,7 +199,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
         </TouchableOpacity>
         <CustomHeader
           style={{
-            paddingTop: 6,
+            // paddingTop: 6,
             fontSize: 30,
             fontFamily: font.BebasNB,
             color: '#fff',
@@ -293,34 +301,26 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
               style={[styles.InputFeild, {width: '50%'}]}
               placeholder="dd-mm-year"
               onFocus={() => showModal(!modal)}
-              value={date}
-              // onChangeText={(text:string)=>handleOnChange('dob',text)}
-              // onFocus={() => handleError('dob', '')}
+              value={input.dob}
             />
-            <Modal visible={modal} style={{width: '70%', height: 'auto'}}>
-              <Calendar
-                style={{
-                  borderRadius: 10,
-                  margin: 40,
-                  shadowOffset: {
-                    width: 1,
-                    height: 1,
-                  },
-                  shadowColor: '#000',
-                  shadowOpacity: 0.9,
-                }}
-                onDayPress={date => {
-                  // console.log(date.)
-                  const selectDate = `${date.day}-${date.month}-${date.year}`;
-                  setDate(selectDate);
+            <DatePicker
+                modal
+                mode='date'
+                open={modal}
+                date={new Date()}
+                theme='dark'
+                maximumDate = {new Date(eligibleDate)}
+                onConfirm={(date) => {
+                  console.log(date,'🚧🚧🚧🚧🚧🚧')
+                  const selectDate = `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
+                  console.log(selectDate,'🚧🚧🚧🚧🚧🚧')
+                  showModal(!modal)
                   handleOnChange('dob', selectDate);
-                  showModal(!modal);
                 }}
-                initialDate={eligibleDate}
-                minDate=""
-                maxDate={eligibleDate}
+                onCancel={() => {
+                  showModal(!modal)
+                }}
               />
-            </Modal>
           </TouchableOpacity>
         </View>
 
@@ -342,6 +342,16 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
           <CustomButton onPress={validate} BtnName="Save Changes" />
         </View>
       </View>
+      <Modal visible={isLoading} animationType="fade" transparent={true}>
+        <View style={styles.modalContainer}>
+          <LottieView
+          style={styles.Loader}
+          source={require('../../assets/Lottie-JSON/logoutLoader.json')}
+          autoPlay
+          loop
+          />
+          </View>
+          </Modal>
       </PaperProvider>
     </SafeAreaView>
   );
@@ -352,7 +362,7 @@ export default EditProfile;
 const styles = StyleSheet.create({
   headerConatianer: {
     // backgroundColor:'#d4d1d1',
-    // padding: 10,
+    padding: 10,
     margin: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -387,18 +397,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 40,
     bottom: 0,
-  },
-  modalContainer: {
-    position:'absolute',
-    top:'30%',
-    left:'15%',
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: 'pink',
-    width: 300,
-    height: 200,
-    padding:10
   },
   PhotosORCamera:{
     flexDirection:'row',
@@ -441,4 +439,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingHorizontal: 85,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height:100
+  },
+  Loader:{
+    width:width *0.15,
+    height:width *0.15,
+  }
 });

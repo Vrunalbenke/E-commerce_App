@@ -62,7 +62,7 @@ const CustomPayment = ({stage}: CustomPaymentProps) => {
       value: 'Wallet/Postpaid',
       index: 1,
       data: {Wallets},
-      text: '',
+      text: 'Select a loaded wallet to pay',
     },
     {
       label: 'Credit/Debit/ATM Card',
@@ -135,17 +135,17 @@ const CustomPayment = ({stage}: CustomPaymentProps) => {
                       obj={obj}
                       index={i}
                       labelHorizontal={true}
-                      // onPress={onPress}
+                      onPress={() => setIsSelected(obj.index)}
                       labelStyle={{
                         fontSize: 22,
                         fontWeight: '600',
-                        paddingTop: 1,
+                        paddingTop: 3,
                         color: '#000000',
                       }}
                       labelWrapStyle={{}}
                     />
                   </View>
-                  <Text style={{paddingLeft: 40}}>{obj.text}</Text>
+                  <Text style={{paddingLeft: 40,color:'#151515'}}>{obj.text}</Text>
                 </RadioButton>
                 {obj.index < 2 ? (
                   <Carousel
@@ -199,6 +199,7 @@ export default CustomPayment;
 const styles = StyleSheet.create({
   firstContainer: {
     padding: 10,
+    paddingTop:20
   },
   headerText: {
     fontSize: 23,

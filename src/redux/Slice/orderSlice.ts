@@ -32,7 +32,8 @@ export const placeOrder = createAsyncThunk(
 
 export const getOrderList = createAsyncThunk(
   'orderList',
-  async ({accessToken, thunkAPI}) => {
+  async ({accessToken}:any, thunkAPI) => {
+    console.log(accessToken)
     try {
       const getOrderListAPIData = await axios.get(`${baseURL}/orderList`, {
         headers: {
@@ -41,7 +42,7 @@ export const getOrderList = createAsyncThunk(
         },
       });
 
-      return getOrderListAPIData.data;
+      return getOrderListAPIData.data.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -61,7 +62,7 @@ export const getOrderDetail = createAsyncThunk(
           },
         },
       );
-
+        console.log(getOrderDetailtAPIData.data.data,'🧰🧰🧰🧰🧰🧰🧰🧰🧰🧰')
       return getOrderDetailtAPIData.data.data;
     } 
     catch (error: any) {

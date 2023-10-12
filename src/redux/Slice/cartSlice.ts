@@ -54,7 +54,7 @@ export const getCartItem = createAsyncThunk(
       console.log('%%%%%%%%%%%%%%%%%%%%%%', CartItems.data);
 
       return CartItems.data;
-    } catch (error: unknown) {
+    } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
   },

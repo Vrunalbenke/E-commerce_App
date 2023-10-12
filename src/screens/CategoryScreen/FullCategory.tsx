@@ -22,10 +22,11 @@ import {
 } from '../../redux/Slice/productSlice';
 import Lottie from 'lottie-react-native';
 import { GetBtnName } from '../../redux/Slice/cartSlice';
+import { CatergoryType } from './type';
 
 const {width, height} = Dimensions.get('screen');
 const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
-  const fullProductList = useAppSelector(state => state.Product.FullProduct);
+  const fullProductList:CatergoryType[] = useAppSelector(state => state.Product.FullProduct);
   const dispatch = useAppDispatch();
   const [isloading, setIsloading] = useState(false);
 
@@ -77,8 +78,8 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
     dispatch(GetBtnName(product_id))
   }
 
-  function StarRating(rating) {
-    const normalizedRating = Math.min(Math.max(rating, 0), 5);
+  function StarRating(rating:string) {
+    const normalizedRating = Math.min(Math.max(Number(rating), 0), 5);
 
     const stars = [];
     const maxStars = 5;
@@ -120,7 +121,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
     return <View style={{flexDirection: 'row'}}>{stars}</View>;
   }
 
-  function commafy(num) {
+  function commafy(num:number) {
     var str = num.toString().split('.');
     if (str[0].length >= 4) {
       str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
@@ -192,7 +193,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
                 showsHorizontalScrollIndicator={false}
                 bounces={false}
                 horizontal>
-                {fullProductList[0]?.map((item, index) => {
+                {fullProductList[0]?.map((item:CatergoryType, index:number) => {
                   return (
                     <TouchableOpacity
                       key={index}
@@ -269,7 +270,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
                 showsHorizontalScrollIndicator={false}
                 bounces={false}
                 horizontal>
-                {fullProductList[1]?.map((item, index) => {
+                {fullProductList[1]?.map((item:CatergoryType, index:number) => {
                   return (
                     <TouchableOpacity
                       key={index}
@@ -346,7 +347,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
                 showsHorizontalScrollIndicator={false}
                 bounces={false}
                 horizontal>
-                {fullProductList[2]?.map((item, index) => {
+                {fullProductList[2]?.map((item:CatergoryType, index:number) => {
                   return (
                     <TouchableOpacity
                       key={index}
@@ -423,7 +424,7 @@ const FullCategory = ({navigation}: FullCategoryNavigatonProp) => {
                 showsHorizontalScrollIndicator={false}
                 bounces={false}
                 horizontal>
-                {fullProductList[3]?.map((item, index) => {
+                {fullProductList[3]?.map((item:CatergoryType, index:number) => {
                   return (
                     <TouchableOpacity
                       key={index}

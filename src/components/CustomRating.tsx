@@ -7,7 +7,7 @@ import {setProductRating} from '../redux/Slice/productSlice';
 type CustomRatingProps = {
   setState: (rating: number) => void;
   ProductID: string;
-  rating: number;
+  rating: React.Dispatch<React.SetStateAction<{}>>;
 };
 
 const CustomRating = ({setState, ProductID, rating}: CustomRatingProps) => {

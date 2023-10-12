@@ -15,11 +15,12 @@ import {OrdersDetailNavigationProp} from '../../navigation/type';
 import CustomHeader from '../../components/CustomHeader';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import CustomRating from '../../components/CustomRating';
+import { OrderDetailType } from './type';
 
 const OrdersDetail = ({route, navigation}: OrdersDetailNavigationProp) => {
 
 
-  const ProductDetailData = useAppSelector(state => state.Order.orderDetail);
+  const ProductDetailData:OrderDetailType = useAppSelector(state => state.Order.orderDetail);
   console.log(ProductDetailData,'**********')
   function commafy(num: number) {
     var str = num.toString().split('.');
@@ -50,7 +51,7 @@ const OrdersDetail = ({route, navigation}: OrdersDetailNavigationProp) => {
         </TouchableOpacity>
         <CustomHeader
           style={{
-            paddingTop: 6,
+            // paddingTop: 6,
             fontSize: 30,
             fontFamily: font.BebasNB,
             color: '#fff',
@@ -58,16 +59,12 @@ const OrdersDetail = ({route, navigation}: OrdersDetailNavigationProp) => {
           headerContainerStyle={{
             justifyContent: 'center',
             alignItems: 'flex-start',
-            padding: 10,
+            // padding: 10,
           }}
           headerTitle={`Order ID: #${ProductDetailData.id}`}
         />
         <View style={styles.headerRightContianer}>
-          {/* <TouchableOpacity
-        style={styles.IconContainer}
-        onPress={() => navigation.navigate('Cart')}>
-        <Ionicons name="cart" size={30}color={'#fff'}/>
-      </TouchableOpacity> */}
+          
         </View>
       </View>
       <View
@@ -166,7 +163,7 @@ const OrdersDetail = ({route, navigation}: OrdersDetailNavigationProp) => {
             </Text>
           </View>
         </View>
-        {ProductDetailData.order_details.map((item, index) => {
+        {ProductDetailData.order_details.map((item, index:number) => {
           return (
             <View key={index} 
             style={{
@@ -190,7 +187,7 @@ const OrdersDetail = ({route, navigation}: OrdersDetailNavigationProp) => {
                   <CustomRating 
                   setState={(rated) => handleRatingChange(item.prod_name, rated)}
                     ProductID={(item.product_id).toString()}
-                    rating={productRatings[item.prod_name] || 0}/>
+                    rating={productRatings[item.prod_name]}/>
                     </View>
                 </View>
               </View>
@@ -208,7 +205,8 @@ export default OrdersDetail;
 const styles = StyleSheet.create({
   headerContianer: {
     flexDirection: 'row',
-    height: '10%',
+    // height: '10%',
+    padding:10,
     justifyContent: 'space-between',
     alignItems: 'center',
   },

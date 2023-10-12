@@ -19,32 +19,16 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 
 const Orders = ({navigation}: OrdersNavigationProp) => {
   const [stage,setStage] = useState(1)
-  const dispatch = useAppDispatch();
-  const accessToken = useAppSelector(state => state.Auth.AccessToken);
-  const order = useAppSelector(state => state.Order.order)
 /**
  * @author benke
  * @param index 
  * 
  */
 
-// async function getOrderListAndDetail(){
-//   try{ 
-//    await dispatch(getOrderList({accessToken})).unwrap();
-//    // await dispatch(getOrderDetail({}))
-//    }
-//    catch(error){
-//        console.log(error)
-//    }
-//   }
 
   function ChangeStage(index:number){
     setStage(index)
   }
-
-  // useEffect(()=>{
-  //   getOrderListAndDetail()
-  // },[order])
   
   function NavigationRoute(){
     if(stage  === 1){
@@ -132,12 +116,7 @@ export default Orders;
 
 const styles = StyleSheet.create({
   headerConatianer: {
-    // backgroundColor:'#d4d1d1',
     padding: 5,
-    // margin: 0,
-    // flexDirection: 'row',
-    // justifyContent: 'space-between',
-    // alignItems: 'flex-start',
   },
   headerFirstContainer: {
     paddingTop:5,
@@ -148,7 +127,6 @@ const styles = StyleSheet.create({
     paddingBottom:10
   },
   headerSecondContainer:{
-    // flexDirection:'row',
     justifyContent:'center',
     alignItems:'center'
   },
@@ -173,6 +151,5 @@ const styles = StyleSheet.create({
     backgroundColor:'#fff',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    // padding:10
   }
 });

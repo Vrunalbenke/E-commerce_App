@@ -50,7 +50,7 @@ const Home = ({navigation}: HomeNavigatonProp) => {
   async function getOrderListAndDetail() {
     // setIsloading(true);
     try {
-      await dispatch(getOrderList({accessToken})).unwrap();
+      await dispatch(getOrderList({accessToken: accessToken})).unwrap();
       // setIsloading(false);
     } catch (error) {
       console.log(error);
@@ -103,9 +103,8 @@ const Home = ({navigation}: HomeNavigatonProp) => {
             style={styles.IconContainer}
             onPress={() => {
               getCartData();
-              navigation.navigate('Cart')
-            }}
-          >
+              navigation.navigate('Cart');
+            }}>
             <Ionicons name="cart" size={30} color={'#fff'} />
           </TouchableOpacity>
         </View>

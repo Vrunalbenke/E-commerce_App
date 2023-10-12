@@ -20,26 +20,28 @@ import {EmptyData} from '../../redux/Slice/addressSlice';
 import font from '../../Constants/fonts';
 import {CoinName, MemberShip} from '../../Constants/string';
 import LottieView from 'lottie-react-native';
+import {AddressType,user_dataType, OrderListType} from './type';
 
 const {width, height} = Dimensions.get('screen');
 
 const Profile = ({navigation}: ProfileNavigationProp) => {
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector(state => state.Auth.AccessToken);
-  const UserData = useAppSelector(state => state.User?.user?.data);
-  const totalOrders = useAppSelector(state => state.Order?.orderList);
-  const address = useAppSelector(state => state.Address?.address);
+  const UserData: user_dataType = useAppSelector(state => state.User?.user);
+  console.log(UserData, '☎️☎️☎️☎️☎️☎️☎️☎️☎️☎️☎️');
+  const totalOrders:OrderListType = useAppSelector(state => state.Order?.orderList);
+  const address:AddressType[] = useAppSelector(state => state.Address?.address);
   const [open, setOpen] = useState(false);
   const [cfmLogout, setCfmLogout] = useState(false);
   const [isLoading, setIsloading] = useState(false);
 
-  const CalNeoCoin = useCallback(() =>{
-    const neocoins = totalOrders.data?.reduce((acc, curr) => {
+  const CalNeoCoin = useCallback(() => {
+    const neocoins = totalOrders?.reduce((acc: number, curr:OrderListType) => {
       return (acc = acc + curr.cost);
     }, 0);
     console.log(neocoins, '💸💵💸💸💸');
     return Math.floor(neocoins * 0.1);
-  },[totalOrders?.data])
+  }, [totalOrders]);
 
   function LogoutUser() {
     setIsloading(true);
@@ -114,9 +116,9 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
 
         <View style={styles.SecondContainer}>
           <View>
-            {UserData?.user_data?.profile_pic ? (
+            {UserData?.profile_pic ? (
               <Image
-                source={{uri: UserData?.user_data?.profile_pic}}
+                source={{uri: UserData?.profile_pic}}
                 style={{width: 120, height: 120, borderRadius: 60}}
               />
             ) : (
@@ -136,22 +138,23 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
               width: '60%',
             }}>
             <Text style={styles.name}>
-              {UserData?.user_data?.first_name} {UserData?.user_data?.last_name}
+              {UserData?.first_name} {UserData?.last_name}
             </Text>
 
-            <View style={{flexDirection:'row'}}>
-              
+            <View style={{flexDirection: 'row'}}>
               {address?.length > 0 && (
                 <Text style={[styles.member, {}]}>
-                    <Text style={{fontWeight:'600',fontSize:18,color:'#000'}}>Address: </Text>
-                    <Text style={[styles.member, {}]}>
-                      {address[0]?.streetAddress},{address[0]?.city}-
-                      {address[0]?.postalCode},{address[0]?.state},
-                      {address[0]?.country}
-                    </Text>
+                  <Text
+                    style={{fontWeight: '600', fontSize: 18, color: '#000'}}>
+                    Address:{' '}
+                  </Text>
+                  <Text style={[styles.member, {}]}>
+                    {address[0]?.streetAddress},{address[0]?.city}-
+                    {address[0]?.postalCode},{address[0]?.state},
+                    {address[0]?.country}
+                  </Text>
                 </Text>
-                )}
-              
+              )}
             </View>
           </View>
         </View>
@@ -159,13 +162,13 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
           <View style={{flexDirection: 'row', gap: 10, alignItems: 'center'}}>
             <Ionicons name="call-outline" size={25} color={'#3498db'} />
             <Text style={{fontSize: 18, color: '#000', fontWeight: '500'}}>
-              {UserData?.user_data?.phone_no}
+              {UserData?.phone_no}
             </Text>
           </View>
           <View style={{flexDirection: 'row', gap: 10, alignItems: 'center'}}>
             <Ionicons name="mail-outline" size={25} color={'#3498db'} />
             <Text style={{fontSize: 18, color: '#000', fontWeight: '500'}}>
-              {UserData?.user_data?.email}
+              {UserData?.email}
             </Text>
           </View>
         </View>
@@ -235,7 +238,7 @@ const Profile = ({navigation}: ProfileNavigationProp) => {
             }}>
             <View style={{flexDirection: 'row', gap: 8}}>
               <Text style={{fontSize: 20, color: '#000'}}>
-                {totalOrders?.data?.length}
+                {totalOrders?.length}
               </Text>
             </View>
             <View style={{marginTop: 5}}>
@@ -372,7 +375,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000',
     // flex:1,
-    flexWrap:'wrap'
+    flexWrap: 'wrap',
   },
   thirdContiner: {
     paddingHorizontal: 20,

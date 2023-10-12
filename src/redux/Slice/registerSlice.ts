@@ -39,7 +39,7 @@ export const loginUser = createAsyncThunk(
       const toastMsg: string = res.data.user_msg;
       console.log('toast message ', toastMsg);
       Toast.showWithGravity(toastMsg, Toast.SHORT, Toast.BOTTOM);
-      console.log(res.data.data);
+      console.log(res.data.data,'🕰🕰🕰🕰🕰🕰');
       return res.data.data;
     } catch (error: any) {
       Toast.show('Email or password is wrong. try again', Toast.SHORT);
@@ -50,7 +50,7 @@ export const loginUser = createAsyncThunk(
 
 const initialState = {
   AuthData: [],
-  AccessToken: [],
+  AccessToken: '',
 };
 const AuthSlice = createSlice({
   name: 'AuthUser',

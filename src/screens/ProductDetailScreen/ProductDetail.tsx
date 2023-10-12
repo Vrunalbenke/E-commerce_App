@@ -21,17 +21,19 @@ import {getProductDetail} from '../../redux/Slice/productSlice';
 import {ProductDetailNavigatonProp} from '../../navigation/type';
 import Lottie from 'lottie-react-native';
 import LottieView from 'lottie-react-native';
+import { ProductDetailType } from './type';
 const windowWidth = Dimensions.get('window').width;
 
 const {width, height} = Dimensions.get('screen');
 
 const ProductDetail = ({route, navigation}: ProductDetailNavigatonProp) => {
   const dispatch = useAppDispatch();
-  const ProductDetail = useAppSelector(
+  const ProductDetail:ProductDetailType = useAppSelector(
     state => state.Product.ProductDetailData,
   );
-  const accessToken = useAppSelector(state => state.Auth.AccessToken);
-  const cartItemList = useAppSelector(state => state.Cart.CartItem.data);
+  console.log(ProductDetail,'🔋🔋🔋🔋🔋🔋🔋')
+  const accessToken:string = useAppSelector(state => state.Auth.AccessToken);
+  // const cartItemList = useAppSelector(state => state.Cart.CartItem.data);
   const button = useAppSelector(state => state.Cart.ButtonName);
   const [isLoading, setIsloading] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -65,7 +67,7 @@ const ProductDetail = ({route, navigation}: ProductDetailNavigatonProp) => {
         console.error(err);
       }
       try {
-        await dispatch(getCartItem(accessToken));
+        await dispatch(getCartItem(accessToken)).unwrap();
       } catch (error) {
         console.log(error);
       }
@@ -111,7 +113,7 @@ const ProductDetail = ({route, navigation}: ProductDetailNavigatonProp) => {
     }
   }
 
-  function StarRating(rating) {
+  function StarRating(rating:number) {
     const normalizedRating = Math.min(Math.max(rating, 0), 5);
 
     const stars = [];
@@ -154,7 +156,7 @@ const ProductDetail = ({route, navigation}: ProductDetailNavigatonProp) => {
     return <View style={{flexDirection: 'row'}}>{stars}</View>;
   }
 
-  function commafy(num) {
+  function commafy(num:number) {
     var str = num.toString().split('.');
     if (str[0].length >= 4) {
       str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');

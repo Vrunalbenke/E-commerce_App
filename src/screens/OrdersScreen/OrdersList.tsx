@@ -59,7 +59,7 @@ const OrdersList = ({navigation}: OrdersListNavigationProp) => {
         </TouchableOpacity>
         <CustomHeader
           style={{
-            paddingTop: 6,
+            // paddingTop: 6,
             fontSize: 30,
             fontFamily: font.BebasNB,
             color: '#fff',
@@ -88,8 +88,8 @@ const OrdersList = ({navigation}: OrdersListNavigationProp) => {
           // paddingVertical:10
         }}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {orderList.data?.map((item, index) => {
-            item = orderList.data[orderList.data?.length - 1 - index] 
+          {orderList?.map((item, index) => {
+            item = orderList[orderList?.length - 1 - index]
             return (
               <View
                 key={index}

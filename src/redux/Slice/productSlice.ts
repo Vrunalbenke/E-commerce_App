@@ -27,7 +27,7 @@ export const getProduct = createAsyncThunk(
           },
         },
       );
-      // console.log(ProductAPIData.data.data, '💦💦💦💦💦💦💦💦💦💦');
+      console.log(ProductAPIData.data.data, '🏝🏝🏝🏝🏝🏝🌋🌋🌋🌋🌋🌋🌋🌋🌋');
       initialState.isLoading = false;
       return ProductAPIData.data.data;
     } catch (error: any) {
@@ -47,7 +47,7 @@ export const getFullProduct = createAsyncThunk(
        let response = await axios.get(url);
       FullProductAPIData.push(response.data.data)
     }
-      // console.log(FullProductAPIData, '💦💦💦💦💦💦💦💦💦💦');
+      // console.log(FullProductAPIData, '🌋🌋🌋🌋🌋🌋🌋🌋🌋');
       return FullProductAPIData;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);

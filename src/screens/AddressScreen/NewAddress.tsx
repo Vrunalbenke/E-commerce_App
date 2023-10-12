@@ -338,7 +338,7 @@ const NewAddress = ({route,navigation}: NewAddressNavigationProp) => {
                     width:150,
                     padding:2,
                     
-                  }}
+                  }} 
                   >
                     <Text style={{fontSize:18}}>{item}</Text>
                     </TouchableOpacity>

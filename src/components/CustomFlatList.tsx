@@ -67,7 +67,7 @@ const CustomFlatList = ({
     };
   }, [product_category_id]);
 
-  function StarRating(rating){
+  function StarRating(rating:number){
     const normalizedRating = Math.min(Math.max(rating, 0), 5);
 
   const stars = [];
@@ -88,7 +88,7 @@ const CustomFlatList = ({
   return <View style={{flexDirection:'row'}}>{stars}</View>;
   }
 
-  function commafy( num ) {
+  function commafy( num:number ) {
     var str = num.toString().split('.');
     if (str[0].length >= 4) {
         str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');

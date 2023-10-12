@@ -25,74 +25,36 @@ const AppStack = ({navigation}: AppStackpNavigatonProp) => {
   return (
     <RootDrawer.Navigator
       initialRouteName="Home"
-      drawerContent={(props) => <CustomDrawer {...props} />}
+      drawerContent={props => <CustomDrawer {...props} />}
       screenOptions={{
         headerShown: false,
         drawerActiveBackgroundColor: '#000',
         drawerActiveTintColor: '#fff',
         drawerInactiveTintColor: '#000000',
         drawerLabelStyle: {marginLeft: -25, fontSize: 15},
+        // overlayColor:'transparent'
       }}>
-      
-      <RootDrawer.Screen
-        name="Home"
-        component={Home}
-      />
-      <RootDrawer.Screen
-        name="Cart"
-        component={Cart}
-      />
 
-      <RootDrawer.Screen
-        name="Category"
-        component={Category}
-      />
+      <RootDrawer.Screen name="Home" component={Home} />
+      <RootDrawer.Screen name="Cart" component={Cart} />
 
-      <RootDrawer.Screen
-        name="FullCategory"
-        component={FullCategory}
-      />
+      <RootDrawer.Screen name="Category" component={Category} />
 
-      <RootDrawer.Screen
-        name="ProductDetail"
-        component={ProductDetail}
-      />
-      <RootDrawer.Screen
-        name="Orders"
-        component={Orders}
-      />
+      <RootDrawer.Screen name="FullCategory" component={FullCategory} />
 
-      <RootDrawer.Screen
-        name="OrdersList"
-        component={OrdersList}
-      />
+      <RootDrawer.Screen name="ProductDetail" component={ProductDetail} />
+      <RootDrawer.Screen name="Orders" component={Orders} />
 
-      <RootDrawer.Screen
-        name="OrdersDetail"
-        component={OrdersDetail}
-      />
+      <RootDrawer.Screen name="OrdersList" component={OrdersList} />
 
-      <RootDrawer.Screen
-        name="Profile"
-        component={Profile}
-      />
+      <RootDrawer.Screen name="OrdersDetail" component={OrdersDetail} />
 
-      <RootDrawer.Screen
-        name="EditProfile"
-        component={EditProfile}
-      />
-      <RootDrawer.Screen
-        name="AddressList"
-        component={AddressList}
-      />
-      <RootDrawer.Screen
-        name="NewAddress"
-        component={NewAddress}
-      />
-      <RootDrawer.Screen
-        name="ChangePassword"
-        component={ChangePassword}
-      />
+      <RootDrawer.Screen name="Profile" component={Profile} />
+
+      <RootDrawer.Screen name="EditProfile" component={EditProfile} />
+      <RootDrawer.Screen name="AddressList" component={AddressList} />
+      <RootDrawer.Screen name="NewAddress" component={NewAddress} />
+      <RootDrawer.Screen name="ChangePassword" component={ChangePassword} />
     </RootDrawer.Navigator>
   );
 };

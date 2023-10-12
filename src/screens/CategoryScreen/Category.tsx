@@ -13,6 +13,7 @@ import {CategoryNavigatonProp} from '../../navigation/type';
 import CustomFlatList from '../../components/CustomFlatList';
 import {useAppDispatch} from '../../redux/store';
 import {getProductDetail} from '../../redux/Slice/productSlice';
+import { GetBtnName } from '../../redux/Slice/cartSlice';
 
 const {width, height} = Dimensions.get('window');
 const Category = ({route, navigation}: CategoryNavigatonProp) => {
@@ -40,6 +41,7 @@ const Category = ({route, navigation}: CategoryNavigatonProp) => {
     } catch (err) {
       console.log(err);
     }
+    dispatch(GetBtnName(product_id))
   }
 
   return (
@@ -70,7 +72,7 @@ const Category = ({route, navigation}: CategoryNavigatonProp) => {
           backgroundColor: '#fff',
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
-          padding: 10,
+          paddingVertical: 10,
         }}>
         <CustomFlatList
           product_category_id={product_category_id}

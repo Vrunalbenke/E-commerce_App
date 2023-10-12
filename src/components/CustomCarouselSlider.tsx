@@ -34,10 +34,11 @@ const CustomCarouselSlider = () => {
             {/* <Image style={{width: '100%', height: '100%'}} source={item} /> */}
             {index === 0 ? (
               <Video
-                source={{uri:item}}
+                source={item}
                 style={{width: '100%', height: '100%'}}
                 resizeMode="cover"
                 repeat={true}
+                
               />
             ) : (
               <Image style={{width: '100%', height: '100%'}} source={item} />

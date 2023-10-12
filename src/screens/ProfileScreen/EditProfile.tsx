@@ -178,7 +178,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
         <Portal>
           <Dialog style={styles.Modal} visible={visible} onDismiss={hideDialog}>
             <Dialog.Title style={styles.ModalTitle}>Upload Image </Dialog.Title>
-            <Dialog.Content>
+            <Dialog.Content >
               <Text onPress={ClickImage} style={styles.ModalBtn}>
                 Camera
               </Text>
@@ -189,7 +189,7 @@ const EditProfile = ({navigation}: EditProfileNavigationProp) => {
               </Text>
             </Dialog.Content>
             <Dialog.Actions>
-              <Button onPress={hideDialog}>Close</Button>
+              <Button onPress={hideDialog} >Close</Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>
@@ -425,19 +425,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   Modal: {
-    backgroundColor: '#a1a1bc',
+    backgroundColor: '#fff',
   },
   ModalTitle: {
     alignSelf: 'center',
   },
   ModalBtn: {
     borderRadius: 10,
-    borderWidth: 1,
+    // borderWidth: 1,
     paddingVertical: 10,
     marginVertical: 10,
     alignSelf: 'center',
     fontSize: 16,
     paddingHorizontal: 85,
+    backgroundColor:'#325f88',
+    color:'#fff'
   },
   modalContainer: {
     flex: 1,

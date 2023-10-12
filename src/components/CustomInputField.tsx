@@ -8,19 +8,18 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import color from '../Constants/colors'
-import font from '../Constants/fonts'
-
+import color from '../Constants/colors';
+import font from '../Constants/fonts';
 
 type CustomInputFieldProps = {
   // style : React.CSSProperties
   label: string;
   placeholder: string;
   secureTextEntry: boolean;
-  icon:boolean;
+  icon: boolean;
   error?: string;
   onFocus?: () => void;
-  onChangeText?: (text:string,input:string) => void;
+  onChangeText?: (text: string, input: string) => void;
   keyboardType?: KeyboardTypeOptions;
   maxLength?: number;
 };
@@ -35,20 +34,20 @@ const CustomInputField = ({
   icon,
   // ...props
   onFocus,
-  onChangeText
+  onChangeText,
 }: CustomInputFieldProps) => {
   const [hidepass, setHidePass] = useState(true);
 
   function IconToggle() {
-    setHidePass(!hidepass)
+    setHidePass(!hidepass);
   }
 
   return (
-    <View style={[styles.MainContainer,{marginBottom: error ? 0 :10}]}>
+    <View style={[styles.MainContainer, {marginBottom: error ? 0 : 10}]}>
       <Text style={styles.labelStyle}>{label}</Text>
       <View style={styles.TinpIconStyle}>
         <TextInput
-          style={[styles.textInputStyle,{    height: error ? 40 : 50}]}
+          style={[styles.textInputStyle, {height: error ? 40 : 50}]}
           secureTextEntry={!hidepass ? !secureTextEntry : secureTextEntry}
           placeholder={placeholder}
           keyboardType={keyboardType}
@@ -59,16 +58,13 @@ const CustomInputField = ({
           autoCorrect={false}
         />
 
-        {icon && <TouchableOpacity style={styles.IconContainer} onPress={IconToggle}>
-          <Ionicons name={hidepass?'eye-off':'eye'} style={styles.Icon} />
-        </TouchableOpacity>}
+        {icon && (
+          <TouchableOpacity style={styles.IconContainer} onPress={IconToggle}>
+            <Ionicons name={hidepass ? 'eye-off' : 'eye'} style={styles.Icon} />
+          </TouchableOpacity>
+        )}
       </View>
-      {error && 
-          <Text
-            style={[styles.ValidationText]}>
-            {error}
-          </Text>
-      }
+      {error && <Text style={[styles.ValidationText]}>{error}</Text>}
     </View>
   );
 };
@@ -78,15 +74,14 @@ export default CustomInputField;
 const styles = StyleSheet.create({
   MainContainer: {
     // backgroundColor:'yellow',
-    
   },
   labelStyle: {
     fontSize: 20,
     fontFamily: font.RobotoC,
-    fontWeight: '500',
+    fontWeight: '600',
     paddingLeft: 10,
-    letterSpacing: 1,
-    color:'#000'
+    // letterSpacing: 1,
+    color: '#000',
   },
   textInputStyle: {
     fontSize: 18,
@@ -94,7 +89,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     // marginBottom: 15,
-
     width: '85%',
     // backgroundColor:'lightblue'
   },

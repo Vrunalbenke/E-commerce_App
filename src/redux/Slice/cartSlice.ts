@@ -6,12 +6,12 @@ interface EditCartItemData {
   product_id: number;
   quantity: number;
   accessToken: string;
-  ToastMessage :string;
+  ToastMessage: string;
 }
 
 interface DeleteItemData {
-    product_id: number;
-    accessToken:string
+  product_id: number;
+  accessToken: string;
 }
 
 interface EditCartItemResponse {
@@ -62,73 +62,99 @@ export const getCartItem = createAsyncThunk(
 
 export const editCartItem = createAsyncThunk<string, EditCartItemData>(
   'editCart',
-  async ({product_id, quantity, accessToken,ToastMessage}: EditCartItemData, thunkAPI) => {
+  async (
+    {product_id, quantity, accessToken, ToastMessage}: EditCartItemData,
+    thunkAPI,
+  ) => {
     try {
-      if(quantity > 8){
+      if (quantity > 8) {
         Toast.show(ToastMessage, Toast.SHORT);
         return 400;
-      }
-      else if(quantity < 1){
+      } else if (quantity < 1) {
         Toast.show(ToastMessage, Toast.SHORT);
         return 400;
-      }
-      else{
+      } else {
         const EditCart = await axios.post(
-            // `${baseURL}/editCart?product_id=${product_id}&quantity=${quantity}`,
-            `${baseURL}/editCart`,
-            {
-                product_id:product_id,
-                quantity:quantity
+          // `${baseURL}/editCart?product_id=${product_id}&quantity=${quantity}`,
+          `${baseURL}/editCart`,
+          {
+            product_id: product_id,
+            quantity: quantity,
+          },
+          {
+            headers: {
+              access_token: accessToken,
+              'Content-Type': 'multipart/form-data',
             },
-            {
-              headers: {
-                access_token: accessToken,
-                'Content-Type': 'multipart/form-data',
-              },
-            },
-          );
-    
+          },
+        );
+
         //   const toastMessage = EditCart.data.user_msg;
-          Toast.show(ToastMessage, Toast.SHORT);
-          return EditCart.data;
+        Toast.show(ToastMessage, Toast.SHORT);
+        return EditCart.data;
       }
-      
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error);
     }
   },
 );
 
-
-export const deleteItem = createAsyncThunk<string,DeleteItemData>('deleteCart', async ({product_id,accessToken}:DeleteItemData,thunkAPI)=>{
-    try{
-        const DeletedData = await axios.post(`${baseURL}/deleteCart`,{
-            product_id:product_id,
+export const deleteItem = createAsyncThunk<string, DeleteItemData>(
+  'deleteCart',
+  async ({product_id, accessToken}: DeleteItemData, thunkAPI) => {
+    try {
+      const DeletedData = await axios.post(
+        `${baseURL}/deleteCart`,
+        {
+          product_id: product_id,
         },
         {
-            headers: {
-                access_token: accessToken,
-                'Content-Type': 'multipart/form-data',
-              },
-        }
-        )
-        const toastMessage = DeletedData.data.user_msg;
-        Toast.show(toastMessage,Toast.SHORT)
-        return DeletedData.data
+          headers: {
+            access_token: accessToken,
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      const toastMessage = DeletedData.data.user_msg;
+      Toast.show(toastMessage, Toast.SHORT);
+      return DeletedData.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
     }
-    catch(error:any){
-        return thunkAPI.rejectWithValue(error.message)
-    }
-})
+  },
+);
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
     CartData: [],
     CartItem: [],
     EditStatus: [],
-    DeleteItem :[],
+    DeleteItem: [],
+    ButtonName: 'Add to cart',
   },
-  reducers: {},
+  reducers: {
+    GetBtnName: (state, action) => {
+      console.log(state.CartItem?.data, '🚦🚦🚦🚦🚦🚦🚦🚦🚦');
+      const length = state.CartItem?.data?.length;
+
+      if (length !== null) {
+        for (let v = 0; v < length; v++) {
+          if (state.CartItem.data[v].product_id === action.payload) {
+            state.ButtonName = 'Go to cart';
+            console.log(
+              '🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦',
+            );
+            return;
+          } else {
+            state.ButtonName = 'Add to cart';
+          }
+        }
+      } else {
+        console.log('returned here,🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦')
+        state.ButtonName = 'Add to cart';
+      }
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(AddToCart.fulfilled, (state, action) => {
@@ -141,10 +167,12 @@ const cartSlice = createSlice({
       .addCase(editCartItem.fulfilled, (state, action) => {
         state.EditStatus = action.payload;
       })
-      .addCase(deleteItem.fulfilled,(state,action)=>{
-        state.DeleteItem = action.payload
-      })
+      .addCase(deleteItem.fulfilled, (state, action) => {
+        state.DeleteItem = action.payload;
+      });
   },
 });
+
+export const {GetBtnName} = cartSlice.actions;
 
 export default cartSlice.reducer;

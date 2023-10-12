@@ -13,7 +13,6 @@ export const registerUser = createAsyncThunk(
           'Content-Type': 'multipart/form-data',
         },
       });
-
       const toastMsg: string = res.data.user_msg;
       Toast.showWithGravity(toastMsg, Toast.SHORT, Toast.BOTTOM);
       return res.status;
@@ -58,13 +57,11 @@ const AuthSlice = createSlice({
   initialState,
   reducers: {
     logout: (state, action) => {
-      // state.AuthData.splice(0,action.payload)
       state.AccessToken = action.payload;
     },
   },
   extraReducers: builder => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      // state.AuthData.push(2)
       state.AuthData = action.payload;
       state.AccessToken = action.payload.access_token;
     });

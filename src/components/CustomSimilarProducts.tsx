@@ -11,10 +11,11 @@ type CustomSimilarProductsProps = {
 
 const CustomSimilarProducts = ({product_id,onPressProductDetail}:CustomSimilarProductsProps) => {
     const SimilarProductsData = useAppSelector(state => state.Product.ProductData).filter((item)=>{
+      console.log(SimilarProductsData,'💧💧💧💧💧💧💧💧💧💧')
         return item.id !== product_id;
     })
 
-    // console.log(SimilarProductsData,'💧💧💧💧💧💧💧💧💧💧')
+    console.log(product_id,'💧💧💧💧💧💧💧💧💧💧')
 
 
     function StarRating(rating){
@@ -53,6 +54,7 @@ const CustomSimilarProducts = ({product_id,onPressProductDetail}:CustomSimilarPr
     
   return (
     <View>
+      <Text style={styles.SimilarProdtext}>Similar Product</Text>
     {SimilarProductsData.map((item, index) => (
     <TouchableOpacity
     key={index}
@@ -147,4 +149,9 @@ const styles = StyleSheet.create({
       viewCount: {
         fontSize: 14,
       },
+      SimilarProdtext:{
+        fontSize:25,
+        fontWeight:'600',
+        
+      }
 })

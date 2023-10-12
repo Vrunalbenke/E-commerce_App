@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {
@@ -35,6 +36,8 @@ type itemProps = {
   quantity: number;
 };
 
+const {width,height} = Dimensions.get('screen')
+
 const Cart = ({navigation}: CartNavigatonProp) => {
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector(state => state.Auth.AccessToken);
@@ -42,14 +45,10 @@ const Cart = ({navigation}: CartNavigatonProp) => {
   const cartItemsTotal = useAppSelector(state => state.Cart.CartItem.total);
   const editStatus = useAppSelector(state => state.Cart.EditStatus);
   const deletedItem = useAppSelector(state => state.Cart.DeleteItem);
-  // console.log('☄️☄️☄️☄️☄️☄️☄️☄️☄️', editStatus);
-  // console.log('☄️☄️☄️☄️☄️☄️☄️☄️☄️', cartItems, '☄️☄️☄️☄️☄️☄️☄️☄️☄️');
-  // console.log('rendered');
-  // console.log(cartItems);
 
   useEffect(() => {
     getCartData();
-    console.log('USEEFFECT CALLED')
+    console.log('USEEFFECT CALLED');
   }, [editStatus, deletedItem]);
 
   async function getCartData() {
@@ -103,7 +102,7 @@ const Cart = ({navigation}: CartNavigatonProp) => {
           accessToken: accessToken,
           ToastMessage:
             itemQuantity < 1
-              ? 'To remove Item from cart swipe left'
+              ? 'To remove Item from cart Delete it'
               : 'Oops! One item less in your cart.',
         }),
       ).unwrap();
@@ -141,25 +140,23 @@ const Cart = ({navigation}: CartNavigatonProp) => {
     return (
       <View
         style={{
-          width: '100%',
+          width: width*0.95,
           backgroundColor: color.offWhite,
-          padding: 10,
+          padding: 5,
         }}>
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            // paddingVertical: 3,
-
-            // backgroundColor:'lightblue'
+            width:'100%'
           }}>
           <Text
             style={{
               fontSize: 22,
               color: '#325f88',
               fontWeight: '600',
-              width: '60%',
+              width: '55%',
             }}>
             Products
           </Text>
@@ -167,8 +164,8 @@ const Cart = ({navigation}: CartNavigatonProp) => {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'space-around',
-              gap: 10,
+              justifyContent: 'space-between',
+              // gap: 10,
               // backgroundColor:'pink',
               width: '40%',
             }}>
@@ -180,35 +177,37 @@ const Cart = ({navigation}: CartNavigatonProp) => {
             </Text>
           </View>
         </View>
-        {cartItems.map((item: itemProps, index: number) => {
+        {cartItems?.map((item: itemProps, index: number) => {
           return (
             <View
               key={index}
               style={{
                 flexDirection: 'row',
                 alignItems: 'flex-start',
-                justifyContent: 'space-around',
+                justifyContent: 'space-between',
                 paddingVertical: 10,
-                // width:'100%',
+                width:'95%',
                 // backgroundColor:'pink'
               }}>
-              <Text style={{fontSize: 18, width: '50%', color: '#000'}}>
-                {index + 1}. {item.product.name}
-              </Text>
+                <View style={{flexDirection:'row', width: '62%',}}>
+                  <Text style={{fontSize: 18,fontWeight:'500', color: '#000'}}>{index + 1}. </Text>
+                  <Text style={{fontSize: 18,fontWeight:'500', color: '#000'}}>
+                     {item?.product?.name}
+                  </Text>
+                </View>
+              
               <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  width: '30%',
-                  gap: 10,
-                  // backgroundColor:'yellow'
+                  width: '35%',
                 }}>
                 <Text style={{fontSize: 18, color: '#000'}}>
                   {item.quantity}
                 </Text>
                 <Text style={{fontSize: 18, color: '#000'}}>
-                  {commafy(item.product.cost * item.quantity)}
+                  {commafy(item?.product?.cost * item?.quantity)}
                 </Text>
               </View>
             </View>
@@ -324,35 +323,41 @@ const Cart = ({navigation}: CartNavigatonProp) => {
             justifyContent: 'center',
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
-            padding: 10,
+            paddingTop: 10,
+            width:width
           }}>
           <FlatList
+          horizontal={false}
             data={cartItems}
             keyExtractor={item => item?.id?.toString()}
             ListHeaderComponent={() => {
               return <View style={{height: 20}}></View>;
             }}
+            bounces={false}
             showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
             ListFooterComponent={CartFooter}
             renderItem={({item}) => (
               <View style={styles.cartItemContainer}>
                 <Image
-                  source={{uri: item.product.product_images}}
+                  source={{uri: item?.product?.product_images}}
                   style={styles.productImage}
                 />
                 <View style={styles.RightContainer}>
                   <View style={styles.itemDetails}>
-                    <Text style={styles.productName}>{item.product.name}</Text>
+                    <Text style={styles.productName}>
+                      {item?.product?.name}
+                    </Text>
                     <Text style={styles.productPrice}>
-                      Price: ₹{commafy(item.product.cost)}
+                      Price: ₹{commafy(item?.product?.cost)}
                     </Text>
                   </View>
                   <View style={styles.quantityContainer}>
                     <TouchableOpacity
                       onPress={() =>
                         decrementQuantity(
-                          item.product.id,
-                          item.quantity,
+                          item?.product?.id,
+                          item?.quantity,
                           accessToken,
                         )
                       }>
@@ -362,12 +367,12 @@ const Cart = ({navigation}: CartNavigatonProp) => {
                         color={'#325f88'}
                       />
                     </TouchableOpacity>
-                    <Text style={styles.productQuantity}>{item.quantity}</Text>
+                    <Text style={styles.productQuantity}>{item?.quantity}</Text>
                     <TouchableOpacity
                       onPress={() =>
                         incrementQuantity(
-                          item.product.id,
-                          item.quantity,
+                          item?.product.id,
+                          item?.quantity,
                           accessToken,
                         )
                       }>
@@ -380,7 +385,7 @@ const Cart = ({navigation}: CartNavigatonProp) => {
                   </View>
                 </View>
                 <TouchableOpacity
-                  onPress={() => deleteCartItem(item.product.id, accessToken)}
+                  onPress={() => deleteCartItem(item?.product?.id, accessToken)}
                   style={styles.deleteButton}>
                   <Ionicons name="trash" size={27} color="#325f88" />
                 </TouchableOpacity>
@@ -431,16 +436,18 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   cartItemContainer: {
+    width:'100%',
     backgroundColor: color.offWhite,
-    borderRadius: 5,
-    elevation: 2,
-    shadowColor: 'rgba(0,0,0,0.2)',
+    borderRadius: 10,
+    elevation: 4,
+    shadowColor: 'rgba(0,0,0,0.5)',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.8,
     shadowRadius: 2,
     marginVertical: 10,
     flexDirection: 'row',
-    padding: 10,
+    // padding: 10,
+    height:width*0.35
   },
   cartItem: {
     flexDirection: 'row',
@@ -454,13 +461,15 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   productImage: {
-    width: 150,
-    height: 100,
+    width: width*0.38,
+    height: '100%',
     // marginRight: 10,
     borderRadius: 5,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
-  RightContainer: {},
+  RightContainer: {
+    padding:10
+  },
   itemDetails: {
     flex: 1,
     paddingLeft: 10,
@@ -505,7 +514,9 @@ const styles = StyleSheet.create({
     padding: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5,
+    // borderRadius: 5,
+    borderTopLeftRadius:5,
+    borderBottomLeftRadius:5,
   },
 });
 

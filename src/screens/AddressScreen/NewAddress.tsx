@@ -73,7 +73,7 @@ const NewAddress = ({route,navigation}: NewAddressNavigationProp) => {
 
     axios(config)
       .then(function (response) {
-        var count = response.data.length;
+        var count = response.data?.length;
         let countryArrayData = [];
         for (var i = 0; i < count; i++) {
           countryArrayData.push(

@@ -183,28 +183,50 @@ const Signup = ({navigation}: SignupNavigatonProp) => {
 
   return (
     <SafeAreaView style={styles.root}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView bounces={false}>
-          <View style={[styles.signupContainer]}>
-            <CustomHeader
-              style={{
-                fontSize: 50,
-                fontFamily: font.BebasNB,
-                color: '#325f88',
-              }}
-              headerContainerStyle={{
-                height: '25%',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              headerTitle={AppName}
-            />
-            <View style={styles.MidArea}>
-              <Text style={styles.greeting}>Register</Text>
-              <Text style={styles.SignActionText}>Create an new account</Text>
-            </View>
+      {/* <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{flex:1,justifyContent:'center'}}
+        > */}
+      {/* <View style={styles.parentContainer}> */}
 
+      <View style={styles.headerConatianer}>
+        <TouchableOpacity
+          style={styles.IconContainer}
+          onPress={() => navigation.navigate('Login')}>
+          <Ionicons name="arrow-back-outline" size={30} color={'#fff'} />
+        </TouchableOpacity>
+        <CustomHeader
+          style={{
+            // paddingTop: 6,
+            fontSize: 30,
+            fontFamily: font.BebasNB,
+            color: '#fff',
+          }}
+          headerContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            padding: 10,
+          }}
+          headerTitle='Register'
+        />
+        <View style={[styles.headerRightConatianer,{width:50}]}>
+          {/* <TouchableOpacity
+            style={styles.IconContainer}
+            onPress={() => {
+              getCartData();
+            }}>
+            <Ionicons name="cart" size={30} color={'#fff'} />
+          </TouchableOpacity> */}
+        </View>
+        </View>
+
+        <View style={styles.MainContainer}>
+          <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+            {/* <View style={styles.MidArea}>
+                <Text style={styles.greeting}>Register</Text>
+                <Text style={styles.SignActionText}>Create an new account</Text>
+              </View> */}
+            <View style={{height:20}}></View>
             <CustomInputField
               label="First Name"
               placeholder="Vrunal"
@@ -311,18 +333,21 @@ const Signup = ({navigation}: SignupNavigatonProp) => {
                 </Text>
               </View>
             </View>
-
+                <View style={{marginBottom:10}}>
             <CustomButton onPress={validate} BtnName="Register" />
-          </View>
-          <TouchableOpacity
-            style={styles.BackIcon}
-            onPress={() => {
-              navigation.navigate('Login');
-            }}>
-            <Ionicons name="arrow-back-outline" size={30} />
-          </TouchableOpacity>
-        </ScrollView>
-      </KeyboardAvoidingView>
+                </View>
+          </ScrollView>
+        </View>
+      {/* <TouchableOpacity
+        style={styles.BackIcon}
+        onPress={() => {
+          navigation.navigate('Login');
+        }}>
+        <Ionicons name="arrow-back-outline" size={35} color={'#fff'} />
+      </TouchableOpacity> */}
+
+      {/* </View> */}
+      {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );
 };

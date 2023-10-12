@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 5,
     width: '100%',
+    // marginVertical:10
   },
   textStyle: {
     color: color.white,

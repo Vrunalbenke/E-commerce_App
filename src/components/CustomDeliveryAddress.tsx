@@ -36,7 +36,16 @@ const CustomDeliveryAddress = ({stage}: CustomDeliveryAddressProps) => {
         <TouchableOpacity
           style={styles.TOPContainer}
           onPress={() => {
-            navigation.navigate('NewAddress');
+            navigation.navigate('NewAddress', {
+              place: 'home',
+              streetAddress: '',
+              city: '',
+              postalCode: '',
+              state: '',
+              country: '',
+              btnName: 'Add Address',
+              index: 0,
+            });
           }}>
           <Ionicons
             name="add-circle-outline"

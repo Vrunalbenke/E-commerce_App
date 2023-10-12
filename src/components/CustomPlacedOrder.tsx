@@ -1,9 +1,10 @@
 import {StyleSheet, Text, View, Image,Dimensions, TouchableOpacity, Modal} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import LottieView from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getOrderList } from '../redux/Slice/orderSlice';
-import { useAppDispatch } from '../redux/store';
+import { useAppDispatch, useAppSelector } from '../redux/store';
+import { getCartItem } from '../redux/Slice/cartSlice';
 
 
 const {width,height} = Dimensions.get('screen')
@@ -21,6 +22,17 @@ const CustomPlacedOrder = ({stage}: CustomPaymentProps) => {
     setAnimation(false);
   }, 7000);
 
+  async function getCartData() {
+    try {
+      await dispatch(getCartItem(accessToken)).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    getCartData()    
+  }, [])
+  
 
   async function getOrderListAndDetail(){
     try{ 

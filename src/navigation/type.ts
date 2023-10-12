@@ -31,7 +31,6 @@ export type RootStackParamList = {
   EditProfile: undefined;
   ChangePassword: undefined;
   FullCategory: undefined;
-  Blank: undefined;
 };
 
 export type OnBoardingNavigatonProp = NativeStackScreenProps<
@@ -123,7 +122,3 @@ export type EditProfileNavigationProp = NativeStackScreenProps<
   'EditProfile'
 >;
 
-export type BlankNavigationProp = NativeStackScreenProps<
-  RootStackParamList,
-  'Blank'
->;

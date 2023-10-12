@@ -7,8 +7,9 @@ import {
   View,
   Dimensions,
   Image,
+  Modal,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {HomeNavigatonProp} from '../../navigation/type';
 import CustomHeader from '../../components/CustomHeader';
@@ -16,35 +17,55 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import font from '../../Constants/fonts';
 import {getUserDetail} from '../../redux/Slice/userSlice';
 import {getCartItem} from '../../redux/Slice/cartSlice';
-import {AppName} from '../../Constants/string'
+import {AppName} from '../../Constants/string';
 import CustomCarouselSlider from '../../components/CustomCarouselSlider';
+import {getOrderList} from '../../redux/Slice/orderSlice';
+import LottieView from 'lottie-react-native';
 
-const {height,width} = Dimensions.get('window');
+const {height, width} = Dimensions.get('window');
 const Home = ({navigation}: HomeNavigatonProp) => {
   const accessToken = useAppSelector(state => state.Auth.AccessToken);
   console.log('Home data:--😋😋😋', accessToken);
+  const [isLoading, setIsloading] = useState(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     getUserData();
+    getOrderListAndDetail();
+    getCartData();
   }, []);
 
-  
-
   async function getUserData() {
+    // setIsloading(true);
     try {
       const userdata = await dispatch(getUserDetail(accessToken)).unwrap();
+      // setIsloading(false);
       console.log('Profile called');
     } catch (error) {
       console.log(error);
+      // setIsloading(false);
+    }
+  }
+
+  async function getOrderListAndDetail() {
+    // setIsloading(true);
+    try {
+      await dispatch(getOrderList({accessToken})).unwrap();
+      // setIsloading(false);
+    } catch (error) {
+      console.log(error);
+      // setIsloading(false);
     }
   }
 
   async function getCartData() {
+    // setIsloading(true);
     try {
-      await dispatch(getCartItem(accessToken));
+      await dispatch(getCartItem(accessToken)).unwrap();
+      // setIsloading(false);
     } catch (error) {
       console.log(error);
+      // setIsloading(false);
     }
   }
 
@@ -57,7 +78,7 @@ const Home = ({navigation}: HomeNavigatonProp) => {
   }
   return (
     <SafeAreaView style={{flex: 1, height: '100%', backgroundColor: '#325f88'}}>
-      <View style={styles.headerConatianer}>
+      <View style={styles.headerContianer}>
         <TouchableOpacity
           style={styles.IconContainer}
           onPress={() => navigation.openDrawer()}>
@@ -82,7 +103,9 @@ const Home = ({navigation}: HomeNavigatonProp) => {
             style={styles.IconContainer}
             onPress={() => {
               getCartData();
-              navigation.navigate('Cart')}}>
+              navigation.navigate('Cart')
+            }}
+          >
             <Ionicons name="cart" size={30} color={'#fff'} />
           </TouchableOpacity>
         </View>
@@ -96,8 +119,7 @@ const Home = ({navigation}: HomeNavigatonProp) => {
           paddingTop: 30,
           backgroundColor: '#fff',
         }}>
-        {/* <CustomCarouselSlider /> */}
-        
+        <CustomCarouselSlider />
 
         <View style={styles.CategoryContainer}>
           <Text
@@ -111,7 +133,7 @@ const Home = ({navigation}: HomeNavigatonProp) => {
             <Image
               source={require('../../assets/images/Tables.png')}
               style={styles.CategoryBGI}
-              />
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -124,7 +146,7 @@ const Home = ({navigation}: HomeNavigatonProp) => {
             <Image
               source={require('../../assets/images/Sofas.png')}
               style={styles.CategoryBGI}
-              />
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -133,7 +155,7 @@ const Home = ({navigation}: HomeNavigatonProp) => {
             <Image
               source={require('../../assets/images/Chairs.png')}
               style={styles.CategoryBGI}
-              />
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -142,10 +164,20 @@ const Home = ({navigation}: HomeNavigatonProp) => {
             <Image
               source={require('../../assets/images/Beds.png')}
               style={[styles.CategoryBGI]}
-              />
+            />
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <Modal visible={isLoading} animationType="fade" transparent={true}>
+        <View style={styles.modalContainer}>
+          <LottieView
+            style={styles.Loader}
+            source={require('../../assets/Lottie-JSON/logoutLoader.json')}
+            autoPlay
+            loop
+          />
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -153,7 +185,7 @@ const Home = ({navigation}: HomeNavigatonProp) => {
 export default Home;
 
 const styles = StyleSheet.create({
-  headerConatianer: {
+  headerContianer: {
     flexDirection: 'row',
     padding: 10,
     justifyContent: 'space-between',
@@ -204,5 +236,15 @@ const styles = StyleSheet.create({
   CategoryTitle: {
     fontSize: 18,
     paddingLeft: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 100,
+  },
+  Loader: {
+    width: width * 0.15,
+    height: width * 0.15,
   },
 });

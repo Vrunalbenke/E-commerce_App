@@ -97,7 +97,6 @@ const ChangePassword = ({navigation}: ChangePasswordNavigationProp) => {
     console.log(formData);
     try {
         await dispatch(changePassword({formData, accessToken})).unwrap();
-        // await dispatch(getUserDetail(accessToken)).unwrap();
         setIsloading(false)
       console.log('Change password successfully');
       navigation.navigate('Profile');

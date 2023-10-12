@@ -88,7 +88,8 @@ const OrdersList = ({navigation}: OrdersListNavigationProp) => {
           // paddingVertical:10
         }}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {orderList.data.map((item, index) => {
+          {orderList.data?.map((item, index) => {
+            item = orderList.data[orderList.data?.length - 1 - index] 
             return (
               <View
                 key={index}

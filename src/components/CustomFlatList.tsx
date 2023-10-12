@@ -44,19 +44,14 @@ const CustomFlatList = ({
   let ProductData = useAppSelector(state => state.Product.ProductData);
 
   const [isloading, setIsloading] = useState<boolean>(false);
-  // console.log('Length is ☠️☠️☠️☠️☠️☠️☠️ --->', ProductData);
-  // console.log('Length is ☠️☠️☠️☠️☠️☠️☠️ --->',data)
-  // console.log('🦋🦋🦋🦋🦋🦋', product_category_id, '🦋🦋🦋🦋🦋🦋');
 
   const apiData = async () => {
     setIsloading(true);
     try {
-      // console.log('LOGGGGGGGGGGGGG');
       const val = await dispatch(getProduct(product_category_id)).unwrap();
-      // console.log(val);
       setTimeout(() => {
         setIsloading(false);
-      }, 3000);
+      }, 2500);
       
     } catch (error) {
       setIsloading(false);
@@ -155,14 +150,14 @@ const CustomFlatList = ({
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       {/* {data.length !== 0 && ( */}
-      {isloading ? (
+      {/* {isloading ? (
         <Lottie
           style={styles.Loader}
           source={require('../../src/assets/Lottie-JSON/furniture_loader.json')}
           autoPlay
           loop
         />
-      ) : (
+      ) : ( */}
         <FlatList
           data={ProductData}
           renderItem={item => RenderProduct(item)}
@@ -170,7 +165,7 @@ const CustomFlatList = ({
           showsVerticalScrollIndicator={false}
           
         />
-      )}
+      {/* )} */}
     </View>
   );
 };

@@ -72,7 +72,7 @@ const AddressList = ({route, navigation}: AddressListNavigationProp) => {
         </TouchableOpacity>
       </View>
       <View style={styles.mainContainer}>
-        {address.length > 0 ? (
+        {address?.length > 0 ? (
           <ScrollView 
           showsVerticalScrollIndicator={false}
           bounces={false}

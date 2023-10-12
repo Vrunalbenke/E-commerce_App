@@ -16,20 +16,21 @@ import font from '../../src/Constants/fonts';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {EmptyData} from '../redux/Slice/addressSlice';
 import LottieView from 'lottie-react-native';
-import { getOrderList } from '../redux/Slice/orderSlice';
+import {getOrderList} from '../redux/Slice/orderSlice';
+import {CustomDrawerNavigationProp} from '../navigation/type';
 
-
-// props: React.ComponentProps<typeof DrawerItemList>,
-// {navigation}: CustomDrawerNavigationProp,
-
-const {width,height} = Dimensions.get('screen')
-const CustomDrawer = () => {
+const {width, height} = Dimensions.get('screen');
+const CustomDrawer = (
+  props: React.ComponentProps<typeof DrawerItemList>,
+  {navigation}: CustomDrawerNavigationProp,
+) => {
   const dispatch = useAppDispatch();
+
   const accessToken = useAppSelector(state => state.Auth.AccessToken);
-  const UserData = useAppSelector(state => state.User.user.data);
+  const UserData = useAppSelector(state => state.User?.user.data);
 
   const [cfmLogout, setCfmLogout] = useState(false);
-  const [isLoading,setIsloading] = useState(false)
+  const [isLoading, setIsloading] = useState(false);
   const [icon, setIcon] = useState('chevron-down-outline');
   const [ddMenu, setDDMenu] = useState(false);
 
@@ -40,24 +41,18 @@ const CustomDrawer = () => {
     {name: 'Bed', icon: 'king-bed', route: 4},
   ];
 
-  async function getOrderListAndDetail() {
-    try {
-      await dispatch(getOrderList({accessToken})).unwrap();
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  
 
   async function LogoutUser() {
-    setCfmLogout(false)
-    setIsloading(true)
+    setCfmLogout(false);
+    setIsloading(true);
     console.log('Logged out');
     dispatch(logout([]));
     dispatch(EmptyData([]));
     console.log('Home data,AuthData is Popped:--😋#😋', accessToken);
     props.navigation.closeDrawer();
     setTimeout(() => {
-      setIsloading(false)
+      setIsloading(false);
       props.navigation.reset({
         index: 0,
         routes: [
@@ -66,7 +61,7 @@ const CustomDrawer = () => {
           },
         ],
       });
-    }, 2000);
+    }, 1000);
   }
 
   function CategoryRoute(id: number) {
@@ -94,7 +89,6 @@ const CustomDrawer = () => {
   return (
     <View
       style={{flex: 1, backgroundColor: color.offWhite, position: 'relative'}}>
-
       <View style={styles.BGImage}>
         {UserData ? (
           <Image
@@ -107,36 +101,30 @@ const CustomDrawer = () => {
             style={styles.UserImage}
           />
         )}
-        
-        <View style={{
-          // alignItems:'center'
-        }}>
-          <Text style={{color: color.white, fontSize: 22,fontWeight:'600'}}>{UserData?.user_data.first_name} {UserData?.user_data.last_name}</Text>
-        <Text style={{color: color.white, fontSize: 16}}>{UserData?.user_data?.phone_no}</Text>
-        <Text style={{color: color.white, fontSize: 16}}>{UserData?.user_data?.email}</Text>
+
+        <View>
+          <Text style={{color: color.white, fontSize: 22, fontWeight: '600'}}>
+            {UserData?.user_data?.first_name} {UserData?.user_data?.last_name}
+          </Text>
+          <Text style={{color: color.white, fontSize: 16}}>
+            {UserData?.user_data?.phone_no}
+          </Text>
+          <Text style={{color: color.white, fontSize: 16}}>
+            {UserData?.user_data?.email}
+          </Text>
         </View>
       </View>
 
       {/* ************HOME*********** */}
-      <View
-        style={styles.CategoryDDM}
-        >
+      <View style={styles.CategoryDDM}>
         <TouchableOpacity
           onPress={() => {
             props.navigation.navigate('Home');
-            
           }}
           style={styles.DDMTOPicon}>
           <View style={styles.CategoryDDMLeftContainer}>
-            <MaterialIcons
-              name="home"
-              size={30}
-              style={{color: '#325f88'}}
-            />
-            <Text
-              
-              style={{color:'#000',fontSize: 18}}
-              >
+            <MaterialIcons name="home" size={32} style={{color: '#325f88'}} />
+            <Text style={{color: '#000', fontSize: 20, fontWeight: '600'}}>
               Home
             </Text>
           </View>
@@ -148,18 +136,19 @@ const CustomDrawer = () => {
         <TouchableOpacity
           onPress={() => {
             props.navigation.navigate('FullCategory');
-            
           }}
-          style={styles.DDMTOPicon}>
+          style={[styles.DDMTOPicon, {}]}>
           <View style={styles.CategoryDDMLeftContainer}>
-            <MaterialIcons name="category" size={30} color={'#325f88'} />
-            <Text style={{fontSize: 18, color: '#000'}}>Category</Text>
+            <MaterialIcons name="category" size={32} color={'#325f88'} />
+            <Text style={{fontSize: 20, fontWeight: '600', color: '#000'}}>
+              Category
+            </Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={DropDownMenu}
-          style={[styles.DDMTOPicon, {width: 100, alignItems: 'flex-end'}]}>
-          <Ionicons name={icon} size={25} color={'#325f88'} />
+          style={[{width: 100, alignItems: 'flex-end'}]}>
+          <Ionicons name={icon} size={27} color={'#325f88'} />
         </TouchableOpacity>
       </View>
       <View style={{marginLeft: 30}}>
@@ -170,8 +159,8 @@ const CustomDrawer = () => {
                 key={index}
                 style={{flexDirection: 'row', gap: 10, padding: 10}}
                 onPress={() => CategoryRoute(element.route)}>
-                <MaterialIcons name={element.icon} size={28} color={'#000'} />
-                <Text style={{fontSize: 18, color: '#000'}}>
+                <MaterialIcons name={element.icon} size={30} color={'#000'} />
+                <Text style={{fontSize: 18, fontWeight: '500', color: '#000'}}>
                   {element.name}
                 </Text>
               </TouchableOpacity>
@@ -180,28 +169,21 @@ const CustomDrawer = () => {
       </View>
 
       {/* ************PROFILE*********** */}
-      <View
-        style={styles.CategoryDDM}
-        >
+      <View style={styles.CategoryDDM}>
         <TouchableOpacity
           onPress={() => {
             props.navigation.navigate('Profile');
           }}
           style={styles.DDMTOPicon}>
           <View style={styles.CategoryDDMLeftContainer}>
-            <MaterialIcons
-              name="person"
-              size={30}
-              style={{color: '#325f88'}}
-            />
+            <MaterialIcons name="person" size={32} style={{color: '#325f88'}} />
 
             <Text
-              
               style={{
-                color:'#000',
-                fontSize:18
-              }}
-              >
+                color: '#000',
+                fontSize: 20,
+                fontWeight: '600',
+              }}>
               Profile
             </Text>
           </View>
@@ -209,25 +191,19 @@ const CustomDrawer = () => {
       </View>
 
       {/* ************CARTS*********** */}
-      <View
-        style={styles.CategoryDDM}
-        >
+      <View style={styles.CategoryDDM}>
         <TouchableOpacity
           onPress={() => {
-            getOrderListAndDetail();
-            props.navigation.navigate('Cart');
-            
+            props.navigation.navigate('Cart')
           }}
           style={styles.DDMTOPicon}>
           <View style={styles.CategoryDDMLeftContainer}>
             <MaterialIcons
               name="shopping-cart"
-              size={30}
+              size={32}
               style={{color: '#325f88'}}
             />
-            <Text
-              style={{color:'#000',fontSize:18}}
-              >
+            <Text style={{color: '#000', fontSize: 20, fontWeight: '600'}}>
               Cart
             </Text>
           </View>
@@ -235,9 +211,7 @@ const CustomDrawer = () => {
       </View>
 
       {/* ************ORDERS*********** */}
-      <View
-        style={styles.CategoryDDM}
-        >
+      <View style={styles.CategoryDDM}>
         <TouchableOpacity
           onPress={() => {
             props.navigation.navigate('OrdersList');
@@ -246,17 +220,17 @@ const CustomDrawer = () => {
           <View style={styles.CategoryDDMLeftContainer}>
             <MaterialIcons
               name="shopping-bag"
-              size={30}
+              size={32}
               style={{color: '#325f88'}}
             />
-            <Text
-              style={{color:'#000',fontSize:18}}
-              >
+            <Text style={{color: '#000', fontSize: 20, fontWeight: '600'}}>
               Orders
             </Text>
           </View>
         </TouchableOpacity>
       </View>
+
+      {/* ************LOGOUT*********** */}
 
       <View style={styles.CategoryDDM}>
         <TouchableOpacity
@@ -264,11 +238,12 @@ const CustomDrawer = () => {
             setCfmLogout(true);
           }}>
           <View style={styles.CategoryDDMLeftContainer}>
-            <MaterialIcons name="logout" size={30} color={'red'} />
+            <MaterialIcons name="logout" size={32} color={'red'} />
             <Text
               style={{
-                fontSize: 18,
-                fontFamily: font.RobotoC,
+                fontSize: 20,
+                fontWeight: '600',
+                // fontFamily: font.RobotoC,
                 color: 'red',
               }}>
               Logout
@@ -311,15 +286,14 @@ const CustomDrawer = () => {
             </View>
           </View>
         </Modal>
-        
       )}
       <Modal visible={isLoading} animationType="fade" transparent={true}>
         <View style={styles.modalContainer}>
           <LottieView
-          style={styles.Loader}
-          source={require('../assets/Lottie-JSON/logoutLoader.json')}
-          autoPlay
-          loop
+            style={styles.Loader}
+            source={require('../assets/Lottie-JSON/logoutLoader.json')}
+            autoPlay
+            loop
           />
         </View>
       </Modal>
@@ -333,8 +307,8 @@ const styles = StyleSheet.create({
   BGImage: {
     paddingTop: 30,
     paddingBottom: 10,
-    paddingHorizontal:20,
-    width:'100%',
+    paddingHorizontal: 20,
+    width: '100%',
     height: 220,
     resizeMode: 'contain',
     backgroundColor: '#325f88',
@@ -367,6 +341,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 3,
     borderRadius: 5,
+    // backgroundColor:'pink'
   },
   CategoryDDMLeftContainer: {
     paddingLeft: 8,
@@ -381,16 +356,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height:100
+    height: 100,
   },
-  Modal:{
-    width:"80%",
+  Modal: {
+    width: '80%',
     backgroundColor: 'rgba(0,0,0,0.6)',
     padding: 20,
     borderRadius: 10,
   },
-  Loader:{
-    width:width*0.15,
-    height:width*0.15,
-  }
+  Loader: {
+    width: width * 0.15,
+    height: width * 0.15,
+  },
 });
